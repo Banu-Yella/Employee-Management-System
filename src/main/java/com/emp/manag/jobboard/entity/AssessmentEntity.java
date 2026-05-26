@@ -18,7 +18,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "user_assessment")
+@Table(name = "assessment")
 public class AssessmentEntity {
 	
 	
