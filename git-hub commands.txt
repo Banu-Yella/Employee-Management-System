@@ -1,0 +1,10 @@
+Pull latest without merge commit
+git pull --rebase origin main
+
+
+git pull origin main
+
+git status
+git add .
+git commit -m "Your update message"
+git push origin main

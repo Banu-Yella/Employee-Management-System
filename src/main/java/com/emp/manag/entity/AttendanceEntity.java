@@ -32,7 +32,7 @@ public class AttendanceEntity {
 	@JoinColumn(name = "employee_id", nullable = false)
 	private EmpEntity employee;
 
-	@Column(name = "attendance_date", nullable = false)
+	@Column(name = "attendance_date", nullable = false, updatable = false)
 	private LocalDate attendanceDate;
 
 	@Column(name = "punch_in_time")

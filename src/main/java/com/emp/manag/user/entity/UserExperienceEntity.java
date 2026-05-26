@@ -1,4 +1,4 @@
-package com.emp.manag.entity;
+package com.emp.manag.user.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

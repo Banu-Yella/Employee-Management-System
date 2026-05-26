@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.emp.manag.emp.repo.RegularizationRepo;
 import com.emp.manag.entity.RegularizationEntity;
-import com.emp.manag.repo.RegularizationRepo;
 
 @Service
 @Transactional(rollbackFor = Exception.class)

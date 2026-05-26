@@ -57,7 +57,10 @@ public class RegularizationEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="approved_by")
-	private EmpEntity approvedBy;
+	private EmpEntity emp;
+	
+	@Column(name = "rejection_reason")
+	private String rejectionReason;
 
 	@CreationTimestamp
 	@Column(name = "approved_on", updatable = false)
@@ -67,6 +70,5 @@ public class RegularizationEntity {
 	@Column(name = "updated_on", updatable = true, insertable = false)
 	private LocalDateTime UpdatedOn;
 
-	@Column(name = "rejection_reason")
-	private String rejectionReason;
+
 }

@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.emp.manag.emp.repo.EmpRepo;
 import com.emp.manag.entity.EmpEntity;
-import com.emp.manag.repo.EmpRepo;
+import com.emp.manag.user.entity.UserEntity;
+import com.emp.manag.user.repo.UserRepo;
 
 import jakarta.transaction.Transactional;
 
@@ -16,8 +18,18 @@ public class EmpService {
 	
 	@Autowired
 	private EmpRepo Repo;
+	
+	@Autowired
+	private UserRepo userRepo;
 
 	public EmpEntity saveEmployee(EmpEntity employee) {
+		
+				
+		Integer userId = employee.getUser().getUserId();
+		
+		UserEntity user = userRepo.findById(userId).orElseThrow();
+		
+		employee.setUser(user);
 
 		return Repo.save(employee);
 	}
@@ -45,7 +57,8 @@ public class EmpService {
 	}
 
 	public EmpEntity getEmployeeById(Integer employeeCode) {
-		return Repo.findById(employeeCode).orElseThrow(() -> new RuntimeException("Employee not found"));
+		return Repo.findById(employeeCode)
+				.orElseThrow(() -> new RuntimeException("Employee not found"));
 	}
 
 	public String deleteEmployee(Integer employeeid) {

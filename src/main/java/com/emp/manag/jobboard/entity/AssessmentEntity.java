@@ -1,4 +1,4 @@
-package com.emp.manag.entity;
+package com.emp.manag.jobboard.entity;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "user_assessment")
-public class UserAssessmentEntity {
+public class AssessmentEntity {
 	
 	
 	@Id
@@ -27,9 +27,15 @@ public class UserAssessmentEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer assessmentId;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private UserEntity userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "job_id")
+	private JobBoardEntity job;
+	
+	@Column(name = "total_score")
+	private Integer totalScore;
+
+	@Column(name = "qualifying_score")
+	private Integer qualifyingScore;
 	
 	@Column(name = "assessment_name")
 	private String assessmentName;

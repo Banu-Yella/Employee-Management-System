@@ -7,6 +7,9 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.emp.manag.user.entity.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -29,6 +33,10 @@ public class EmpEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "employee_Id", nullable = false, unique = true, updatable = true)
 	private Integer employeeid; // Unique code for each employee, e.g., EMP001, EMP002
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private UserEntity user; // Association with UserEntity, can be null for non-employee users
 
 	// Employee → Manager
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -82,5 +90,13 @@ public class EmpEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shift_id")
 	private ShiftEntity shift;
+	
+	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
+	@JsonIgnore
+	private List<AttendanceEntity> attendance;
+	
+	@OneToOne(mappedBy= "employee", fetch = FetchType.EAGER)
+	@JsonIgnore
+	private List<EmpLoginEntity> login;
 
 }

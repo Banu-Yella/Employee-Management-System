@@ -21,10 +21,9 @@ public class AttendanceController {
 	@Autowired
 	public AttendanceService service;
 
-	@PostMapping("/saveattendance/{employeeSno}")
-	public AttendanceEntity saveAttendance(@RequestBody AttendanceEntity attendance,
-			@PathVariable Integer employeeSno) {
-		return service.saveAttendance(attendance, employeeSno);
+	@PostMapping("/saveattendance")
+	public AttendanceEntity saveAttendance(@RequestBody AttendanceEntity attendance) {
+		return service.saveAttendance(attendance);
 	}
 
 	@DeleteMapping("/deleteattendancebyid/{attendanceId}")

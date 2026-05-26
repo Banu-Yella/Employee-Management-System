@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.emp.manag.emp.repo.AttendanceRepo;
+import com.emp.manag.emp.repo.EmpRepo;
 import com.emp.manag.entity.AttendanceEntity;
 import com.emp.manag.entity.EmpEntity;
-import com.emp.manag.repo.AttendanceRepo;
-import com.emp.manag.repo.EmpRepo;
 
 
 @Service
@@ -22,13 +22,28 @@ public class AttendanceService {
 	@Autowired
 	private EmpRepo empRepo1;
 
-	public AttendanceEntity saveAttendance(AttendanceEntity attendance, Integer employeeSno) {
-	
-		EmpEntity existEmp = empRepo1.findById(employeeSno)
-				.orElseThrow(() -> new RuntimeException("Employee not found with sno: " + employeeSno));
+	public AttendanceEntity saveAttendance(AttendanceEntity attendance) {
 		
-		attendance.setEmployee(existEmp);
+		Integer empId = attendance.getEmployee().getEmployeeid();
+		
+		EmpEntity emp = empRepo1.findById(empId).orElseThrow();
+		
+		attendance.setEmployee(emp);
+		
 		return Repo2.save(attendance);
+	}
+	
+	public String updateAttendance(Integer id, AttendanceEntity updatedAttendance) {
+		AttendanceEntity existAtt = Repo2.findById(id)
+				.orElseThrow(() -> new RuntimeException("Attendance record not found"));
+		
+		existAtt.setPunchInTime(updatedAttendance.getPunchInTime());
+		existAtt.setPunchOutTime(updatedAttendance.getPunchOutTime());
+		existAtt.setAttendanceStatus(updatedAttendance.getAttendanceStatus());
+				
+		Repo2.save(existAtt);
+		
+		return "Attendance record updated successfully.";
 	}
 
 	public List<AttendanceEntity> getAllAttendances() {

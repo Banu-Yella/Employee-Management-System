@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.emp.manag.emp.repo.ShiftRepo;
 import com.emp.manag.entity.ShiftEntity;
-import com.emp.manag.repo.ShiftRepo;
 
 @Service
 @Transactional(rollbackFor = Exception.class)

@@ -25,16 +25,16 @@ public class RegularizationController {
 		return "Attendance Regularization Data Saved";
 	}
 
-	@PutMapping("/updateregularization/{sno}")
+	@PutMapping("/updateregularization/{regularizationId}")
 	public String updateRegularization(@PathVariable @RequestBody RegularizationEntity regularization) {
 		service.updateRegularization(regularization.getRegularizationId(), regularization.getRequestedCheckIn(),
 				regularization.getRequestedCheckOut(), regularization);
 		return "Attendance Regularization Data Updated";
 	}
 
-	@DeleteMapping("/deleteregularizationbyid/{sno}")
-	public String deleteRegularizationById(@PathVariable Integer sno) {
-		service.deleteById(sno);
+	@DeleteMapping("/deleteregularizationbyid/{regularizationId}")
+	public String deleteRegularizationById(@PathVariable Integer regularizationId) {
+		service.deleteById(regularizationId);
 		return "Attendance Regularization Data Deleted by ID";
 	}
 

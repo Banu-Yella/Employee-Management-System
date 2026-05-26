@@ -1,4 +1,4 @@
-package com.emp.manag.entity;
+package com.emp.manag.user.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -55,9 +55,9 @@ public class UserEducationEntity {
 	@Column(name = "location")
 	private String location;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private Integer userId;
+	private UserEntity userId;
 	
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
