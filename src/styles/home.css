@@ -1,0 +1,200 @@
+/* ================= HOME PAGE ================= */
+
+.home-page {
+  background-color: #f5f7fb;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= NAVBAR ================= */
+
+.custom-navbar {
+  background: #ffffff;
+  padding: 15px 50px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.logo-img {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+}
+
+.logo-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.logo-subtitle {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* ================= HERO SECTION ================= */
+
+.hero-section {
+  padding: 80px 0;
+}
+
+.hero-title {
+  font-size: 70px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.hero-highlight {
+  color: #2563eb;
+}
+
+.hero-description {
+  color: #6b7280;
+  font-size: 24px;
+  line-height: 1.7;
+  margin-top: 30px;
+  margin-bottom: 35px;
+  max-width: 650px;
+}
+
+/* ================= HERO IMAGE ================= */
+
+.hero-image {
+  width: 100%;
+  max-width: 650px;
+  animation: floatImage 4s ease-in-out infinite;
+}
+
+/* ================= IMAGE ANIMATION ================= */
+
+@keyframes floatImage {
+
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+
+}
+
+/* ================= BUTTONS ================= */
+
+.btn-primary {
+  background-color: #2563eb;
+  border: none;
+  padding: 12px 28px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-outline-dark,
+.btn-outline-primary {
+  padding: 12px 28px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+/* ================= FEATURES SECTION ================= */
+
+.features-section {
+  padding: 80px 0;
+}
+
+.feature-card {
+  border: none;
+  border-radius: 18px;
+  padding: 35px;
+  transition: 0.3s ease;
+  background: #ffffff;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #111827;
+}
+
+.feature-card p {
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* ================= FOOTER ================= */
+
+.footer-section {
+  background: #111827;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  margin-top: 70px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media screen and (max-width: 992px) {
+
+  .hero-section {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .hero-title {
+    font-size: 50px;
+  }
+
+  .hero-description {
+    font-size: 20px;
+    max-width: 100%;
+  }
+
+  .hero-image {
+    margin-top: 40px;
+    max-width: 500px;
+  }
+
+}
+
+@media screen and (max-width: 576px) {
+
+  .custom-navbar {
+    padding: 15px 20px;
+  }
+
+  .logo-title {
+    font-size: 24px;
+  }
+
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .hero-description {
+    font-size: 18px;
+  }
+
+  .btn-primary,
+  .btn-outline-dark,
+  .btn-outline-primary {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+}
