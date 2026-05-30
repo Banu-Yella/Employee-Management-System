@@ -88,7 +88,7 @@ public class UserAssessmentService {
 		return userAssessmentRepo.findAll();
 	}
 
-	public String deleteUserAssessment(Integer userAssessmentId) {
+	public String deleteUserAssessmentById(Integer userAssessmentId) {
 
 		if (userAssessmentId == null) {
 			throw new RuntimeException("User Assessment ID is required");
