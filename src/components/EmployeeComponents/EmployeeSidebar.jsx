@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import "../styles/EmployeeSidebar.css";
+import "../../styles/EmployeeSidebar.css";
 
 const EmployeeSidebar = () => {
 

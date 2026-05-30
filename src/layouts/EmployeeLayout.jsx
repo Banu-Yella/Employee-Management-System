@@ -1,7 +1,7 @@
 import React from "react";
 
-import EmployeeSidebar from "../components/EmployeeSidebar";
-import EmployeeNavbar from "../components/EmployeeNavbar";
+import EmployeeSidebar from "../components/EmployeeComponents/EmployeeSidebar";
+import EmployeeNavbar from "../components/EmployeeComponents/EmployeeNavbar";
 
 const EmployeeLayout = ({ children }) => {
 

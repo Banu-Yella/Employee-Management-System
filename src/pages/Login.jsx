@@ -1,123 +1,75 @@
-import React, { useState } from "react";
+// src/pages/Login.jsx
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-import logo from "../assets/ems-logo.png";
+function Login() {
 
-const Login = () => {
+    const [username, setUsername] = useState("");
+    const [error, setError] = useState("");
 
-  const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
+    const handleLogin = async () => {
 
-  const handleLogin = (e) => {
+        try {
 
-    e.preventDefault();
+            const response = await axios.get(
+                `http://localhost:8080/getloginbyusername/${username}`
+            );
 
-    // Temporary Role Logic
+            if(response.data){
 
-    const role = "ADMIN";
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data)
+                );
 
-    if (role === "ADMIN") {
-      navigate("/admin/dashboard");
-    } else {
-      navigate("/employee/dashboard");
-    }
-  };
+                navigate("/dashboard");
+            }
 
-  return (
+        } catch(err) {
+            setError("Invalid Username");
+        }
+    };
 
-    <div className="login-wrapper">
+    return (
+        <div className="container mt-5">
 
-      <div className="login-card">
+            <div className="card p-4 shadow">
 
-        {/* Logo */}
+                <h2 className="text-center mb-4">
+                    HRMS Login
+                </h2>
 
-        <div className="logo-section">
+                <input
+                    type="text"
+                    className="form-control mb-3"
+                    placeholder="Enter Username"
+                    value={username}
+                    onChange={(e) =>
+                        setUsername(e.target.value)
+                    }
+                />
 
-          <img
-            src={logo}
-            alt="EMS Logo"
-            className="logo-img"
-          />
+                <button
+                    className="btn btn-primary"
+                    onClick={handleLogin}
+                >
+                    Login
+                </button>
 
-          <h1 className="login-heading">
-            EMS Portal
-          </h1>
+                {error && (
+                    <p className="text-danger mt-3">
+                        {error}
+                    </p>
+                )}
 
-          <p className="login-subheading">
-            Employee Management System
-          </p>
+            </div>
 
         </div>
-
-        {/* Form */}
-
-        <form onSubmit={handleLogin}>
-
-          {/* Email */}
-
-          <div className="input-group-custom">
-
-            <label>
-              Email Address
-            </label>
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="form-control custom-input"
-            />
-
-          </div>
-
-          {/* Password */}
-
-          <div className="input-group-custom">
-
-            <label>
-              Password
-            </label>
-
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
-              className="form-control custom-input"
-            />
-
-          </div>
-
-          {/* Show Password */}
-
-          <div className="show-password">
-
-            <input
-              type="checkbox"
-              onChange={() =>
-                setShowPassword(!showPassword)
-              }
-            />
-
-            <span>
-              Show Password
-            </span>
-
-          </div>
-
-          {/* Button */}
-
-          <button
-            type="submit"
-            className="login-btn"
-          >
-            Login
-          </button>
-
-        </form>
-
-      </div>
-
-    </div>
-  );
-};
+    );
+}
 
 export default Login;

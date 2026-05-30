@@ -1,25 +1,31 @@
-import Sidebar from "../components/Sidebar";
-import AdminNavbar from "../components/AdminNavbar";
+import React from "react";
+
+import AdminSidebar from "../components/AdminComponents/AdminSidebar";
+import AdminNavbar from "../components/AdminComponents/AdminNavbar";
 
 const AdminLayout = ({ children }) => {
+
   return (
 
-    <div className="d-flex">
+    <>
+      <AdminSidebar />
 
-      <Sidebar />
+      <AdminNavbar />
 
-      <div className="flex-grow-1">
+      <main
+        style={{
+          marginLeft: "260px",
+          marginTop: "70px",
+          padding: "25px",
+          minHeight: "100vh",
+          background: "#f8fafc"
+        }}
+      >
+        {children}
+      </main>
 
-        <AdminNavbar />
-
-        <div className="p-4">
-          {children}
-        </div>
-
-      </div>
-
-    </div>
-
+    </>
   );
 };
+
 export default AdminLayout;

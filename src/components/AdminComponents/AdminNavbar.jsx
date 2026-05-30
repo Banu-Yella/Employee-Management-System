@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../src/styles/AdminNavbar.css";
+import "../../styles/AdminNavbar.css";
 
 const AdminNavbar = () => {
 

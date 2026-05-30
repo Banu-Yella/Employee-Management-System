@@ -6,11 +6,11 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 /* Components Folder */
-import AdminNavbar from "./components/AdminNavbar";
-import EmployeeNavbar from "./components/EmployeeNavbar";
+import AdminNavbar from "./components/AdminComponents/AdminNavbar";
+import EmployeeNavbar from "./components/EmployeeComponents/EmployeeNavbar";
 import Navbar from "./components/Navbar";
 import ProtectRoute from "./components/ProtectRoute";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/AdminComponents/AdminSidebar";
 
 /* Admin Pages */
 import AddEmployee from "./pages/admin/AddEmployee";

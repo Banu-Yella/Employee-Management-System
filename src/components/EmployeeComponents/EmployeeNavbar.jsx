@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../styles/EmployeeNavbar.css";
+import "../../styles/EmployeeNavbar.css";
 
 const EmployeeNavbar = () => {
 
