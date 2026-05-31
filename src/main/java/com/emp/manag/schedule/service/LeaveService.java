@@ -226,6 +226,11 @@ public class LeaveService {
 
 		return "Leave record deleted successfully";
 	}
+	
+	public String deleteAllLeaves() {
+	    leaveRepo.deleteAll();
+	    return "All leave records deleted successfully";
+	}
 
 	public Integer calculateLeaveDays(Integer employeeId, LocalDate startDate, LocalDate endDate) {
 

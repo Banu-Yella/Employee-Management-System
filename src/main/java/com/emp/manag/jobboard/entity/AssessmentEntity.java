@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.emp.manag.user.entity.UserAssessmentEntity;
+import com.emp.manag.user.entity.UserEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -31,15 +35,26 @@ public class AssessmentEntity {
 	@JoinColumn(name = "job_id")
 	private JobBoardEntity job;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private UserEntity user;
+	
+	@OneToMany(mappedBy = "assessments", fetch = FetchType.LAZY)
+	private ExamEntity exam;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_assessment_id")
+	private UserAssessmentEntity userAssessment;
+	
+	@Column(name = "assessment_name")
+	private String assessmentName;
+	
 	@Column(name = "total_score")
 	private Integer totalScore;
 
 	@Column(name = "qualifying_score")
 	private Integer qualifyingScore;
-	
-	@Column(name = "assessment_name")
-	private String assessmentName;
-	
+		
 	@Column(name = "assessment_date")
 	private LocalDateTime assessmentDate;
 	
@@ -55,6 +70,15 @@ public class AssessmentEntity {
 	@Column(name = "feedback")
 	private String feedback;
 
+	@Column(name = "created_at", updatable = false)
+	private LocalDateTime startedAt;
+
+	@Column(name = "updated_at")
+	private LocalDateTime endsAt;
+
+	@Column(name = "assessment_status")
+	private Boolean submitted;
+	
 	@CreationTimestamp
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;

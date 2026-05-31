@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -109,8 +111,16 @@ public class UserEntity {
 	@Column(name = "marital_status")
 	private String maritalStatus;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "user_status")
-	private String userStatus; // ACTIVE, INACTIVE, SUSPENDED, etc.
+	private UserStatus status; // ACTIVE, INACTIVE, SUSPENDED, etc.
+	
+	public enum UserStatus {
+	    ACTIVE,
+	    INACTIVE,
+	    SUSPENDED,
+	    DELETED
+	}
 		
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)

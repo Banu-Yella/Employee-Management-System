@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,25 +35,26 @@ public class EmpLoginEntity {
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 
+	@JsonIgnore
 	@Column(name = "password_hash", nullable = false)
 	private String passwordHash;
-	
+
 	@Column(name = "password_reset_token")
-	private String password_reset_token;
-	
+	private String passwordResetToken;
+
 	@Column(name = "password_reset_expiry")
-	private String password_reset_expiry;
+	private java.time.LocalDateTime passwordResetExpiry;
 
 	// e.g Admin/User, SUPER_ADMIN, DEPT_MANAGER, TEAM_LEAD, EMPLOYEE
 	@Column(name = "role", nullable = false)
 	private String role;
 	
-	@CreationTimestamp
-	@Column(name = "last_Login", updatable = false)
+	@UpdateTimestamp
+	@Column(name = "last_login")
 	private LocalDateTime lastLogin;
 
 	@Column(name = "status", nullable = false)
-	private String Status; // Active/Inactive
+	private String status; // Active/Inactive
 
 	@CreationTimestamp
 	@Column(name = "created_on", updatable = false)

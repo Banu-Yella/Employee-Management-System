@@ -13,6 +13,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +31,10 @@ public class UserAssessmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_assessment_id")
 	private Integer userAssessmentId;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "assessment_id")
+	private AssessmentEntity assessment;
 
 	@Column(name = "score")
     private Integer score;
@@ -45,12 +50,8 @@ public class UserAssessmentEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "assessment_id")
-    private AssessmentEntity assessment;
-
-    @ManyToOne
-    @JoinColumn(name = "job_application_id")
-    private JobApplicationEntity jobApplication;
+    @JoinColumn(name = "job_id")
+    private JobApplicationEntity job;
     
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

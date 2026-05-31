@@ -48,6 +48,11 @@ public class ExamEntity {
 	@Column(name = "question_pattern")
 	private String questionPattern;
 
+	@Column(name = "created_at")
+	private Integer passMarks;
+	
+	@Column(name = "created_at", updatable = false)
+	private Integer totalMarks;
 	
 	@Column(name = "status")
 	private String status;

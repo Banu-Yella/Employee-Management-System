@@ -73,8 +73,8 @@ public class EmpLoginService {
 		existingLogin.setPasswordHash(updatedLogin.getPasswordHash());
 		existingLogin.setRole(updatedLogin.getRole());
 		existingLogin.setStatus(updatedLogin.getStatus());
-		existingLogin.setPassword_reset_token(updatedLogin.getPassword_reset_token());
-		existingLogin.setPassword_reset_expiry(updatedLogin.getPassword_reset_expiry());
+		existingLogin.setPasswordResetToken(updatedLogin.getPasswordResetToken());
+		existingLogin.setPasswordResetExpiry(updatedLogin.getPasswordResetExpiry());
 
 		loginRepo.save(existingLogin);
 		return "Login record updated successfully";

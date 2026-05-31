@@ -23,7 +23,8 @@ public class JobApplicationEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer applicationid;
+	@Column(name = "job_id")
+	private Integer jobId;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")

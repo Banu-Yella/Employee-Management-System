@@ -53,6 +53,23 @@ public class AttendanceService {
 		validateAttendanceRequest(attendance, true);
 
 		Integer employeeId = attendance.getEmployee().getEmployeeid();
+		Integer ShiftId = attendance.getShift().getShiftid();
+		Integer LeaveId = attendance.getLeave().getLeaveId();
+		Integer PublicHolidayId = attendance.getPublicHoliday().getHolidayId();
+		Integer EmpWeekOffId = attendance.getWeekOff().getWeekOffId();
+		
+		
+		EmpEntity employee = empRepo.findById(employeeId)
+				.orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
+		ShiftEntity shift = shiftRepo.findById(ShiftId)
+				.orElseThrow(() -> new RuntimeException("Shift not found with id: " + ShiftId));
+		LeaveEntity leave = leaveRepo.findById(LeaveId)
+				.orElseThrow(() -> new RuntimeException("Leave not found with id: " + LeaveId));
+		PublicHolidayEntity publicHoliday = publicHolidayRepo.findById(PublicHolidayId)
+				.orElseThrow(() -> new RuntimeException("Public holiday not found with id: " + PublicHolidayId));
+		EmpWeekOffEntity empWeekOff = empWeekOffRepo.findById(EmpWeekOffId)
+				.orElseThrow(() -> new RuntimeException("Employee week off not found with id: " + EmpWeekOffId));
+
 		LocalDate attendanceDate = attendance.getAttendanceDate() == null ? LocalDate.now()
 				: attendance.getAttendanceDate();
 
@@ -60,6 +77,11 @@ public class AttendanceService {
 			throw new RuntimeException("Attendance already exists for this employee on " + attendanceDate);
 		}
 
+		attendance.setEmployee(employee);
+		attendance.setShift(shift);
+		attendance.setLeave(leave);
+		attendance.setPublicHoliday(publicHoliday);
+		attendance.setWeekOff(empWeekOff);			
 		attendance.setAttendanceDate(attendanceDate);
 		attachRelations(attendance);
 		recalculateAttendance(attendance);

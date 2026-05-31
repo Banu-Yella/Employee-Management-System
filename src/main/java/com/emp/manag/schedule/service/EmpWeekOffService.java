@@ -136,6 +136,23 @@ public class EmpWeekOffService {
 
         return "Employee week off deleted successfully";
     }
+    
+    public String deleteAllWeekOffs(Integer employeeId) {
+
+		if (employeeId == null) {
+			throw new RuntimeException("Employee ID is required");
+		}
+
+		List<EmpWeekOffEntity> weekOffs = empWeekOffRepo.findByEmployeeEmployeeid(employeeId);
+
+		if (weekOffs.isEmpty()) {
+			return "No week off records found for this employee";
+		}
+
+		empWeekOffRepo.deleteAll(weekOffs);
+
+		return "All week off records for the employee deleted successfully";
+	}
 
     public Integer calculateMonthlyWeekOffs(Integer employeeId, Integer year, Integer month) {
 

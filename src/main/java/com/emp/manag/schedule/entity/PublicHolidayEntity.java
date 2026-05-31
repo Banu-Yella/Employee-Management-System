@@ -23,6 +23,7 @@ public class PublicHolidayEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "holiday_id")
 	private Integer holidayId;
 
 	@Column(name = "public_holiday_name", nullable = false)
