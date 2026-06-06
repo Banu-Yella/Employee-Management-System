@@ -1,0 +1,97 @@
+.admin-navbar {
+
+  position: fixed;
+
+  top: 0;
+  left: 260px;
+
+  width: calc(100% - 260px);
+
+  height: 70px;
+
+  background: #ffffff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 30px;
+
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-bottom: 1px solid #e5e7eb;
+
+  z-index: 999;
+}
+
+.notification-icon {
+  position: relative;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;  
+}
+
+.admin-profile-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.notification-container {
+  position: relative;
+}
+
+.notification-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  font-size: 22px;
+}
+
+.notification-dropdown {
+
+  position: absolute;
+
+  top: 50px;
+  right: 0;
+
+  width: 320px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 5px 20px rgba(0,0,0,0.15);
+
+  padding: 15px;
+
+  z-index: 9999;
+}
+
+.notification-item {
+
+  padding: 12px 8px;
+
+  border-bottom:
+    1px solid #e5e7eb;
+
+  cursor: pointer;
+}
+
+.notification-item:hover {
+
+  background: #f8fafc;
+
+}
