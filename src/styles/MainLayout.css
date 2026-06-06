@@ -1,0 +1,96 @@
+.navbar navbar-expand-lg bg-body-tertiary{
+   position: fixed;
+    
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+  gap: 16px;          /* spacing between search & profile */
+  margin-left: auto;  /* push to right */
+}
+
+
+.nav-profile dropdown{
+    display: flex;
+    
+}
+
+.bi bi-house-door{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/* OFFCANVAS BODY */
+.management-menu-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 25px;
+}
+
+/* DROPDOWN BUTTON */
+.management-menu-stack .dropdown-toggle {
+  width: 100%;
+  text-align: left;
+
+  padding: 12px 16px;
+
+  border-radius: 10px;
+  border: none;
+
+  background: #6b7280;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  transition: 0.2s ease;
+}
+
+/* HOVER EFFECT */
+.management-menu-stack .dropdown-toggle:hover {
+  background: #4b5563;
+}
+
+/* DROPDOWN MENU */
+.management-menu-stack .dropdown-menu {
+  width: 90%;
+  border-radius: 10px;
+  border: none;
+
+  padding: 8px 0;
+
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+/* DROPDOWN ITEMS */
+.management-menu-stack .dropdown-item {
+  padding: 10px 16px;
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+/* ITEM HOVER */
+.management-menu-stack .dropdown-item:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* OFFCANVAS TITLE */
+.offcanvas-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #111827;
+}
+
+/* BODY TEXT */
+.offcanvas-body {
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.7;
+}

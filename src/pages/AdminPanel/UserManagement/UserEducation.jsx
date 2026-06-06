@@ -1,24 +1,24 @@
 import React from 'react'
-import {useState, useEffect } from 'react'
 
-const Employees = () => {
+const UserEducation = () => {
 
-      let [employee, setEmployee] = useState([]);
-  
-    let fetchData = async () => {
-      let res = await axios.get("http://localhost:8080/api/employee-management/")
-      console.log(res.data);
-  
-      let data = res;
-      setEmployee(data);
-    };
-  
-    React.useEffect(() => {
-      fetchData();
-    }, []);
-  
+  let [user, setUser] = useState([]);
+
+  let fetchData = async () => {
+    let res = await axios.get("http://localhost:8080/api/employee-management/")
+    console.log(res.data);
+
+  let data = res;
+    setUser(data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
+
   return (
-         <div>
+     <div>
       <thead>
         <tr>
           <th></th>
@@ -34,7 +34,7 @@ const Employees = () => {
       </thead>
       <tbody>
         {
-          employee.map((value) => {
+          user.map((value) => {
             return (
               <tr key={value.id}>
                 <td>{value.id}</td>
@@ -50,4 +50,4 @@ const Employees = () => {
   )
 }
 
-export default Employees
+export default UserEducation

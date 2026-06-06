@@ -1,22 +1,6 @@
 import React from 'react'
-import {useState, useEffect } from 'react'
 
-const Employees = () => {
-
-      let [employee, setEmployee] = useState([]);
-  
-    let fetchData = async () => {
-      let res = await axios.get("http://localhost:8080/api/employee-management/")
-      console.log(res.data);
-  
-      let data = res;
-      setEmployee(data);
-    };
-  
-    React.useEffect(() => {
-      fetchData();
-    }, []);
-  
+const Payslip = () => {
   return (
          <div>
       <thead>
@@ -34,7 +18,7 @@ const Employees = () => {
       </thead>
       <tbody>
         {
-          employee.map((value) => {
+          user.map((value) => {
             return (
               <tr key={value.id}>
                 <td>{value.id}</td>
@@ -50,4 +34,4 @@ const Employees = () => {
   )
 }
 
-export default Employees
+export default Payslip
