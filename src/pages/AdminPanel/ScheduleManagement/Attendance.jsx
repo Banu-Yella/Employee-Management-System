@@ -4,34 +4,35 @@ const Attendance = () => {
 
   return (
 
-         <div>
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          user.map((value) => {
-            return (
-              <tr key={value.id}>
-                <td>{value.id}</td>
-               
-              </tr>
-            )
-          })
-        }
+    <div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            user.map((value) => {
+              return (
+                <tr key={value.id}>
+                  <td>{value.id}</td>
 
-      </tbody>
+                </tr>
+              )
+            })
+          }
 
+        </tbody>
+      </table>
     </div>
 
   );

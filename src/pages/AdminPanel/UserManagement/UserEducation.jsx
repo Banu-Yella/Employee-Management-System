@@ -19,6 +19,7 @@ const UserEducation = () => {
 
   return (
      <div>
+      <table className="table">
       <thead>
         <tr>
           <th></th>
@@ -45,7 +46,7 @@ const UserEducation = () => {
         }
 
       </tbody>
-
+        </table>
     </div>
   )
 }

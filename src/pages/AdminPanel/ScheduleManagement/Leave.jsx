@@ -3,6 +3,7 @@ import React from 'react'
 const Leave = () => {
   return (
      <div>
+      <table className="table">
       <thead>
         <tr>
           <th></th>
@@ -29,7 +30,7 @@ const Leave = () => {
         }
 
       </tbody>
-
+        </table>
     </div>
   )
 }
