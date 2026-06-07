@@ -1,0 +1,121 @@
+.login-page,
+.hero-section {
+  background: #f4f7fb;
+  padding: 60px 0;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #143d7a;
+}
+
+.hero-description {
+  font-size: 18px;
+  color: #555;
+  margin: 20px 0;
+}
+
+.feature-list div {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.hero-image {
+  width: 100%;
+  max-width: 650px;
+  border-radius: 20px;
+  margin-top: 20px;
+}
+
+.login-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.1);
+}
+
+.login-logo {
+  width: 90px;
+  margin-bottom: 10px;
+}
+
+.feature-section {
+  padding: 60px 0;
+}
+
+.feature-card {
+  background: white;
+  padding: 25px;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.footer-section {
+  background: #0b1d3a;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.admin-modal-content {
+  width: 650px;
+  max-width: 95%;
+
+  background: white;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  animation: modalOpen 0.3s ease;
+}
+
+.close-btn {
+  position: absolute;
+
+  right: 20px;
+  top: 15px;
+
+  border: none;
+  background: none;
+
+  font-size: 30px;
+  cursor: pointer;
+
+  color: #666;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
+@keyframes modalOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

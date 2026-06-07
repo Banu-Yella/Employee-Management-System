@@ -1,0 +1,197 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AdminSetup from "./AdminSetup";
+
+import { employeeLogin } from "../services/authService";
+
+
+
+import "../styles/Login.css";
+
+function Login() {
+  const navigate = useNavigate();
+
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [showAdminSetup, setShowAdminSetup] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async () => {
+    try {
+      setError("");
+
+      if (!loginData.username || !loginData.password) {
+        setError("Username and Password are required");
+        return;
+      }
+
+      setLoading(true);
+
+      const response = await employeeLogin(loginData);
+
+      console.log("Login Response:", response.data);
+
+      localStorage.setItem("user", JSON.stringify(response.data));
+
+      const role = response.data.role?.toUpperCase();
+
+      switch (role) {
+        case "ADMIN":
+          navigate("/admin");
+          break;
+
+        case "EMPLOYEE":
+          navigate("/employee");
+          break;
+
+        case "CANDIDATE":
+          navigate("/candidate");
+          break;
+
+        default:
+          setError("Invalid role received from server");
+      }
+    } catch (err) {
+      console.error("Login Error:", err);
+
+      if (err.response) {
+        setError(err.response.data.message || "Invalid username or password");
+      } else {
+        setError("Unable to connect to server");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
+  return (
+    <>
+
+      <section className="hero-section">
+        <div className="container">
+          <div className="row align-items-center">
+            {/* LEFT SECTION */}
+            <div className="col-lg-7">
+              <h1 className="hero-title">Employee Management System</h1>
+
+              <p className="hero-description">
+                Manage employees, attendance, payroll, recruitment and workforce
+                analytics from one powerful platform.
+              </p>
+
+              <div className="feature-list">
+                <div>✔ Employee Management</div>
+                <div>✔ Attendance Tracking</div>
+                <div>✔ Payroll Automation</div>
+                <div>✔ Recruitment Portal</div>
+                <div>✔ Performance Analytics</div>
+                <div>✔ Leave Management</div>
+              </div>
+
+              <img
+                src="/home-employeebot.png"
+                alt="EMS"
+                className="hero-image"
+              />
+            </div>
+
+            {/* LOGIN CARD */}
+            <div className="col-lg-5">
+              <div className="login-card">
+                <div className="text-center mb-4">
+                  <img src="/ems-logo.png" alt="EMS" className="login-logo" />
+
+                  <h2 className="mt-3">Welcome Back</h2>
+
+                  <p className="text-muted">Login to continue</p>
+                </div>
+
+                <input
+                  type="text"
+                  name="username"
+                  className="form-control mb-3"
+                  placeholder="Username"
+                  value={loginData.username}
+                  onChange={handleChange}
+                  onKeyDown={handleKeyPress}
+                />
+
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control mb-3"
+                  placeholder="Password"
+                  value={loginData.password}
+                  onChange={handleChange}
+                  onKeyDown={handleKeyPress}
+                />
+
+                {error && <div className="alert alert-danger">{error}</div>}
+
+                <button
+                  className="btn btn-primary w-100"
+                  onClick={handleLogin}
+                  disabled={loading}
+                >
+                  {loading ? "Logging In..." : "Login"}
+                </button>
+
+                <div className="text-center mt-4">
+                  <small className="text-muted">First time using EMS?</small>
+
+                  <button
+                    className="btn btn-outline-success w-100 mt-2"
+                    onClick={() => setShowAdminSetup(true)}
+                  >
+                    Create Admin Account
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {showAdminSetup && (
+        <div className="admin-modal-overlay">
+          <div
+            className="admin-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <AdminSetup
+              onClose={() => {
+                console.log("Closing Modal");
+                setShowAdminSetup(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+      <footer className="footer-section">
+        <div className="container text-center">
+          © 2026 Employee Management System | All Rights Reserved
+        </div>
+      </footer>
+    </>
+  );
+}
+
+export default Login;

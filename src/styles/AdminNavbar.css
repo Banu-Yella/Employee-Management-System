@@ -1,97 +1,125 @@
 .admin-navbar {
-
-  position: fixed;
-
-  top: 0;
-  left: 260px;
-
-  width: calc(100% - 260px);
-
   height: 70px;
-
-  background: #ffffff;
+  background: #fff;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 0 30px;
+  padding: 0 25px;
 
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   border-bottom: 1px solid #e5e7eb;
 
-  z-index: 999;
+  position: sticky;
+  top: 0;
+
+  z-index: 999999;
 }
 
-.notification-icon {
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+}
+
+.system-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.system-subtitle {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+
+  list-style: none;
+
+  gap: 25px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu li {
   position: relative;
-  font-size: 22px;
-  cursor: pointer;
 }
 
-.notification-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: red;
-  color: white;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 50%;  
+.navbar-menu a {
+  text-decoration: none;
+  color: #334155;
+  font-weight: 500;
 }
 
-.admin-profile-img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
+.navbar-menu a:hover {
+  color: #2563eb;
 }
 
-.notification-container {
-  position: relative;
-}
-
-.notification-btn {
+.menu-btn {
   border: none;
   background: transparent;
+
   cursor: pointer;
-  position: relative;
-  font-size: 22px;
+
+  color: #334155;
+  font-weight: 500;
+  font-size: 14px;
 }
 
-.notification-dropdown {
+.menu-btn:hover {
+  color: #2563eb;
+}
 
+.admin-dropdown {
+  position: relative;
+}
+
+/* IMPORTANT: renamed from dropdown-menu */
+.admin-dropdown-menu {
   position: absolute;
 
-  top: 50px;
-  right: 0;
+  top: 45px;
+  left: 0;
 
-  width: 320px;
+  min-width: 220px;
 
-  background: white;
+  background: #ffffff;
 
-  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
 
-  box-shadow:
-    0 5px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 
-  padding: 15px;
+  display: flex !important;
+  flex-direction: column;
 
-  z-index: 9999;
+  z-index: 99999999;
+
+  overflow: visible;
 }
 
-.notification-item {
+.admin-dropdown-menu a {
+  display: block;
 
-  padding: 12px 8px;
+  padding: 12px 16px;
 
-  border-bottom:
-    1px solid #e5e7eb;
+  text-decoration: none;
 
-  cursor: pointer;
+  color: #334155;
+
+  transition: 0.2s;
 }
 
-.notification-item:hover {
-
+.admin-dropdown-menu a:hover {
   background: #f8fafc;
-
+  color: #2563eb;
 }
