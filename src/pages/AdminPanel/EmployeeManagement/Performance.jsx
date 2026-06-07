@@ -3,6 +3,21 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const Performance = () => {
+
+   let [performance, setPerformance] = useState([]);
+
+  let fetchData = async () => {
+    let res = await axios.get("/getallperformances")
+    console.log(res.data);
+
+    let data = res;
+    setPerformance(data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div>
       <table className="table">

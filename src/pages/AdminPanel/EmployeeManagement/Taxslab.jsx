@@ -1,6 +1,23 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Taxslab = () => {
+
+   let [taxslab, setTaxslab] = useState([]);
+
+  let fetchData = async () => {
+    let res = await axios.get("/getalltaxslabs")
+    console.log(res.data);
+
+    let data = res;
+    setPayslip(data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div>
       <table className="table">
@@ -19,7 +36,7 @@ const Taxslab = () => {
         </thead>
         <tbody>
           {
-            user.map((value) => {
+            taxslab.map((value) => {
               return (
                 <tr key={value.id}>
                   <td>{value.id}</td>

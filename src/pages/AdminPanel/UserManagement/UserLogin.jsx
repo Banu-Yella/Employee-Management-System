@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 const UserLogin = () => {
 
-  const [users, setUsers] = useState([]);
+  const [userLogin, setUserLogin] = useState([]);
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8080/api/employee-management/"
-      );
+      const res = await axios.get("http://localhost:8080/api/employee-management/");
 
       console.log(res.data);
 
-      setUsers(res.data);
+      setUserLogin(res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -39,13 +39,14 @@ const UserLogin = () => {
         </thead>
 
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.userName}</td>
-              <td>{user.email}</td>
-              <td>{user.mobile}</td>
-              <td>{user.status}</td>
+          {
+          userLogin.map(() => (
+            <tr key={value.id}>
+              <td>{value.id}</td>
+              <td>{value.userName}</td>
+              <td>{value.email}</td>
+              <td>{value.mobile}</td>
+              <td>{value.status}</td>
             </tr>
           ))}
         </tbody>
