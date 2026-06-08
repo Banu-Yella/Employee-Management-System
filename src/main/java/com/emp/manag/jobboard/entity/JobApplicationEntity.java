@@ -35,7 +35,7 @@ public class JobApplicationEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "job_id")
-	private JobBoardEntity job;
+	private JobBoardEntity jobBoard;
 
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)

@@ -30,63 +30,104 @@ public class UserAssessmentService {
 	private UserAssessmentRepo userAssessmentRepo;
 
 	@Autowired
-	private AssessmentRepo ARepo;
+	private AssessmentRepo assessmentRepo;
 	
 	@Autowired
 	private UserRepo userRepo;
 	
 	@Autowired
-	private JobApplicationRepo jobRepo;
+	private JobApplicationRepo jobApplicationRepo;
 
 	@Autowired
 	private ExamRepo examRepo;
 	
 
-	public UserAssessmentEntity saveUserAssessment(UserAssessmentEntity userAssessment) {
+	public UserAssessmentEntity saveUserAssessment(
+	        UserAssessmentEntity userAssessment) {
 
-		validateUserAssessment(userAssessment);
-		
-		Integer userId = userAssessment.getUser().getUserId();
-		Integer jobId = userAssessment.getJob().getJobApplicationId();
-		Integer assessmentId = userAssessment.getAssessment().getAssessmentId();
-		
-		UserEntity user = userRepo.findById(userId)
-				.orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-		
-		JobApplicationEntity Job = jobRepo.findById(jobId)
-				.orElseThrow(() -> new RuntimeException("Job application not found with ID: " + jobId));
+	    validateUserAssessment(userAssessment);
 
-		AssessmentEntity assessment = ARepo.findById(assessmentId)
-				.orElseThrow(() -> new RuntimeException("Assessment not found with ID: " + assessmentId));
-		
-		userAssessment.setUser(user);
-		userAssessment.setJob(Job);
-		userAssessment.setAssessment(assessment);
-		
-		
-		if (userAssessment.getSessionStatus() == null) {
-			userAssessment.setSessionStatus(AssessmentSessionStatus.ASSIGNED);
-		}
+	    Integer userId =
+	            userAssessment.getUser().getUserId();
 
-		return userAssessmentRepo.save(userAssessment);
+	    Integer applicationId =userAssessment.getJobApplication().getJobApplicationId();
+
+	    Integer assessmentId = userAssessment.getAssessment().getAssessmentId();
+
+	    UserEntity user = userRepo.findById(userId)
+	            .orElseThrow(() ->  new RuntimeException("User not found with ID: " + userId));
+
+	    JobApplicationEntity application =
+	    		jobApplicationRepo.findById(applicationId)
+	                    .orElseThrow(() -> new RuntimeException("Job Application not found with ID: "+ applicationId));
+
+	    AssessmentEntity assessment =
+	    		assessmentRepo.findById(assessmentId)
+	                    .orElseThrow(() -> new RuntimeException("Assessment not found with ID: "+ assessmentId));
+
+	    /*
+	     * Verify application belongs to user
+	     */
+	    if (!application.getUser().getUserId()
+	            .equals(user.getUserId())) {
+
+	        throw new RuntimeException("Selected application does not belong to the user");
+	    }
+
+	    /*
+	     * Verify assessment belongs to same job
+	     */
+	    if (!assessment.getJob().getJobId()
+	            .equals(application.getJobBoard().getJobId())) {
+
+	        throw new RuntimeException("Assessment does not belong to the application's job");
+	    }
+
+	    /*
+	     * Prevent duplicate assignment
+	     */
+	    if (userAssessmentRepo.existsByJobApplicationJobApplicationIdAndAssessmentAssessmentId(applicationId,assessmentId)) {
+
+	        throw new RuntimeException("Assessment already assigned to this application");
+	    }
+
+	    userAssessment.setUser(user);
+	    userAssessment.setJobApplication(application);
+	    userAssessment.setAssessment(assessment);
+
+	    if (userAssessment.getSessionStatus() == null) {
+	        userAssessment.setSessionStatus(
+	                AssessmentSessionStatus.ASSIGNED);
+	    }
+
+	    return userAssessmentRepo.save(userAssessment);
 	}
-
+	
 	public String updateAssesment(Integer userAssessmentId, UserAssessmentEntity updatedUserAssessment) {
 
 		if (userAssessmentId == null) {
 			throw new RuntimeException("User Assessment ID is required");
-		}
+		}	
+		
+		if(updatedUserAssessment.getScore() != null) {
 
-		validateUserAssessment(updatedUserAssessment);
+		    if(updatedUserAssessment.getScore() < 0) {
+		        throw new RuntimeException("Score cannot be negative");
+		    }
+
+		    if(updatedUserAssessment.getScore() > 100) {
+		        throw new RuntimeException("Score cannot exceed 100");
+		    }
+		}
+		
+		  validateUpdateAssessment(updatedUserAssessment);
 
 		UserAssessmentEntity existingUserAssessment = userAssessmentRepo.findById(userAssessmentId)
 				.orElseThrow(() -> new RuntimeException("User Assessment not found with ID: " + userAssessmentId));
 
 		existingUserAssessment.setScore(updatedUserAssessment.getScore());
 		existingUserAssessment.setPassed(updatedUserAssessment.getPassed());		
-		existingUserAssessment.setAssessment(updatedUserAssessment.getAssessment());
-		existingUserAssessment.setUser(updatedUserAssessment.getUser());
-		existingUserAssessment.setJob(updatedUserAssessment.getJob());
+		
 		userAssessmentRepo.save(existingUserAssessment);
 
 		return "User assessment updated successfully";
@@ -128,15 +169,19 @@ public class UserAssessmentService {
 	public AssessmentSessionResponse startAssessmentSession(Integer userAssessmentId) {
 		UserAssessmentEntity userAssessment = getUserAssessmentById(userAssessmentId);
 		LocalDateTime now = LocalDateTime.now();
-
+		
+		
 		if (userAssessment.getSessionStatus() == AssessmentSessionStatus.SUBMITTED) {
 			return buildSessionResponse(userAssessment, "Assessment already submitted");
 		}
 		if (userAssessment.getSessionStatus() == AssessmentSessionStatus.EXPIRED) {
 			return buildSessionResponse(userAssessment, "Assessment time already expired");
 		}
-		if (userAssessment.getSessionStartedAt() != null) {
-			return refreshAssessmentSession(userAssessmentId);
+		
+		if(userAssessment.getSessionStatus()!= AssessmentSessionStatus.ASSIGNED) {
+
+		    throw new RuntimeException(
+		        "Assessment is not available for starting");
 		}
 
 		int durationMinutes = resolveDurationMinutes(userAssessment);
@@ -179,20 +224,37 @@ public class UserAssessmentService {
 		return buildSessionResponse(userAssessment, "Assessment submitted successfully");
 	}
 
-	public void validateUserAssessment(UserAssessmentEntity userAssessment) {
+	private void validateUserAssessment(
+	        UserAssessmentEntity userAssessment) {
 
-		if (userAssessment == null) {
-			throw new RuntimeException("User assessment details are required");
-		}
+	    if (userAssessment == null) {
+	    	throw new RuntimeException("User assessment details are required");
+	    }
 
-		if (userAssessment.getUser() == null || userAssessment.getUser().getUserId() == null) {
-			throw new RuntimeException("Valid user is required for the assessment");
-		}
+	    if (userAssessment.getUser() == null|| userAssessment.getUser().getUserId() == null) {
 
-		if (!userRepo.existsById(userAssessment.getUser().getUserId())) {
-			throw new RuntimeException("User not found with ID: " + userAssessment.getUser().getUserId());
-		}
-		
+	        throw new RuntimeException("Valid user is required");
+	    }
+
+	    if (userAssessment.getJobApplication() == null|| userAssessment.getJobApplication()
+	                    .getJobApplicationId() == null) {
+
+	        throw new RuntimeException("Job Application is required");
+	    }
+
+	    if (userAssessment.getAssessment() == null
+	            || userAssessment.getAssessment().getAssessmentId() == null) {
+
+	        throw new RuntimeException("Assessment is required");
+	    }
+	}
+	
+	private void validateUpdateAssessment(
+	        UserAssessmentEntity assessment) {
+
+	    if (assessment == null) {
+	        throw new RuntimeException("Assessment data is required");
+	    }
 	}
 
 	private int resolveDurationMinutes(UserAssessmentEntity userAssessment) {
@@ -228,5 +290,7 @@ public class UserAssessmentService {
 				userAssessment.getSessionStartedAt(), endsAt, userAssessment.getSubmittedAt(), status, active,
 				remainingSeconds, message);
 	}
+	
+	
 
 }

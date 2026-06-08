@@ -29,11 +29,7 @@ public class UserAssessmentEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_assessment_id")
-	private Integer userAssessmentId;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "assessment_id")
-	private AssessmentEntity assessment;
+	private Integer userAssessmentId;	
 
 	@Column(name = "score")
 	private Integer score;
@@ -67,7 +63,11 @@ public class UserAssessmentEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "job_id")
-	private JobApplicationEntity job;
+	private JobApplicationEntity jobApplication;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "assessment_id")
+	private AssessmentEntity assessment;
 
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)

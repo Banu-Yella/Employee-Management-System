@@ -8,4 +8,7 @@ import com.emp.manag.user.entity.UserAssessmentEntity;
 @Repository
 public interface UserAssessmentRepo extends JpaRepository<UserAssessmentEntity, Integer> {
 
+	boolean existsByJobApplicationJobApplicationIdAndAssessmentAssessmentId(Integer applicationId,
+			Integer assessmentId);
+
 }

@@ -19,6 +19,7 @@ import com.emp.manag.jobboard.repo.AssessmentRepo;
 import com.emp.manag.jobboard.repo.JobApplicationRepo;
 import com.emp.manag.jobboard.repo.JobBoardRepo;
 import com.emp.manag.user.entity.UserAssessmentEntity;
+import com.emp.manag.user.entity.UserAssessmentEntity.AssessmentSessionStatus;
 import com.emp.manag.user.entity.UserEntity;
 import com.emp.manag.user.repo.UserAssessmentRepo;
 import com.emp.manag.user.repo.UserRepo;
@@ -47,9 +48,9 @@ public class JobApplicationService {
 		validateCreateApplication(application);
 
 		Integer userId = application.getUser().getUserId();
-		Integer jobId = application.getJob().getJobId();
+		Integer jobId = application.getJobBoard().getJobId();
 
-		if (applicationRepo.existsByUserUserIdAndJobJobId(userId, jobId)) {
+		if (applicationRepo.existsByUserUserIdAndJobBoardJobId(userId, jobId)) {
 			throw new RuntimeException("User has already applied for this job");
 		}
 
@@ -63,27 +64,26 @@ public class JobApplicationService {
 		}
 
 		application.setUser(user);
-		application.setJob(job);
+		application.setJobBoard(job);
 		application.setAppliedDate(LocalDateTime.now());
 		application.setStatus(CandidateStatus.APPLIED);
 
 		JobApplicationEntity savedApplication = applicationRepo.save(application);
+
 		List<AssessmentEntity> assessments = assessmentRepo.findByJobJobId(jobId);
+
 		if (!assessments.isEmpty()) {
-			AssessmentEntity assessment = assessments.get(0); // first assessment for the job
+		    AssessmentEntity assessment = assessments.get(0);
+		    UserAssessmentEntity userAssessment = new UserAssessmentEntity();
 
-			UserAssessmentEntity userAssessment = new UserAssessmentEntity();
-			userAssessment.setUser(user);
-			userAssessment.setJob(savedApplication);
-			userAssessment.setAssessment(assessment);
-			userAssessment.setSessionStatus(UserAssessmentEntity.AssessmentSessionStatus.ASSIGNED);
-			userAssessmentRepo.save(userAssessment);
-
-			// Update application status to reflect assessment is pending
-			savedApplication.setStatus(CandidateStatus.ASSESSMENT_PENDING);
-			applicationRepo.save(savedApplication);
+		    userAssessment.setUser(user);   			
+		    userAssessment.setAssessment(assessment);
+		    userAssessment.setSessionStatus(AssessmentSessionStatus.ASSIGNED);
+		    userAssessmentRepo.save(userAssessment);
+		    savedApplication.setStatus(CandidateStatus.ASSESSMENT_PENDING);
+		    applicationRepo.save(savedApplication);
 		}
-
+		
 		return savedApplication;
 	}
 
@@ -134,7 +134,7 @@ public class JobApplicationService {
 		if (!jobBoardRepo.existsById(jobId)) {
 			throw new RuntimeException("Job not found with id: " + jobId);
 		}
-		return applicationRepo.findByJobJobId(jobId);
+		return applicationRepo.findByJobBoardJobId(jobId);
 	}
 
 	public List<JobApplicationEntity> getApplicationsByStatus(CandidateStatus status) {
@@ -177,7 +177,7 @@ public class JobApplicationService {
 		if (application.getUser() == null || application.getUser().getUserId() == null) {
 			throw new RuntimeException("Valid user is required for job application");
 		}
-		if (application.getJob() == null || application.getJob().getJobId() == null) {
+		if (application.getJobBoard() == null || application.getJobBoard().getJobId() == null) {
 			throw new RuntimeException("Valid job is required for job application");
 		}
 	}
