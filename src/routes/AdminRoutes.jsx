@@ -7,6 +7,7 @@ import EmployeeList from "../modules/employee/pages/EmployeeList";
 import EmployeeDetails from "../modules/employee/pages/EmployeeDetails";
 import AddEmployee from "../modules/employee/components/EmployeeTable";
 import EditEmployee from "../modules/employee/pages/EditEmployee";
+import AttendanceHistory from "../modules/attendance/pages/AttendanceHistory";
 
 function AdminRoutes() {
   return (
@@ -51,6 +52,8 @@ function AdminRoutes() {
         <Route path="employees" element={<EmployeeList />} />
         <Route path="employees/view/:id" element={<EmployeeDetails />} />
         <Route path="employees/edit/:id" element={<EditEmployee />} />
+
+        <Route path="/admin/attendance/:id" element={<AttendanceHistory />} />
       </Route>
     </Routes>
   );

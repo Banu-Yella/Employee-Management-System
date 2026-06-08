@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import { getEmployees } from "../../employee/services/employeeService";
+import { getAllAttendance } from "../../attendance/services/attendanceService";
 
 import "../styles/AdminDashboard.css";
 
@@ -8,22 +10,37 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   const [employees, setEmployees] = useState([]);
+  const [attendance, setAttendance] = useState([]);
 
   useEffect(() => {
     loadEmployees();
+    loadAttendance();
   }, []);
 
   const loadEmployees = async () => {
     try {
       const response = await getEmployees();
-
-      console.log("Employees Response:", response.data);
-
       setEmployees(response.data || []);
     } catch (error) {
       console.error("Error loading employees:", error);
     }
   };
+
+  const loadAttendance = async () => {
+    try {
+      const response = await getAllAttendance();
+
+      console.log("Attendance Response:", response.data);
+
+      setAttendance(response.data || []);
+    } catch (error) {
+      console.error("Error loading attendance:", error);
+    }
+  };
+
+  const presentToday = attendance.filter(
+    (item) => item.attendanceStatus === "PRESENT",
+  ).length;
 
   return (
     <div className="dashboard-container">
@@ -51,7 +68,7 @@ function AdminDashboard() {
           onClick={() => navigate("/admin/attendance")}
         >
           <h3>Present Today</h3>
-          <h2>0</h2>
+          <h2>{presentToday}</h2>
         </div>
 
         <div className="stat-card" onClick={() => navigate("/admin/leave")}>
@@ -74,6 +91,7 @@ function AdminDashboard() {
           <ul>
             <li>✅ Employee records synchronized</li>
             <li>✅ Employee data fetched successfully</li>
+            <li>✅ Attendance data fetched successfully</li>
             <li>✅ Dashboard loaded successfully</li>
           </ul>
         </div>
@@ -151,11 +169,8 @@ function AdminDashboard() {
                   onClick={() => navigate("/admin/employees")}
                 >
                   <td>{employee.employeeid}</td>
-
                   <td>{employee.employeeName}</td>
-
                   <td>{employee.department}</td>
-
                   <td>{employee.designation}</td>
                 </tr>
               ))
