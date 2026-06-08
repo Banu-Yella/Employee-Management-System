@@ -34,35 +34,35 @@ const AddEmployeeLogin = () => {
          <h1>Create New Employee</h1>
          <form>
             <div class="mb-3">
-               <label htmlFor="empName" className="form-label"></label>
+               <label htmlFor="empName" className="form-label">Employee Name</label>
                <input type="text" className="form-control" id="empName" onChange={(e) => { setEmployee(e.target.value) }}></input>
             </div>
             <div class="mb-3">
-               <label htmlFor="role" className="form-label"></label>
+               <label htmlFor="role" className="form-label">Role</label>
                <input type="text" className="form-control" id="role" onChange={(e) => { setRole(e.target.value) }}></input>
             </div>
             <div class="mb-3">
-               <label htmlFor="username" className="form-label"></label>
+               <label htmlFor="username" className="form-label">User name</label>
                <input type="text" className="form-control" id="username" onChange={(e) => { setUsername(e.target.value) }}></input>
             </div>
             <div class="mb-3">
-               <label htmlFor="passhash" className="form-label"></label>
+               <label htmlFor="passhash" className="form-label">Password</label>
                <input type="password" className="form-control" id="passhash" onChange={(e) => { setPasswordHash(e.target.value) }}></input>
             </div>
             <div class="mb-3">
-               <label htmlFor="passrest" className="form-label"></label>
+               <label htmlFor="passrest" className="form-label">Rest Password</label>
                <input type="password" className="form-control" id="passrest" onChange={(e) => { setPasswordResetToken(e.target.value) }}></input>
             </div>
             <div class="mb-3">
-               <label htmlFor="passexpiry" className="form-label"></label>
+               <label htmlFor="passexpiry" className="form-label">Password Expiry</label>
                <input type="datetime-local" className="form-control" id="passexpiry" onChange={(e) => { setPasswordResetExpiry(e.target.value) }}></input>
             </div>
             <div class="mb-3">
-               <label htmlFor="lastlogin" className="form-label"></label>
+               <label htmlFor="lastlogin" className="form-label">Last Login</label>
                <input type="datetime-local" className="form-control" id="lastlogin" onChange={(e) => { setLastLogin(e.target.value) }}></input>
             </div>
             <div class="mb-3">
-               <label htmlFor="status" className="form-label"></label>
+               <label htmlFor="status" className="form-label">Status</label>
                <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
             </div>           
             <button type="submit" class="btn btn-primary" onClick={fetchData} >Submit</button>
