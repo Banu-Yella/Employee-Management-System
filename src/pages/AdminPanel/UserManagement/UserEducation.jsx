@@ -59,7 +59,11 @@ const UserEducation = () => {
                   <td>{value.learningMode}</td>
                   <td>{value.location}</td>
                   <td>{value.createdAt}</td>
-                  <td>{value.updatedAt}</td>                  
+                  <td>{value.updatedAt}</td>
+                   <td>
+                <button>Update</button>
+                <button>Delete</button>
+              </td>                  
                 </tr>
               )
             })

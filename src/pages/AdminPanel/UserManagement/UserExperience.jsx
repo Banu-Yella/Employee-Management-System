@@ -63,6 +63,10 @@ const UserExperience = () => {
                   <td>{value.toolsUsed}</td>
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>
+                   <td>
+                <button>Update</button>
+                <button>Delete</button>
+              </td>
                 </tr>
               )
             })

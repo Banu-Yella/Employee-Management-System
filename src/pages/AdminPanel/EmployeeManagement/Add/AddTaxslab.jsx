@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AddUserExperience = () => {
+const AddTaxslab = () => {
 
    let [ , ] = useState('')
    let [ , ] = useState('')
@@ -26,9 +26,10 @@ const AddUserExperience = () => {
          })
    }
 
+  
 
   return (
-    <div>
+     <div>
       <form>
          <div class="mb-3">
             <label htmlFor = "" className="form-label"></label>
@@ -72,4 +73,4 @@ const AddUserExperience = () => {
   )
 }
 
-export default AddUserExperience
+export default AddTaxslab

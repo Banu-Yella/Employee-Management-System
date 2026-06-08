@@ -1,19 +1,20 @@
 import React from 'react'
 
-const AddRegularization = () => {
+const AddKyc = () => {
 
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
 
 
-    let fetchData = () =>{
+   let fetchData = () => {
       e.preventDefault()
-      console.log(); let payload = {
+      console.log();
+      let payload = {
 
       }
       axios.post("/", payload)
@@ -27,9 +28,8 @@ const AddRegularization = () => {
 
    
 
-  return (
-    <div>
-         <h1>Create New Employee</h1>
+   return (
+      <div>
          <form>
             <div class="mb-3">
                <label htmlFor="" className="form-label"></label>
@@ -70,7 +70,7 @@ const AddRegularization = () => {
             <button type="submit" class="btn btn-primary" onClick={fetchData} >Submit</button>
          </form>
       </div>
-  )
+   )
 }
 
-export default AddRegularization
+export default AddKyc

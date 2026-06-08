@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AddUserExperience = () => {
+const AddPayslip = () => {
 
    let [ , ] = useState('')
    let [ , ] = useState('')
@@ -13,8 +13,7 @@ const AddUserExperience = () => {
 
     let fetchData = () =>{
       e.preventDefault()
-      console.log(); 
-      let payload = {
+      console.log(); let payload = {
 
       }
       axios.post("/", payload)
@@ -26,9 +25,9 @@ const AddUserExperience = () => {
          })
    }
 
-
+  
   return (
-    <div>
+     <div>
       <form>
          <div class="mb-3">
             <label htmlFor = "" className="form-label"></label>
@@ -72,4 +71,4 @@ const AddUserExperience = () => {
   )
 }
 
-export default AddUserExperience
+export default AddPayslip

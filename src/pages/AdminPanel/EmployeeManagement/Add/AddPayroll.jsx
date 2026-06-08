@@ -1,17 +1,17 @@
 import React from 'react'
 
-const AddRegularization = () => {
+const AddPayroll = () => {
 
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
+   let [,] = useState('')
 
 
-    let fetchData = () =>{
+   let fetchData = () => {
       e.preventDefault()
       console.log(); let payload = {
 
@@ -25,11 +25,10 @@ const AddRegularization = () => {
          })
    }
 
-   
+  
 
-  return (
-    <div>
-         <h1>Create New Employee</h1>
+   return (
+      <div>
          <form>
             <div class="mb-3">
                <label htmlFor="" className="form-label"></label>
@@ -67,10 +66,10 @@ const AddRegularization = () => {
                <label htmlFor="" className="form-label"></label>
                <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
             </div>
-            <button type="submit" class="btn btn-primary" onClick={fetchData} >Submit</button>
+            <button type="submit" class="btn btn-primary" onClick={fetchData}>Submit</button>
          </form>
       </div>
-  )
+   )
 }
 
-export default AddRegularization
+export default AddPayroll
