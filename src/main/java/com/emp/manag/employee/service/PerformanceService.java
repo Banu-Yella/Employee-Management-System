@@ -1,5 +1,7 @@
 package com.emp.manag.employee.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,14 @@ public class PerformanceService {
 
 		validatePerformance(performance);
 		attachEmployee(performance);
+		
+		Integer employeeId = performance.getEmployee().getEmployeeid();	
+		
+		
+		EmpEntity employee = empRepo.findById(employeeId)
+				.orElseThrow(() -> new RuntimeException("Employee not found with ID: " + employeeId));
+
+		performance.setEmployee(employee);
 
 		return performanceRepo.save(performance);
 	}
@@ -50,27 +60,45 @@ public class PerformanceService {
 		return performanceRepo.save(existingPerformance);
 	}
 
-	public PerformanceEntity generatePerformanceFromMonthlySummary(Integer employeeId, Integer year, Integer month) {
+	public PerformanceEntity generatePerformanceFromMonthlySummary(
+			Integer employeeId,
+			Integer year,
+	        Integer month) {
 
-		MonthlyAttendanceSummaryEntity summary = monthlySummaryService.generateMonthlySummary(employeeId, year, month);
+	    MonthlyAttendanceSummaryEntity summary =
+	            monthlySummaryService.generateMonthlySummary(employeeId, year, month);
 
-		PerformanceEntity performance = performanceRepo.findByEmployeeEmployeeid(employeeId)
-				.orElseGet(PerformanceEntity::new);
+	    PerformanceEntity performance = performanceRepo.findByEmployeeEmployeeid(employeeId)
+	                    .orElseGet(PerformanceEntity::new);
 
-		EmpEntity employee = empRepo.findById(employeeId)
-				.orElseThrow(() -> new RuntimeException("Employee not found with ID: " + employeeId));
+	    EmpEntity employee = empRepo.findById(employeeId)
+	            .orElseThrow(() -> new RuntimeException("Employee not found with ID: " + employeeId));
 
-		performance.setEmployee(employee);
-		performance.setTotalWorkingDays(summary.getWorkingDays());
-		performance.setTotalNumberofDaysAbsent(summary.getAbsentDays());
-		performance.setTotalNumberofDaysOnLeave(safe(summary.getSickLeaveDays()) + safe(summary.getCasualLeaveDays()));
-		performance.setTotalLoginHrs(summary.getTotalWorkMinutes() == null ? 0F : summary.getTotalWorkMinutes() / 60F);
-		performance.setAverageLoginTime(calculateAverageLoginHours(summary));
-		performance.setTotalOvertimeHrs(summary.getTotalOvertimeMinutes() == null ? 0
-				: Math.toIntExact(summary.getTotalOvertimeMinutes() / 60));
-		performance.setOptionalholidays(summary.getOptionalHolidays());
+	    performance.setEmployee(employee);
+	    performance.setTotalWorkingDays(summary.getWorkingDays());
+	    performance.setTotalNumberofDaysAbsent(summary.getAbsentDays());
 
-		return performanceRepo.save(performance);
+	    performance.setTotalNumberofDaysOnLeave(
+	            safe(summary.getSickLeaveDays()) +
+	            safe(summary.getCasualLeaveDays()));
+
+	    // Total Login Hours
+	    performance.setTotalLoginHrs(
+	    		summary.getTotalWorkMinutes() == null ? BigDecimal.ZERO
+	                    : BigDecimal.valueOf(summary.getTotalWorkMinutes())
+	                            .divide(BigDecimal.valueOf(60), 2, RoundingMode.HALF_UP));
+
+	    // Average Login Hours
+	    performance.setAverageLoginTime(
+	            calculateAverageLoginHours(summary));
+
+	    performance.setTotalOvertimeHrs(  summary.getTotalOvertimeMinutes() == null
+	                    ? 0
+	                    : Math.toIntExact(summary.getTotalOvertimeMinutes() / 60));
+
+	    performance.setOptionalholidays(summary.getOptionalHolidays());
+
+	    return performanceRepo.save(performance);
 	}
 
 	public PerformanceEntity getPerformanceById(Integer performanceId) {
@@ -135,13 +163,17 @@ public class PerformanceService {
 		target.setOptionalholidays(source.getOptionalholidays());
 	}
 
-	private Float calculateAverageLoginHours(MonthlyAttendanceSummaryEntity summary) {
+	private BigDecimal calculateAverageLoginHours(MonthlyAttendanceSummaryEntity summary) {
 
-		if (summary.getTotalWorkMinutes() == null || summary.getPresentDays() == null || summary.getPresentDays() == 0) {
-			return 0F;
-		}
+	    if (summary.getTotalWorkMinutes() == null
+	            || summary.getPresentDays() == null
+	            || summary.getPresentDays() == 0) {
+	        return BigDecimal.ZERO;
+	    }
 
-		return summary.getTotalWorkMinutes() / 60F / summary.getPresentDays();
+	    return BigDecimal.valueOf(summary.getTotalWorkMinutes())
+	            .divide(BigDecimal.valueOf(summary.getPresentDays() * 60L),
+	                    2,RoundingMode.HALF_UP);
 	}
 
 	private int safe(Integer value) {

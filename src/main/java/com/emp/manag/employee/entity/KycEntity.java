@@ -27,7 +27,7 @@ public class KycEntity {
 	private Integer kycId;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "employee_id", nullable = false, unique = true)
+	@JoinColumn(name = "employee_Id", nullable = false, unique = true)
 	private EmpEntity employee;
 
 	@Column(name = "aadhaar_number", unique = true)

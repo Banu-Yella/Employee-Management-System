@@ -35,12 +35,9 @@ public class ShiftEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "shift_id")
 	private Integer shiftid;
-
-	@OneToMany(mappedBy = "shift")
-	private List<EmpEntity> employees;
 	
-	@OneToMany(mappedBy = "shift")
-	private List<AttendanceEntity> attendances;
+	@Column(name = "shift_name", nullable = false)
+	private String shiftName;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "shift_type", nullable = false)
@@ -51,10 +48,7 @@ public class ShiftEntity {
 	    NIGHT,
 	    US,
 	    ROTATIONAL
-	}
-
-	@Column(name = "shift_name", nullable = false)
-	private String shiftName;
+	}	
 
 	// Shift Hierarchy (Parent)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -88,6 +82,12 @@ public class ShiftEntity {
 
 	@Column(name = "active", nullable = false)
 	private Boolean active;
+	
+	@OneToMany(mappedBy = "shift")
+	private List<EmpEntity> employees;
+	
+	@OneToMany(mappedBy = "shift")
+	private List<AttendanceEntity> attendances;
 
 	@CreationTimestamp
 	@Column(name = "created_at", insertable = false, updatable = false)

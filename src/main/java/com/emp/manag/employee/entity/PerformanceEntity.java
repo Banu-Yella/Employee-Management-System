@@ -1,5 +1,6 @@
 package com.emp.manag.employee.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,7 +32,7 @@ public class PerformanceEntity {
 	private EmpEntity employee;
 	
 	@Column(name = "total_login_hrs")
-	private Float totalLoginHrs;
+	private BigDecimal totalLoginHrs;
 	
 	@Column(name = "total_Working_days")
 	private Integer totalWorkingDays;
@@ -43,7 +44,7 @@ public class PerformanceEntity {
 	private Integer totalNumberofDaysOnLeave;
 	
 	@Column(name = "average_login_time")
-	private Float averageLoginTime;
+	private BigDecimal averageLoginTime;
 	
 	@Column(name = "total_leavebalance")
 	private Integer totalLeavebalance;

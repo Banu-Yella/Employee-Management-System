@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.emp.manag.employee.entity.EmpEntity;
 import com.emp.manag.employee.entity.PayrollEntity;
 import com.emp.manag.employee.entity.PayrollEntity.PayrollStatus;
+import com.emp.manag.employee.entity.TaxSlabEntity;
 import com.emp.manag.employee.repo.EmpRepo;
 import com.emp.manag.employee.repo.PayrollRepo;
+import com.emp.manag.employee.repo.TaxSlabRepo;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -22,13 +24,26 @@ public class PayrollService {
 
 	@Autowired
 	private EmpRepo empRepo;
+	
+	private TaxSlabRepo taxRepo;
 
 	public PayrollEntity savePayroll(PayrollEntity payroll) {
 
 		validatePayroll(payroll);
 		attachEmployee(payroll);
 		recalculatePayroll(payroll);
-
+		
+		Integer taxId = payroll.getTaxSlab().getTaxid();
+		Integer employeeId = payroll.getEmployee().getEmployeeid();
+		
+		EmpEntity employee = empRepo.findById(employeeId)
+				.orElseThrow(() -> new RuntimeException("Employee not found with ID: " + employeeId));
+		TaxSlabEntity tax = taxRepo.findById(taxId)
+				.orElseThrow(()-> new RuntimeException("Tax slab not found with ID: "  + taxId));
+		
+		payroll.setEmployee(employee);
+		payroll.setTaxSlab(tax);
+		
 		if (payroll.getApproved() == null) {
 			payroll.setApproved(false);
 		}
