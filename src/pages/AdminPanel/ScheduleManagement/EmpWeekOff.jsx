@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import api from "../../../axiosInstance.jsx";
 
 const EmpWeekOff = () => {
 
   let [empWeekoff, setEmpWeekoff] = useState([]);
 
   let fetchData = async () => {
-    let res = await axios.get("/getallempweekoffs")
+    let res = await api.get("/getallempweekoffs")
     console.log(res.data);
 
     let data = res;

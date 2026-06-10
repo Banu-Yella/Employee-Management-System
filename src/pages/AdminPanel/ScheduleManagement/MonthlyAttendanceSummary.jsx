@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import api from "../../../axiosInstance.jsx";
 
 const MonthlyAttendanceSummary = () => {
   
     let [monthlyAttendanceSummary, setMonthlyAttendanceSummary] = useState([]);
   
     let fetchData = async () => {
-      let res = await axios.get("/getallsummaries")
+      let res = await api.get("/getallsummaries")
       console.log(res.data);
   
       let data = res;

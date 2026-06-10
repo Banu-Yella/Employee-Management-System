@@ -2,14 +2,8 @@ import React from 'react'
 
 const AddWeekOffPolicy = () => {
 
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-
+   let [policyName, setPolicyName ] = useState('')
+   let [weeklyOffDays, setWeeklyOffDays ] = useState('')
 
     let fetchData = () =>{
       e.preventDefault()
@@ -31,42 +25,14 @@ const AddWeekOffPolicy = () => {
     <div>
          <h1>Create New Employee</h1>
          <form>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
+            <div className="mb-3">
+               <label htmlFor="policyName" className="form-label">Policy Name</label>
+               <input type="text" className="form-control" id="policyName" onChange={(e) => { setPolicyName(e.target.value) }}></input>
             </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
-            <div class="mb-3">
-               <label htmlFor="" className="form-label"></label>
-               <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
-            </div>
+            <div className="mb-3">
+               <label htmlFor="weeklyOffDays" className="form-label">Weekly Off Days</label>
+               <input type="date" className="form-control" id="weeklyOffDays" onChange={(e) => { setWeeklyOffDays(e.target.value) }}></input>
+            </div>            
             <button type="submit" class="btn btn-primary" onClick={fetchData} >Submit</button>
          </form>
       </div>

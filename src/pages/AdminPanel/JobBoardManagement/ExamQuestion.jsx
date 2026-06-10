@@ -1,17 +1,18 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import api from "../../../axiosInstance.jsx";
 
 const ExamQuestion = () => {
 
   let [examQuestion, setExamQuestion] = useState([]);
   
     let fetchData = async () => {
-      let res = await axios.get("/retrieve-all-questions")
+      let res = await api.get("/retrieve-all-questions")
       console.log(res.data);
   
       let data = res;
-      setExam(data);
+      setExamQuestion(data);
     };
   
     React.useEffect(() => {

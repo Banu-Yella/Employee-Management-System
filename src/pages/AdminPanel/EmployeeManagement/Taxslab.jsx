@@ -1,17 +1,18 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import api from "../../../axiosInstance.jsx";
 
 const Taxslab = () => {
 
    let [taxslab, setTaxslab] = useState([]);
 
   let fetchData = async () => {
-    let res = await axios.get("/getalltaxslabs")
+    let res = await api.get("/getalltaxslabs")
     console.log(res.data);
 
     let data = res;
-    setPayslip(data);
+    setTaxslab(data);
   };
 
   React.useEffect(() => {

@@ -7,11 +7,23 @@ import Login from './pages/LandingPages/Login'
 import MainLayout from './pages/MainLayout/MainLayout'
 
 import Employees from './pages/AdminPanel/EmployeeManagement/Employees'
+import AddEmployee from './pages/AdminPanel/EmployeeManagement/Add/AddEmployee'
+
 import EmployeeLogin from './pages/AdminPanel/EmployeeManagement/EmployeeLogin'
+import AddEmployeeLogin from './pages/AdminPanel/EmployeeManagement/Add/AddEmployeeLogin'
+
 import Kyc from './pages/AdminPanel/EmployeeManagement/Kyc'
+import AddKyc from './pages/AdminPanel/EmployeeManagement/Add/AddKyc'
+
 import Payroll from './pages/AdminPanel/EmployeeManagement/Payroll'
+import AddPayroll from './pages/AdminPanel/EmployeeManagement/Add/AddPayroll'
+
 import Payslip from './pages/AdminPanel/EmployeeManagement/Payslip'
+import AddPayslip from './pages/AdminPanel/EmployeeManagement/Add/AddPayslip'
+
 import Performance from './pages/AdminPanel/EmployeeManagement/Performance'
+import AddPerformance from './pages/AdminPanel/EmployeeManagement/Add/AddPerformance'
+
 import Taxslab from './pages/AdminPanel/EmployeeManagement/Taxslab'
 
 import JobBoard from './pages/AdminPanel/JobBoardManagement/JobBoard'
@@ -49,13 +61,28 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
         <Route element={<MainLayout />}>
+        {/* Employee - Database Crud */}
           <Route path="/Employees" element={<Employees />} />
+          <Route path="/AddEmployee" element={<AddEmployee />}/>
+
+
           <Route path="/EmployeeLogin" element={<EmployeeLogin />} />
+          <Route path="/AddEmployeeLogin" element={<AddEmployeeLogin/>} />
+
           <Route path="/Kyc" element={<Kyc />} />
+          <Route path='/AddKyc' element={<AddKyc />} />
+
           <Route path="/Payroll" element={<Payroll />} />
+          <Route path="/AddPayroll" element={<AddPayroll />} />
+
           <Route path="/Payslip" element={<Payslip />} />
+          <Route path='/AddPayslip' element={<AddPayslip />} />
+
           <Route path="/Performance" element={<Performance />} />
+          <Route path="/AddPerformance" element={<AddPerformance />} />
+
           <Route path="/Taxslab" element={<Taxslab />} />
+
 
           <Route path="/JobBoard" element={<JobBoard />} />
           <Route path="/Assessment" element={<Assessment />} />

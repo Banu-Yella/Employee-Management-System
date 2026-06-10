@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import api from "../../../axiosInstance.jsx";
 
 const Leave = () => {
 
    let [leave, setLeave] = useState([]);
   
     let fetchData = async () => {
-      let res = await axios.get("/getallleaves")
+      let res = await api.get("/getallleaves")
       console.log(res.data);
   
       let data = res;

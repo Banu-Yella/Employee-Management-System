@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import api from "../../../axiosInstance.jsx";
 
 const Regularization = () => {
 
     let [regularization, setRegularization] = useState([]);
   
     let fetchData = async () => {
-      let res = await axios.get("/getAllRegularization")
+      let res = await api.get("/getAllRegularization")
       console.log(res.data);
   
       let data = res;

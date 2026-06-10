@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import api from "../../../axiosInstance.jsx";
 import axios from 'axios'
-
 
 const UserEducation = () => {
 
   let [userEducation, setUserEducation] = useState([]);
 
   let fetchData = async () => {
-    let res = await axios.get("/getAllEducations")
+    let res = await api.get("/getAllEducations")
     console.log(res.data);
 
     let data = res;

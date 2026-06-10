@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import api from "../../../axiosInstance.jsx";
 
 const UserLogin = () => {
 
@@ -9,7 +9,7 @@ const UserLogin = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/employee-management/");
+      const res = await api.get("/getalllogindetails");
 
       console.log(res.data);
 

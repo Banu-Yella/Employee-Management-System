@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import api from "../../../../axiosInstance.jsx";
 
 const AddEmployee = () => {
+
+  const navigate = useNavigate();
 
   let [employeeName, setEmployeeName] = useState('')
   let [manager, setManager] = useState('')
@@ -19,29 +22,28 @@ const AddEmployee = () => {
 
   const [shifts, setShifts] = useState([]);
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
 
-  let fetchData = () => {
+
+  let fetchData = (e) => {
     e.preventDefault()
     console.log(employeeName, manager, role, joiningDate, resignationDate, designation,
       department, employmentType, employmentStatus, workLocation, shiftid, userid);
+
     let payload = {
       employeeName, manager, role, joiningDate, resignationDate, designation,
       department, employmentType, employmentStatus, workLocation, shiftid, userid
     }
-    axios.post("/Saveemp", payload) 
+    api.post("/Saveemp", payload)
       .then(() => {
-        console.log("Data saved");
-      })
-      .catch(() => {
-        console.log("Data is not saved");
+        console.log("Data saved successfully");
+      }).catch(() => {
+        console.log("Failed to save data!")
       })
   }
 
- 
   const fetchShift = async () => {
     try {
-      const res = await axios.get("/getallshifts");
+      const res = await api.get("/getallshifts");
       setShifts(res.data);
     } catch (error) {
       console.error("Unable to load shifts", error);
@@ -50,151 +52,154 @@ const AddEmployee = () => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get("/getallusers");
+      const res = await api.get("/getallusers");
       setUsers(res.data);
     } catch (error) {
       console.error("Unable to load users", error);
     }
   };
 
+  useEffect(() => {
+    fetchShift();
+    fetchUser();
+  }, []);
 
 
+  return (
 
-return (
+    <div className="container-fluid">
+      <div className="card shadow border-0">
+        <div className="card-header bg-primary text-white">
+        </div>
 
-  <div className="container-fluid">
-    <div className="card shadow border-0">
-      <div className="card-header bg-primary text-white">
-      </div>
+        <div className="card-body">
 
-      <div className="card-body">
+          <form>
 
-        <form onSubmit={handleSubmit}>
+            <div className="row">
 
-          <div className="row">
+              {/* Employee Name */}
 
-            {/* Employee Name */}
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Employee Name</label>
+                <input type="text" name="employeeName" className="form-control" required onChange={(e) => { setEmployeeName(e.target.value) }} />
+              </div>
 
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Employee Name</label>
-              <input type="text" name="employeeName" value={formData.employeeName} onChange={handleChange} className="form-control" required />
+              {/* Manager */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Manager</label>
+                <input type="text" name="manager" className="form-control" onChange={(e) => { setManager(e.target.value) }} />
+              </div>
+
+              {/* Role */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Role</label>
+                <input type="text" name="role" className="form-control" required onChange={(e) => { setRole(e.target.value) }} />
+              </div>
+
+              {/* Joining Date */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Joining Date</label>
+                <input type="date" name="joiningDate" className="form-control" onChange={(e) => { setJoiningDate(e.target.value) }} />
+              </div>
+
+              {/* Resignation Date */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Resignation Date</label>
+                <input type="date" name="resignationDate" className="form-control" onChange={(e) => { setResignationDate(e.target.value) }} />
+              </div>
+
+              {/* Designation */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Designation</label>
+                <input type="text" name="designation" className="form-control" required onChange={(e) => { setDesignation(e.target.value) }} />
+              </div>
+
+              {/* Department */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Department</label>
+                <input type="text" name="department" className="form-control" required onChange={(e) => { setDepartment(e.target.value) }} />
+              </div>
+
+              {/* Employment Type */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Employment Type</label>
+                <select name="employmentType" className="form-select" required onChange={(e) => { setEmploymentType(e.target.value) }} >
+                  <option value="">Select Employment Type</option>
+                  <option value="FULL_TIME">Full Time</option>
+                  <option value="PART_TIME">Part Time</option>
+                  <option value="CONTRACT">Contract</option>
+                  <option value="INTERN">Intern</option>
+                </select>
+              </div>
+
+              {/* Employment Status */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Employment Status</label>
+                <select name="employmentStatus" className="form-select" required onChange={(e) => { setEmploymentStatus(e.target.value) }} >
+                  <option value="">Select Status</option>
+                  <option value="ACTIVE">Active</option>
+                  <option value="RESIGNED">Resigned</option>
+                  <option value="TERMINATED">Terminated</option>
+                </select>
+              </div>
+
+              {/* Work Location */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Work Location</label>
+                <input type="text" name="workLocation" className="form-control" required onChange={(e) => { setWorkLocation(e.target.value) }} />
+              </div>
+
+              {/* User */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">User</label>
+                <select name="userid" className="form-select" required onChange={(e) => { setUserid(e.target.value) }} >
+                  <option value="">Select User</option>
+                  {
+                    users.map((item) => (
+                      <option key={item.userId || item.id} value={item.userId || item.id}>
+                        {item.username || item.name || item.userId}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              {/* Shift */}
+
+              <div className="col-md-6 mb-3">
+                <label className="form-label">Shift</label>
+                <select name="shiftid" className="form-select" required onChange={(e) => { setShiftid(e.target.value) }} >
+                  <option value="">Select Shift</option>
+                  {
+                    shifts.map((item) => (
+                      <option key={item.shiftid || item.id} value={item.shiftid || item.id}>
+                        {item.shiftName || item.name || item.shiftid}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
             </div>
-
-            {/* Manager */}
-
             <div className="col-md-6 mb-3">
-              <label className="form-label">Manager</label>
-              <input type="text" name="manager" value={formData.manager} onChange={handleChange} className="form-control" />
+              <button type="button" className="btn btn-primary me-3" onClick={fetchData}>Save Employee</button>
+              <button type="button" className="btn btn-danger me-3" onClick={() => navigate("/Employees")}>Cancel</button>
             </div>
-
-            {/* Role */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Role</label>
-              <input type="text" name="role" value={formData.role} onChange={handleChange} className="form-control" required />
-            </div>
-
-            {/* Joining Date */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Joining Date</label>
-              <input type="date" name="joiningDate" value={formData.joiningDate} onChange={handleChange} className="form-control" />
-            </div>
-
-            {/* Resignation Date */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Resignation Date</label>
-              <input type="date" name="resignationDate" value={formData.resignationDate} onChange={handleChange} className="form-control" />
-            </div>
-
-            {/* Designation */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Designation</label>
-              <input type="text" name="designation" value={formData.designation} onChange={handleChange} className="form-control" required />
-            </div>
-
-            {/* Department */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Department</label>
-              <input type="text" name="department" value={formData.department} onChange={handleChange} className="form-control" required />
-            </div>
-
-            {/* Employment Type */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Employment Type</label>
-              <select name="employmentType" value={formData.employmentType} onChange={handleChange} className="form-select" required>
-                <option value="">Select Employment Type</option>
-                <option value="FULL_TIME">Full Time</option>
-                <option value="PART_TIME">Part Time</option>
-                <option value="CONTRACT">Contract</option>
-                <option value="INTERN">Intern</option>
-              </select>
-            </div>
-
-            {/* Employment Status */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Employment Status</label>
-              <select name="employmentStatus" value={formData.employmentStatus} onChange={handleChange} className="form-select" required>
-                <option value="">Select Status</option>
-                <option value="ACTIVE">Active</option>
-                <option value="RESIGNED">Resigned</option>
-                <option value="TERMINATED">Terminated</option>
-              </select>
-            </div>
-
-            {/* Work Location */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Work Location</label>
-              <input type="text" name="workLocation" value={formData.workLocation} onChange={handleChange} className="form-control" required />
-            </div>
-
-            {/* User */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">User</label>
-              <select name="userid" value={formData.userid} onChange={handleChange} className="form-select" required>
-                <option value="">Select User</option>
-                {
-                  users.map((item) => (
-                    <option key={item.userId || item.id} value={item.userId || item.id}>
-                      {item.username || item.name || item.userId}
-                    </option>
-                  ))}
-              </select>
-            </div>
-
-            {/* Shift */}
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Shift</label>
-              <select name="shiftid" value={formData.shiftid} onChange={handleChange} className="form-select" required>
-                <option value="">Select Shift</option>
-                {
-                  shifts.map((item) => (
-                    <option key={item.shiftid || item.id} value={item.shiftid || item.id}>
-                      {item.shiftName || item.name || item.shiftid}
-                    </option>
-                  ))}
-              </select>
-            </div>
-
-          </div>
-          <div className="mt-3">
-            <button type="submit" className="btn btn-primary me-3">Save Employee</button>
-            <button type="reset" className="btn btn-secondary">Cancel</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
 
-);
+  );
 };
 
 export default AddEmployee;

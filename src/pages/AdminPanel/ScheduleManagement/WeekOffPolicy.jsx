@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import api from "../../../axiosInstance.jsx";
 
 const WeekOffPolicy = () => {
 
   let [weekOffPolicy, setWeekOffPolicy] = useState([]);
 
   let fetchData = async () => {
-    let res = await axios.get("/getallweekoffpolicies")
+    let res = await api.get("/getallweekoffpolicies")
     console.log(res.data);
 
     let data = res;

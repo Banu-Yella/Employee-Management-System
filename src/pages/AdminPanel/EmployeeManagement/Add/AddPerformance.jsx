@@ -1,23 +1,41 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate, Link } from "react-router-dom";
+import api from "../../../../axiosInstance.jsx";
 
 const AddPerformance = () => {
 
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
-   let [ , ] = useState('')
+   const navigate = useNavigate();
+
+   let [totalLoginHrs, setTotalLoginHrs] = useState('')
+   let [totalWorkingDays, setTotalWorkingDays] = useState('')
+   let [totalNumberofDaysAbsent, setTotalNumberofDaysAbsent] = useState('')
+   let [totalNumberofDaysOnLeave, setTotalNumberofDaysOnLeave] = useState('')
+   let [averageLoginTime, setAverageLoginTime] = useState('')
+   let [totalLeavebalance, setTotalLeavebalance] = useState('')
+   let [totalOvertimeHrs, setTotalOvertimeHrs] = useState('')
+   let [optionalholidays, setOptionalholidays] = useState('')
+   let [employeeId, setEmployeeId] = useState('');
 
 
-    let fetchData = () =>{
+   let [employee, setEmployee] = useState([])
+
+   let fetchData = (e) => {
       e.preventDefault()
-      console.log(); 
+      console.log();
       let payload = {
+         totalLoginHrs,
+         totalWorkingDays,
+         totalNumberofDaysAbsent,
+         totalNumberofDaysOnLeave,
+         averageLoginTime,
+         totalLeavebalance,
+         totalOvertimeHrs,
+         optionalholidays,
+         employee: { employeeId: employeeId }
 
       }
-      axios.post("/", payload)
+      api.post("/saveperformance", payload)
          .then(() => {
             console.log("Data saved");
          })
@@ -26,49 +44,80 @@ const AddPerformance = () => {
          })
    }
 
-  return (
-     <div>
-      <form>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
+
+   const fetchMasterData = async () => {
+      try {
+         const empRes = await api.get("/GetAllEmp");
+
+         setEmployees(empRes.data);
+
+      } catch (err) {
+         console.log(err);
+      }
+   };
+
+
+   useEffect(() => {
+      fetchMasterData();
+   }, []);
+
+
+
+
+   return (
+      <div className="container-fluid">
+         <div className="card shadow border-0">
+            <div className="card-header bg-primary text-white">
+            </div>
+            <div className="card-body">
+               <form>
+                  <div className="row">
+                     <div className="col-md-6 mb-3">
+                        <label className="form-label">Employee Code</label>
+                        <select className="form-control" value={employeeId} onChange={(e) => setEmployeeId(e.target.value)}>
+                           <option value="">Select Employee</option>
+                           {employees.map((emp) => (<option key={emp.employeeId} value={emp.employeeId}>{emp.employeeCode}</option>))}</select>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="totalLoginHrs" className="form-label">Total Login Hours</label>
+                        <input type="number" className="form-control" id="totalLoginHrs" onChange={(e) => { setTotalLoginHrs(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="totalWorkingDays" className="form-label">Total Working Days</label>
+                        <input type="number" className="form-control" id="totalWorkingDays" onChange={(e) => { setTotalWorkingDays(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="totalNumberofDaysAbsent" className="form-label">Total Number of Days Absent</label>
+                        <input type="number" className="form-control" id="totalNumberofDaysAbsent" onChange={(e) => { setTotalNumberofDaysAbsent(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="totalNumberofDaysOnLeave" className="form-label">totalNumberofDaysOnLeave</label>
+                        <input type="number" className="form-control" id="totalNumberofDaysOnLeave" onChange={(e) => { setTotalNumberofDaysOnLeave(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="averageLoginTime" className="form-label">Average Log-in Time</label>
+                        <input type="number" className="form-control" id="averageLoginTime" onChange={(e) => { setAverageLoginTime(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="totalLeavebalance" className="form-label">Total leave balance</label>
+                        <input type="number" className="form-control" id="totalLeavebalance" onChange={(e) => { setTotalLeavebalance(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="totalOvertimeHrs" className="form-label">Total Overtime Hours</label>
+                        <input type="number" className="form-control" id="totalOvertimeHrs" onChange={(e) => { setTotalOvertimeHrs(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="optionalholidays" className="form-label">Optional holidays</label>
+                        <input type="number" className="form-control" id="optionalholidays" onChange={(e) => { setOptionalholidays(e.target.value) }}></input>
+                     </div>
+                     <button type="submit" class="btn btn-primary" onClick={fetchData}>Submit</button>
+                  </div>
+               </form>
+            </div>
          </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <div class="mb-3">
-            <label htmlFor = "" className="form-label"></label>
-            <input type="" className="form-control" id="" onChange={(e) =>{set(e.target.value)}}></input>
-         </div>
-         <button type="submit" class="btn btn-primary" onClick={fetchData}>Submit</button>
-      </form>
-    </div>
-  )
+      </div>
+
+   )
 }
 
 export default AddPerformance

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import "../../styles/MainLayout.css"
 
@@ -28,7 +30,7 @@ const MainLayout = () => {
                                 <ul className="dropdown-menu">
                                     <li><a onClick={() => navigate("/Employees")} className="dropdown-item" >Employees</a></li>
                                     <li><a onClick={() => navigate("/EmployeeLogin")} className="dropdown-item" >Employee Login</a></li>
-                                    <li><a onClick={() => navigate("/Kyc")} className="dropdown-item" >/Kyc</a></li>
+                                    <li><a onClick={() => navigate("/Kyc")} className="dropdown-item" >Kyc</a></li>
                                     <li><a onClick={() => navigate("/Payroll")} className="dropdown-item" >Payroll</a></li>
                                     <li><a onClick={() => navigate("/Payslip")} className="dropdown-item">Payslip</a></li>
                                     <li><a onClick={() => navigate("/Performance")} className="dropdown-item">Performance</a></li>
@@ -50,7 +52,7 @@ const MainLayout = () => {
                                 <ul className="dropdown-menu">
                                     <li><a onClick={() => navigate("/Attendance")} className="dropdown-item">Attendance</a></li>
                                     <li><a onClick={() => navigate("/EmpWeekOff")} className="dropdown-item" >Employee Week-Off</a></li>
-                                    <li><a onClick={() => navigate("/Leave")} className="dropdown-item" >Employee Week-Off</a></li>
+                                    <li><a onClick={() => navigate("/Leave")} className="dropdown-item" >Employee Leaves</a></li>
                                     <li><a onClick={() => navigate("/MonthlyAttendanceSummary")} className="dropdown-item" >Monthly Attendance Summary</a></li>
                                     <li><a onClick={() => navigate("/PublicHoliday")} className="dropdown-item" >Public Holidays</a></li>
                                     <li><a onClick={() => navigate("/Regularization")} className="dropdown-item" >Regularization</a></li>
@@ -89,12 +91,7 @@ const MainLayout = () => {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <button
-                                        className="nav-link active"
-                                        type="button"
-                                        aria-current="page"
-                                        onClick={() => navigate("/")}
-                                    >
+                                    <button className="nav-link active" type="button" aria-current="page" onClick={() => navigate("/")}>
                                         Home
                                     </button>
                                 </li>

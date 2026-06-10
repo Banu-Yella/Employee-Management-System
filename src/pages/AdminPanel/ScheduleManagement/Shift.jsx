@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import api from "../../../axiosInstance.jsx";
 
 const Shift = () => {
 
     let [shift, setShift] = useState([]);
   
     let fetchData = async () => {
-      let res = await axios.get("/getallshifts")
+      let res = await api.get("/getallshifts")
       console.log(res.data);
   
       let data = res;

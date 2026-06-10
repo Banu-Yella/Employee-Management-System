@@ -1,7 +1,23 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+import api from "../../../axiosInstance.jsx";
+import axios from 'axios'
 
 const UserAssessment = () => {
 
+    let [userAssessment, setUserAssessment] = useState([]);
+
+  let fetchData = async () => {
+    let res = await api.get("/getalluserassessments")
+    console.log(res.data);
+
+    let data = res;
+    setUserAssessment(data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
   
   return (
     <div>
@@ -27,7 +43,7 @@ const UserAssessment = () => {
         </thead>
         <tbody>
           {
-            user.map((value) => {
+            userAssessment.map((value) => {
               return (
                 <tr key={value.userAssessmentId}>
                   <td>{value.userAssessmentId}</td>
