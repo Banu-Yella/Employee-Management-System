@@ -67,10 +67,12 @@ function Login() {
     } catch (err) {
       console.error("Login Error:", err);
 
-      if (err.response) {
+      if (err.code === "ECONNREFUSED" || err.message?.includes("ECONNREFUSED")) {
+        setError("Backend server is not running on http://127.0.0.1:8080. Start the backend first.");
+      } else if (err.response) {
         setError(err.response.data.message || "Invalid username or password");
       } else {
-        setError("Unable to connect to server");
+        setError(err.message || "Unable to connect to server");
       }
     } finally {
       setLoading(false);
@@ -160,6 +162,13 @@ function Login() {
 
                   <button
                     className="btn btn-outline-success w-100 mt-2"
+                    onClick={() => navigate("/register")}
+                  >
+                    Create Employee Account
+                  </button>
+
+                  <button
+                    className="btn btn-outline-primary w-100 mt-2"
                     onClick={() => setShowAdminSetup(true)}
                   >
                     Create Admin Account

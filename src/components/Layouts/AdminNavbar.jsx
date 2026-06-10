@@ -4,6 +4,7 @@ import "../../styles/AdminNavbar.css";
 
 function AdminNavbar() {
   const [openMenu, setOpenMenu] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navbarRef = useRef(null);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ function AdminNavbar() {
 
   const closeMenu = () => {
     setOpenMenu(null);
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -40,7 +42,16 @@ function AdminNavbar() {
         </div>
       </div>
 
-      <ul className="navbar-menu">
+      <button
+        type="button"
+        className="mobile-menu-toggle"
+        onClick={() => setMobileMenuOpen((prev) => !prev)}
+        aria-label="Toggle navigation menu"
+      >
+        ☰
+      </button>
+
+      <ul className={`navbar-menu ${mobileMenuOpen ? "open" : ""}`}>
         <li>
           <NavLink to="/admin" onClick={closeMenu}>
             Dashboard

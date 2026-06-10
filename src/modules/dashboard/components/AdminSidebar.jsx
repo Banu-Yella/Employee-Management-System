@@ -1,7 +1,14 @@
 import "../styles/AdminSidebar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function AdminSidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+    navigate("/login");
+  };
   return (
     <div className="admin-sidebar">
       <div className="sidebar-header">
@@ -52,6 +59,12 @@ function AdminSidebar() {
         </li>
 
         <li>
+          <NavLink to="/admin/summary" className="sidebar-link">
+            Monthly Summary
+          </NavLink>
+        </li>
+
+        <li>
           <NavLink to="/admin/reports" className="sidebar-link">
             Reports
           </NavLink>
@@ -63,7 +76,7 @@ function AdminSidebar() {
           </NavLink>
         </li>
       </ul>
-      <button className="logout-btn">Logout</button>
+      <button className="logout-btn" onClick={handleLogout}>Logout</button>
     </div>
   );
 }

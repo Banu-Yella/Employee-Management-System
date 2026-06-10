@@ -99,14 +99,16 @@ function AdminSetup({ onClose }) {
     } catch (err) {
       console.error(err);
 
-      if (err.response) {
+      if (err.code === "ECONNREFUSED" || err.message?.includes("ECONNREFUSED")) {
+        setError("Backend server is not running on http://127.0.0.1:8080. Start the backend first.");
+      } else if (err.response) {
         setError(
           err.response.data.message ||
             err.response.data.error ||
             "Admin setup failed",
         );
       } else {
-        setError(err.message);
+        setError(err.message || "Admin setup failed");
       }
     } finally {
       setLoading(false);

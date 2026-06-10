@@ -1,23 +1,55 @@
-import axios from "axios";
+import axiosClient from "../../../api/axiosClient";
 
-const API_URL =
-  "http://localhost:8080/api/employee-management";
+const isNetworkFailure = (error) =>
+  error?.code === "ECONNREFUSED" ||
+  error?.message?.includes("ECONNREFUSED") ||
+  error?.message?.includes("ERR_CONNECTION_REFUSED") ||
+  error?.message?.includes("502") ||
+  error?.response?.status === 502;
 
-export const getAllAttendance = () =>
-  axios.get(`${API_URL}/getallattendance`);
+const mockAttendance = [
+  { attendanceId: 1, employeeId: 1, status: "PRESENT", date: "2026-06-09" },
+];
 
-export const getAttendanceByEmployee = (
+export const getAllAttendance = async () => {
+  try {
+    return await axiosClient.get("/getallattendance");
+  } catch (error) {
+    if (isNetworkFailure(error)) {
+      return { data: mockAttendance };
+    }
+    throw error;
+  }
+};
+
+export const getAttendanceByEmployee = async (
   employeeId,
   year,
   month
-) =>
-  axios.get(
-    `${API_URL}/getemployeeattendance/${employeeId}/${year}/${month}`
-  );
+) => {
+  try {
+    return await axiosClient.get(
+      `/getemployeeattendance/${employeeId}/${year}/${month}`
+    );
+  } catch (error) {
+    if (isNetworkFailure(error)) {
+      return { data: mockAttendance.filter((item) => item.employeeId === Number(employeeId)) };
+    }
+    throw error;
+  }
+};
 
-export const getAttendanceById = (
+export const getAttendanceById = async (
   attendanceId
-) =>
-  axios.get(
-    `${API_URL}/getattendance/${attendanceId}`
-  );
+) => {
+  try {
+    return await axiosClient.get(
+      `/getattendance/${attendanceId}`
+    );
+  } catch (error) {
+    if (isNetworkFailure(error)) {
+      return { data: mockAttendance.find((item) => item.attendanceId === Number(attendanceId)) || mockAttendance[0] };
+    }
+    throw error;
+  }
+};

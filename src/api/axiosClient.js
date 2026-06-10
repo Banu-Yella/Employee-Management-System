@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+
 const axiosClient = axios.create({
-    baseURL: "http://localhost:8080/api/employee-management",
+    baseURL: `${API_BASE_URL}/api/employee-management`,
     withCredentials: true,
     headers: {
         "Content-Type": "application/json"

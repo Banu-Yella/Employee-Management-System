@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+
 const Register = () => {
   const [username, setUsername] = useState("");
 
@@ -15,7 +17,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8080/register-admin", {
+      await axios.post(`${API_BASE_URL}/register-admin`, {
         username,
         password,
       });

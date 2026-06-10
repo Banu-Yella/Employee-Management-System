@@ -11,10 +11,30 @@ function AdminDashboard() {
 
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
+  const [profile, setProfile] = useState({
+    name: "Admin User",
+    email: "admin@ems.com",
+    phone: "+91 98765 43210",
+    role: "System Administrator",
+  });
 
   useEffect(() => {
     loadEmployees();
     loadAttendance();
+
+    const storedProfile = JSON.parse(localStorage.getItem("adminProfile") || "null");
+    const loggedInUser = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (storedProfile) {
+      setProfile(storedProfile);
+    } else if (loggedInUser) {
+      setProfile({
+        name: loggedInUser.username || "Admin User",
+        email: loggedInUser.email || "admin@ems.com",
+        phone: loggedInUser.phone || "+91 98765 43210",
+        role: loggedInUser.role || "System Administrator",
+      });
+    }
   }, []);
 
   const loadEmployees = async () => {
@@ -39,8 +59,22 @@ function AdminDashboard() {
   };
 
   const presentToday = attendance.filter(
-    (item) => item.attendanceStatus === "PRESENT",
+    (item) => item.attendanceStatus === "PRESENT" || item.status === "PRESENT",
   ).length;
+
+  const attendanceRate = attendance.length
+    ? Math.round((presentToday / attendance.length) * 100)
+    : 0;
+
+  const activeDepartments = new Set(
+    employees.map((emp) => emp.department || "Unknown"),
+  ).size;
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <div className="dashboard-container">
@@ -72,19 +106,31 @@ function AdminDashboard() {
         </div>
 
         <div className="stat-card" onClick={() => navigate("/admin/leave")}>
-          <h3>Pending Leaves</h3>
-          <h2>0</h2>
+          <h3>Active Departments</h3>
+          <h2>{activeDepartments}</h2>
         </div>
 
-        <div className="stat-card" onClick={() => navigate("/admin/payroll")}>
-          <h3>Monthly Payroll</h3>
-          <h2>₹0</h2>
+        <div className="stat-card" onClick={() => navigate("/admin/attendance")}>
+          <h3>Attendance Rate</h3>
+          <h2>{attendanceRate}%</h2>
         </div>
       </div>
 
-      {/* Activity + Pending */}
+      {/* Activity + Insights */}
 
       <div className="dashboard-row">
+        <div className="dashboard-card">
+          <h3>Admin Profile</h3>
+          <p><strong>Name:</strong> {profile.name}</p>
+          <p><strong>Email:</strong> {profile.email}</p>
+          <p><strong>Phone:</strong> {profile.phone}</p>
+          <p><strong>Role:</strong> {profile.role}</p>
+          <div className="action-buttons mt-3">
+            <button className="btn btn-primary" onClick={() => navigate("/admin/settings")}>Edit Profile</button>
+            <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
+          </div>
+        </div>
+
         <div className="dashboard-card">
           <h3>Today's Activity</h3>
 
@@ -97,13 +143,13 @@ function AdminDashboard() {
         </div>
 
         <div className="dashboard-card">
-          <h3>Pending Approvals</h3>
+          <h3>Today’s Highlights</h3>
 
           <ul>
-            <li>🟠 Leave Requests - 0</li>
-            <li>🟠 Regularizations - 0</li>
-            <li>🟠 KYC Verifications - 0</li>
-            <li>🟠 Payroll Approvals - 0</li>
+            <li>📊 {employees.length} employees currently tracked</li>
+            <li>📈 {presentToday} employees marked present</li>
+            <li>🏢 {activeDepartments} departments active in the system</li>
+            <li>✅ Attendance completion is at {attendanceRate}%</li>
           </ul>
         </div>
       </div>
