@@ -66,7 +66,7 @@ public class EmpLoginService {
 				.orElseThrow(() -> new RuntimeException("Login not found with ID: " + loginId));
 
 		loginRepo.findByUsername(updatedLogin.getUsername())
-				.filter(login -> !login.getLoginid().equals(loginId))
+				.filter(login -> !login.getEmploginid().equals(loginId))
 				.ifPresent(login -> {
 					throw new RuntimeException("Username already exists: " + updatedLogin.getUsername());
 				});
@@ -148,7 +148,7 @@ public class EmpLoginService {
 
 		session.setMaxInactiveInterval(SESSION_TIMEOUT_SECONDS);
 		session.setAttribute("principalType", "EMPLOYEE");
-		session.setAttribute("employeeLoginId", login.getLoginid());
+		session.setAttribute("employeeLoginId", login.getEmploginid());
 		session.setAttribute("employeeId", login.getEmployee().getEmployeeid());
 		session.setAttribute("username", login.getUsername());
 		session.setAttribute("role", login.getRole());

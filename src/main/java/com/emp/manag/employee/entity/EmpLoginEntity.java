@@ -23,9 +23,9 @@ import lombok.Data;
 public class EmpLoginEntity {
 
 	@Id
-	@Column(name = "login_id", nullable = false, unique = true)
+	@Column(name = "emp_login_id", nullable = false, unique = true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer loginid;
+	private Integer emploginid;
 	
 	// login relationship
 	@OneToOne(fetch = FetchType.EAGER)

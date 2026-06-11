@@ -48,7 +48,7 @@ public class JobApplicationService {
 		validateCreateApplication(application);
 
 		Integer userId = application.getUser().getUserId();
-		Integer jobId = application.getJobBoard().getJobId();
+		Integer jobId = application.getJobBoard().getJobBoardId();
 
 		if (applicationRepo.existsByUserUserIdAndJobBoardJobId(userId, jobId)) {
 			throw new RuntimeException("User has already applied for this job");
@@ -177,7 +177,7 @@ public class JobApplicationService {
 		if (application.getUser() == null || application.getUser().getUserId() == null) {
 			throw new RuntimeException("Valid user is required for job application");
 		}
-		if (application.getJobBoard() == null || application.getJobBoard().getJobId() == null) {
+		if (application.getJobBoard() == null || application.getJobBoard().getJobBoardId() == null) {
 			throw new RuntimeException("Valid job is required for job application");
 		}
 	}

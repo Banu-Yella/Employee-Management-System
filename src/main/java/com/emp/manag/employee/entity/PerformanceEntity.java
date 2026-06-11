@@ -23,9 +23,9 @@ import lombok.Data;
 public class PerformanceEntity {
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "performance_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer performanceid;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="employee_id")

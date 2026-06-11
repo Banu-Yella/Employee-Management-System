@@ -24,8 +24,8 @@ public class JobBoardEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "job_id", nullable = false)
-	private Integer jobId;
+	@Column(name = "job_Board_id", nullable = false)
+	private Integer jobBoardId;
 	
 	@OneToMany(mappedBy = "job")
 	private List<AssessmentEntity> assessments;

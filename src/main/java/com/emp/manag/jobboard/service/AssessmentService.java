@@ -25,7 +25,7 @@ public class AssessmentService {
 
 		validateAssessment(assessment);
 
-		Integer jobId = assessment.getJob().getJobId();
+		Integer jobId = assessment.getJob().getJobBoardId();
 
 		JobBoardEntity job = jobBoardRepo.findById(jobId)
 				.orElseThrow(() -> new RuntimeException("Job not found with id: " + jobId));
@@ -92,7 +92,7 @@ public class AssessmentService {
 		if (assessment.getFeedback() == null || assessment.getFeedback().isEmpty()) {
 			throw new RuntimeException("Feedback is required");
 		}
-		if (assessment.getJob() == null || assessment.getJob().getJobId() == null) {
+		if (assessment.getJob() == null || assessment.getJob().getJobBoardId() == null) {
 			throw new RuntimeException("Valid Job is required");
 		}
 
