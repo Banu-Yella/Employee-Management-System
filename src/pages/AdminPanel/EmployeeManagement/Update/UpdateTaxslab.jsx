@@ -4,9 +4,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
 import {toast} from 'toastify'
 
-const UpdateJobApplication = () => {
+const UpdateTaxslab = () => {
 
-   let = useParams()
+ let = useParams()
     console.log();
 
     useEffect(() => {
@@ -36,6 +36,7 @@ const UpdateJobApplication = () => {
             })
     }
 
+
   return (
     <div>
       
@@ -43,4 +44,4 @@ const UpdateJobApplication = () => {
   )
 }
 
-export default UpdateJobApplication
+export default UpdateTaxslab

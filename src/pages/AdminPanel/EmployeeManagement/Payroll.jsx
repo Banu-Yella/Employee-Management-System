@@ -15,7 +15,25 @@ const Payroll = () => {
 
     let data = res;
     setPayroll(data);
+
+    let deleteData = (payrollId) => {
+      console.log(payrollId);
+      if (window.confirm()) {
+        api.delete("/deletepayroll/{payrollId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setLogin(res.data);
   };
+
+
 
   React.useEffect(() => {
     fetchData();
@@ -91,6 +109,10 @@ const Payroll = () => {
                   <td>{value.approvedBy}</td>
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>
+                  <td>
+                    <button><Link to={'/UpdatePayroll/${value.payrollId}'}>Update</Link></button>
+                    <button onClick={() => { deleteData(value.payrollId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

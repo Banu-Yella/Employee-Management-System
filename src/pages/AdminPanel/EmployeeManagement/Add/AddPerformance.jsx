@@ -15,7 +15,7 @@ const AddPerformance = () => {
    let [totalLeavebalance, setTotalLeavebalance] = useState('')
    let [totalOvertimeHrs, setTotalOvertimeHrs] = useState('')
    let [optionalholidays, setOptionalholidays] = useState('')
-   let [employeeId, setEmployeeId] = useState('');
+   let [employeeid, setEmployeeid] = useState('');
 
 
    let [employee, setEmployee] = useState([])
@@ -32,7 +32,7 @@ const AddPerformance = () => {
          totalLeavebalance,
          totalOvertimeHrs,
          optionalholidays,
-         employee: { employeeId: employeeId }
+         employeeid: Number(employeeid)
 
       }
       api.post("/saveperformance", payload)
@@ -74,9 +74,9 @@ const AddPerformance = () => {
                   <div className="row">
                      <div className="col-md-6 mb-3">
                         <label className="form-label">Employee Code</label>
-                        <select className="form-control" value={employeeId} onChange={(e) => setEmployeeId(e.target.value)}>
+                        <select className="form-control" value={employeeid} onChange={(e) => setEmployeeid(e.target.value)}>
                            <option value="">Select Employee</option>
-                           {employees.map((emp) => (<option key={emp.employeeId} value={emp.employeeId}>{emp.employeeCode}</option>))}</select>
+                           {employees.map((emp) => (<option key={emp.employeeid} value={emp.employeeid}>{emp.employeeCode}</option>))}</select>
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="totalLoginHrs" className="form-label">Total Login Hours</label>
@@ -110,7 +110,8 @@ const AddPerformance = () => {
                         <label htmlFor="optionalholidays" className="form-label">Optional holidays</label>
                         <input type="number" className="form-control" id="optionalholidays" onChange={(e) => { setOptionalholidays(e.target.value) }}></input>
                      </div>
-                     <button type="submit" class="btn btn-primary" onClick={fetchData}>Submit</button>
+                     <button type="button" class="btn btn-primary me-3" onClick={fetchData}>Save</button>
+                     <button type="button" class="btn btn-primary me-3" onClick={() => navigate("/Performance")}>cancel</button>
                   </div>
                </form>
             </div>

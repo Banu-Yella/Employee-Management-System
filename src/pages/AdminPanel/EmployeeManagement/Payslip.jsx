@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
+import { useNavigate, Link } from "react-router-dom";
 
 const Payslip = () => {
 
@@ -13,7 +14,25 @@ const Payslip = () => {
 
     let data = res;
     setPayslip(data);
+ 
+    let deleteData = (payslipId) => {
+      console.log(payslipId);
+      if (window.confirm()) {
+        api.delete("/deletepayslip/{payslipId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setLogin(res.data);
   };
+
+
 
   React.useEffect(() => {
     fetchData();
@@ -53,7 +72,7 @@ const Payslip = () => {
             <th>Paid on</th>
             <th>Created at</th>
             <th>Updated at</th>
-             <th>
+            <th>
               <div className="dropdown modify-dropdown">
                 <span>Modify</span>
                 <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -106,6 +125,10 @@ const Payslip = () => {
                   <td>{value.paidOn}</td>
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>
+                  <td>
+                    <button><Link to={'/UpdatePayslip/${value.payslipId}'}>Update</Link></button>
+                    <button onClick={() => { deleteData(value.payslipId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

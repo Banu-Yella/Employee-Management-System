@@ -7,19 +7,36 @@ import api from "../../../axiosInstance.jsx";
 const Employees = () => {
 
   let [employees, setEmployees] = useState([]);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
- const fetchData = async () => {
-  try {
-    const res = await api.get("/GetAllEmp");
+  const fetchData = async () => {
+    try {
+      const res = await api.get("/GetAllEmp");
 
-    console.log(res.data);
+      console.log(res.data);
 
-    setEmployees(res.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+      setEmployees(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    let deleteData = (employeeid) => {
+      console.log(employeeid);
+      if (window.confirm()) {
+        api.delete("/DeleteEmp/{employeeId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setLogin(res.data);
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -87,6 +104,10 @@ const Employees = () => {
                   <td>{value.resignationDate}</td>
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>
+                  <td>
+                    <button><Link to={'/UpdateEmployee/${value.employeeid}'}>Update</Link></button>
+                    <button onClick={() => { deleteData(value.employeeid) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

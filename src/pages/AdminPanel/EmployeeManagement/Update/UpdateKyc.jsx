@@ -2,15 +2,16 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import {toast} from 'toastify'
+import { toast } from 'toastify'
 
-const UpdateJobApplication = () => {
 
-   let = useParams()
+const UpdateKyc = () => {
+
+    let = useParams()
     console.log();
 
     useEffect(() => {
-        api.get('/ /${}')
+        api.get('//${}')
             .then((res) => {
 
             });
@@ -36,11 +37,11 @@ const UpdateJobApplication = () => {
             })
     }
 
-  return (
-    <div>
-      
-    </div>
-  )
+    return (
+        <div>
+
+        </div>
+    )
 }
 
-export default UpdateJobApplication
+export default UpdateKyc

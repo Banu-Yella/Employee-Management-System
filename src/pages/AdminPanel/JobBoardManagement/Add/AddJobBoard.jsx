@@ -1,6 +1,10 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate, Link } from "react-router-dom";
+import api from "../../../../axiosInstance.jsx";
 
 const AddJobBoard = () => {
+   const navigate = useNavigate();
 
    let [jobTitle, setJobTitle] = useState('')
    let [jobDescription, setJobDescription] = useState('')
@@ -19,15 +23,15 @@ const AddJobBoard = () => {
    let [jobResponsibilities, setJobResponsibilities] = useState('')
    let [benefits, setBenefits] = useState('')
    let [contactInformation, setContactInformation] = useState('')
- 
 
-   let fetchData = () => {
+
+   let fetchData = (e) => {
       e.preventDefault()
       console.log();
       let payload = {
 
       }
-      axios.post("/", payload)
+      api.post("/", payload)
          .then(() => {
             console.log("Data saved");
          })
@@ -39,78 +43,89 @@ const AddJobBoard = () => {
 
 
    return (
-      <div>
-         <form>
-            <div className="mb-3">
-               <label htmlFor="jobTitle" className="form-label">Job Title</label>
-               <input type="text" className="form-control" id="jobTitle" onChange={(e) => { setJobTitle(e.target.value) }}></input>
+      <div className="container-fluid">
+         <div className="card shadow border-0">
+            <div className="card-header bg-primary text-white">
             </div>
-            <div className="mb-3">
-               <label htmlFor="jobDescription" className="form-label">Job Description</label>
-               <input type="text" className="form-control" id="jobDescription" onChange={(e) => { setJobDescription(e.target.value) }}></input>
+            <div className="card-body">
+               <form>
+                  <div className="row">
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="jobTitle" className="form-label">Job Title</label>
+                        <input type="text" className="form-control" id="jobTitle" onChange={(e) => { setJobTitle(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="jobDescription" className="form-label">Job Description</label>
+                        <input type="text" className="form-control" id="jobDescription" onChange={(e) => { setJobDescription(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="jobReferral" className="form-label">Job Referral</label>
+                        <input type="text" className="form-control" id="jobReferral" onChange={(e) => { setJobReferral(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="location" className="form-label">Location</label>
+                        <input type="text" className="form-control" id="location" onChange={(e) => { setLocation(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="workplace" className="form-label">Workplace</label>
+                        <input type="text" className="form-control" id="workplace" onChange={(e) => { setWorkplace(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="companyname" className="form-label">Company name</label>
+                        <input type="text" className="form-control" id="companyname" onChange={(e) => { setCompanyname(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="salaryRange" className="form-label">Salary Range</label>
+                        <input type="number" className="form-control" id="salaryRange" onChange={(e) => { setSalaryRange(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="employmentType" className="form-label">Employment Type</label>
+                        <input type="text" className="form-control" id="employmentType" onChange={(e) => { setEmploymentType(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="postedDate" className="form-label">Posted Date</label>
+                        <input type="datetime-local" className="form-control" id="postedDate" onChange={(e) => { setPostedDate(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="applicationDeadline" className="form-label">Application Deadline</label>
+                        <input type="date" className="form-control" id="" onChange={(e) => { setApplicationDeadline(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="requiredSkills" className="form-label">Required Skills</label>
+                        <input type="text" className="form-control" id="requiredSkills" onChange={(e) => { setRequiredSkills(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="jobCategory" className="form-label">job Category</label>
+                        <input type="text" className="form-control" id="jobCategory" onChange={(e) => { setJobCategory(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="experienceLevel" className="form-label">Experience Level</label>
+                        <input type="tel" className="form-control" id="" onChange={(e) => { setExperienceLevel(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="educationRequirements" className="form-label">Education Requirements</label>
+                        <input type="text" className="form-control" id="educationRequirements" onChange={(e) => { setEducationRequirements(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="jobResponsibilities" className="form-label">Job Responsibilities</label>
+                        <input type="text" className="form-control" id="jobResponsibilities" onChange={(e) => { setJobResponsibilities(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="benefits" className="form-label">Benefits</label>
+                        <input type="text" className="form-control" id="benefits" onChange={(e) => { setBenefits(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="contactInformation" className="form-label">Contact Information</label>
+                        <input type="text" className="form-control" id="contactInformation" onChange={(e) => { setContactInformation(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <button type="submit" className="btn btn-primary  me-3" onClick={fetchData}>Submit</button>
+                        <button type="submit" className="btn btn-danger  me-3" onClick={() => navigate('/JobBoard')}>Cancel</button>
+                     </div>
+                  </div>
+               </form>
             </div>
-            <div className="mb-3">
-               <label htmlFor="jobReferral" className="form-label">Job Referral</label>
-               <input type="text" className="form-control" id="jobReferral" onChange={(e) => { setJobReferral(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="location" className="form-label">Location</label>
-               <input type="text" className="form-control" id="location" onChange={(e) => { setLocation(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="workplace" className="form-label">Workplace</label>
-               <input type="text" className="form-control" id="workplace" onChange={(e) => { setWorkplace(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="companyname" className="form-label">Company name</label>
-               <input type="text" className="form-control" id="companyname" onChange={(e) => { setCompanyname(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="salaryRange" className="form-label">Salary Range</label>
-               <input type="number" className="form-control" id="salaryRange" onChange={(e) => { setSalaryRange(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="employmentType" className="form-label">Employment Type</label>
-               <input type="text" className="form-control" id="employmentType" onChange={(e) => { setEmploymentType(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="postedDate" className="form-label">Posted Date</label>
-               <input type="datetime-local" className="form-control" id="postedDate" onChange={(e) => { setPostedDate(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="applicationDeadline" className="form-label">Application Deadline</label>
-               <input type="date" className="form-control" id="" onChange={(e) => { setApplicationDeadline(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="requiredSkills" className="form-label">Required Skills</label>
-               <input type="text" className="form-control" id="requiredSkills" onChange={(e) => { setRequiredSkills(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="jobCategory" className="form-label">job Category</label>
-               <input type="text" className="form-control" id="jobCategory" onChange={(e) => { setJobCategory(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="experienceLevel" className="form-label">Experience Level</label>
-               <input type="tel" className="form-control" id="" onChange={(e) => { setExperienceLevel(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="educationRequirements" className="form-label">Education Requirements</label>
-               <input type="text" className="form-control" id="educationRequirements" onChange={(e) => { setEducationRequirements(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="jobResponsibilities" className="form-label">Job Responsibilities</label>
-               <input type="text" className="form-control" id="jobResponsibilities" onChange={(e) => { setJobResponsibilities(e.target.value) }}></input>
-            </div>
-            <div className="mb-3">
-               <label htmlFor="benefits" className="form-label">Benefits</label>
-               <input type="text" className="form-control" id="benefits" onChange={(e) => { setBenefits(e.target.value) }}></input>
-            </div>
-             <div className="mb-3">
-               <label htmlFor="contactInformation" className="form-label">Contact Information</label>
-               <input type="text" className="form-control" id="contactInformation" onChange={(e) => { setContactInformation(e.target.value) }}></input>
-            </div>
-            <button type="submit" class="btn btn-primary" onClick={fetchData}>Submit</button>
-         </form>
+         </div>
       </div>
    )
 }

@@ -9,17 +9,34 @@ const Kyc = () => {
   const [kyc, setKyc] = useState([]);
   const navigate = useNavigate();
 
- let fetchData = async () => {
-  try {
-    const res = await api.get("/getallkycs");
+  let fetchData = async () => {
+    try {
+      const res = await api.get("/getallkycs");
 
-    console.log(res.data);
+      console.log(res.data);
 
-    setKyc(res.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+      setKyc(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    let deleteData = (kycId) => {
+      console.log(kycId);
+      if (window.confirm()) {
+        api.delete("/deletekyc/{kycId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setLogin(res.data);
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -77,6 +94,10 @@ const Kyc = () => {
                   <td>{value.verifiedOn}</td>
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>
+                  <td>
+                    <button><Link to={'/UpdateKyc/${value.kycId}'}>Update</Link></button>
+                    <button onClick={() => { deleteData(value.kycId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

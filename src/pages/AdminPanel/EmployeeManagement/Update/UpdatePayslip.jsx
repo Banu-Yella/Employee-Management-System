@@ -1,12 +1,8 @@
 import React from 'react'
-import { useParams } from "react-router-dom";
-import { useNavigate, Link } from "react-router-dom";
-import { useEffect, useState } from 'react'
-import {toast} from 'toastify'
 
-const UpdateJobApplication = () => {
+const UpdatePayslip = () => {
 
-   let = useParams()
+     let = useParams()
     console.log();
 
     useEffect(() => {
@@ -43,4 +39,4 @@ const UpdateJobApplication = () => {
   )
 }
 
-export default UpdateJobApplication
+export default UpdatePayslip
