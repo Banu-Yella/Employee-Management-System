@@ -28,9 +28,7 @@ const User = () => {
         <thead>
           <tr>
             <th>Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Middle Name</th>
+            <th>Full Name</th>            
             <th>image</th>
             <th>Email</th>
             <th>Phone Number</th>

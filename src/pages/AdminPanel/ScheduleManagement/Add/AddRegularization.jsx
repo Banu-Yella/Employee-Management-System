@@ -30,7 +30,7 @@ const AddRegularization = () => {
       console.log(); let payload = {
 
       }
-      api.post("/", payload)
+      api.post("/saveregularization", payload)
          .then(() => {
             console.log("Data saved");
          })

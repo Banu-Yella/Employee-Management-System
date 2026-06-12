@@ -43,7 +43,10 @@ const AddPayslip = () => {
    let fetchData = (e) => {
       e.preventDefault()
       console.log(); let payload = {
-
+         year, month, payPeriodStart, payPeriodEnd, workingDays, paidDays, lopDays, basicSalary, hra,
+         allowances, bonus, grossEarnings, lopDeduction, pf, esi, professionalTax, incomeTax, otherDeductions,
+         totalDeductions, netPay, status, approvedBy, approvedOn, paidOn, summaryId, payrollId, employeeId,
+         monthlySummary, payroll, employee
       }
       api.post("/generatepayslip/{employeeId}/{year}/{month}", payload)
          .then(() => {

@@ -23,9 +23,10 @@ const AddExam = () => {
       e.preventDefault()
       console.log();
       let payload = {
-
+          examName, examType, durationMinutes, examInstructions,
+          totalquestions, questionPattern, passMarks, totalMarks, status, assessment
       }
-      api.post("/", payload)
+      api.post("/SaveExam", payload)
          .then(() => {
             console.log("Data saved");
          })

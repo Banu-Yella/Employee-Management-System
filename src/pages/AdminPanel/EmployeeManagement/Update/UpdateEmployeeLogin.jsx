@@ -2,11 +2,10 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import {toast} from 'toastify'
+import { toast } from 'toastify'
 
 const UpdateEmployeeLogin = () => {
-  
-    let [employee, setEmployee] = useState('')
+   let [employee, setEmployee] = useState('')
     let [role, setRole] = useState('')
     let [username, setUsername] = useState('')
     let [passwordHash, setPasswordHash] = useState('')
@@ -33,7 +32,7 @@ const UpdateEmployeeLogin = () => {
             });
 
     }, [])
-    
+
     let navigate = useNavigate();
     let updateData = (e) => {
         e.preventDefault()
@@ -47,17 +46,17 @@ const UpdateEmployeeLogin = () => {
             lastLogin,
             status
         }
-        
+
         api.put(`/updatelogin/${loginId}`, payload)
-        .then (()=> {
-            console.log("Data updated successfully")
-            toast("Data updated successfully")
-            navigate('/EmployeeLogin')
-        })
-        .catch(() => {
-            console.log("Failed to update the data")
-            toast("Failed to update the data")
-        })
+            .then(() => {
+                console.log("Data updated successfully")
+                toast("Data updated successfully")
+                navigate('/EmployeeLogin')
+            })
+            .catch(() => {
+                console.log("Failed to update the data")
+                toast("Failed to update the data")
+            })
     }
 
 
@@ -101,7 +100,7 @@ const UpdateEmployeeLogin = () => {
                                 <label htmlFor="status" className="form-label">Status</label>
                                 <input type="text" className="form-control" id="status" value={status} onChange={(e) => { setStatus(e.target.value) }}></input>
                             </div>
-                            <button type="button" className="btn btn-primary me-3" onClick={updateData} >Update Login</button>
+                            <button type="button" className="btn btn-primary me-3" onClick={updateData} >Update</button>
                             <button type="button" className="btn btn-danger me-3" onClick={() => navigate("/EmployeeLogin")}>Cancel</button>
                         </div>
                     </form>

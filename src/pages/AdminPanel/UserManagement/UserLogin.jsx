@@ -23,7 +23,7 @@ const UserLogin = () => {
     let deleteData = (userLoginId) => {
       console.log(userLoginId);
       if (window.confirm()) {
-        api.delete("/deletelogindetails/{loginId}")
+        api.delete("/deletelogindetails/${loginId}")
           .then(() => {
             console.log("Data deleted successfully");
             window.location.reload("Are you sure you want to delete data?")
@@ -34,7 +34,7 @@ const UserLogin = () => {
           })
       }
     }
-    setLogin(res.data);
+    setUserLogin(res.data);
   };
 
 

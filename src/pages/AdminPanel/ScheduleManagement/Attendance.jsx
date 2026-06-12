@@ -15,8 +15,24 @@ const Attendance = () => {
 
     let data = res;
     setAttendance(data);
-  };
 
+ let deleteData = (attendanceId) => {
+      console.log(attendanceId);
+      if (window.confirm()) {
+        api.delete("/deleteattendancebyid/${attendanceId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setAttendance(res.data);
+  };
+  
   React.useEffect(() => {
     fetchData();
   }, []);
@@ -40,10 +56,10 @@ const Attendance = () => {
             <th>Early-exit Minutes</th>
             <th>Total Work Minutes</th>
             <th>Over time Minutes</th>
-            <th>Attendance status</th>            
+            <th>Attendance status</th>
             <th>Created at</th>
             <th>Updated at</th>
-             <th>
+            <th>
               <div className="dropdown modify-dropdown">
                 <span>Modify</span>
                 <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,7 +96,11 @@ const Attendance = () => {
                   <td>{value.overtimeMinutes}</td>
                   <td>{value.attendanceStatus}</td>
                   <td>{value.createdAt}</td>
-                  <td>{value.updatedAt}</td>                  
+                  <td>{value.updatedAt}</td>
+                  <td>
+                    <button><Link to={'/UpdateAttendance/${value.attendanceId}'}>Save</Link></button>
+                    <button onClick={() => { deleteData(value.attendanceId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

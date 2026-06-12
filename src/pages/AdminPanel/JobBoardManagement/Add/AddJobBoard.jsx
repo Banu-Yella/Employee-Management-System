@@ -29,6 +29,10 @@ const AddJobBoard = () => {
       e.preventDefault()
       console.log();
       let payload = {
+         jobTitle, jobDescription, jobReferral, location, workplace,
+         companyname, salaryRange, employmentType, postedDate, applicationDeadline,
+         requiredSkills, jobCategory, experienceLevel, educationRequirements,
+         jobResponsibilities, benefits, contactInformation
 
       }
       api.post("/", payload)

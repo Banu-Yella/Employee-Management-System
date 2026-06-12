@@ -16,8 +16,7 @@ const AddKyc = () => {
    let [verifiedById, setVerifiedById] = useState('')
    let [employeeId, setEmployeeId] = useState('');
    let [verifiedOn, setVerifiedOn] = useState('')
-   let [createdAt, setCreatedAt] = useState('')
-   let [updatedAt, setUpdatedAt] = useState('')
+
 
 
    let [employees, setEmployees] = useState([])
@@ -46,10 +45,9 @@ const AddKyc = () => {
          bankAccountNumber,
          ifscCode,
          bankName,
-         employee: { employeeId: employeeId },
+         employees: { employeeId: employeeId },
          verifiedBy: { employeeId: verifiedById, },
-         verifiedOn,
-         createdAt,
+         verifiedOn        
 
       }
 
@@ -110,17 +108,9 @@ const AddKyc = () => {
                      <label htmlFor="verifiedOn" className="form-label">Verified on</label>
                      <input type="datetime-local" className="form-control" id="verifiedOn" onChange={(e) => { setVerifiedOn(e.target.value) }}></input>
                   </div>
-                  <div className="col-md-6 mb-3">
-                     <label htmlFor="createdAt" className="form-label">Created at</label>
-                     <input type="datetime-local" className="form-control" id="createdAt" onChange={(e) => { setCreatedAt(e.target.value) }}></input>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                     <label htmlFor="updatedAt" className="form-label">Updated at</label>
-                     <input type="datetime-local" className="form-control" id="updatedAt" onChange={(e) => { setUpdatedAt(e.target.value) }}></input>
-                  </div>
                </div>
                <div className="col-md-6 mb-3">
-                  <button type="button" className="btn btn-primary me-3" onClick={fetchData} >Save Kyc</button>
+                  <button type="button" className="btn btn-primary me-3" onClick={fetchData} >Save</button>
                   <button type="button" className="btn btn-danger me-3" onClick={() => navigate("/Kyc")} >Cancel</button>
                </div>
             </form>

@@ -23,7 +23,9 @@ const AddLeave = () => {
    let fetchData = (e) => {
       e.preventDefault()
       console.log(); let payload = {
-
+         leaveStartDate, leaveEndDate, leaveType,
+         approvalStatus, leaveDays, approvedOn, 
+         rejectedBy, rejectedOn, rejectionReason
       }
       api.post("/", payload)
          .then(() => {

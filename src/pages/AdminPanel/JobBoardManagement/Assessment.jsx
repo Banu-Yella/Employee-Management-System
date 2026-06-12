@@ -30,7 +30,7 @@ const Assessment = () => {
           })
       }
     }
-    setLogin(res.data);
+    setAssessment(res.data);
   };
 
   React.useEffect(() => {

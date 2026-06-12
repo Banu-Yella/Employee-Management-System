@@ -32,7 +32,7 @@ const AddAssessment = () => {
          assessmentStatus
 
       }
-      api.post("/", payload)
+      api.post("/GetAllAssessments", payload)
          .then(() => {
             console.log("Data saved");
          })

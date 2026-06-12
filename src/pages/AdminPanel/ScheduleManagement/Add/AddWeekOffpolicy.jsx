@@ -15,7 +15,7 @@ const AddWeekOffPolicy = () => {
          policyName,
          weeklyOffDays
       }
-      api.post("/", payload)
+      api.post("/saveweekoffpolicy", payload)
          .then(() => {
             console.log("Data saved");
          })

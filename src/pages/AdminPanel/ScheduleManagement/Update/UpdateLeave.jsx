@@ -6,13 +6,38 @@ import {toast} from 'toastify'
 
 const UpdateLeave = () => {
 
+       let [leaveStartDate, setLeaveStartDate] = useState('')
+       let [leaveEndDate, setLeaveEndDate] = useState('')
+       let [leaveType, setLeaveType] = useState('')
+       let [approvalStatus, setApprovalStatus] = useState('')
+       let [leaveDays, setLeaveDays] = useState('')
+       let [approvedOn, setApprovedOn] = useState('')
+       let [rejectedBy, setRejectedBy] = useState('')
+       let [rejectedOn, setRejectedOn] = useState('')
+       let [rejectionReason, setRejectionReason] = useState('')
+    
+       let [employee, setEmployee] = useState('')
+       let [employeeApprover, setEmployeeApprover] = useState('')
+    
+
   let = useParams()
         console.log();
     
         useEffect(() => {
-            api.get('/ /${}')
+            api.get('/getleave/{leaveId}')
                 .then((res) => {
-    
+                    console.log(res)
+                    setLeaveStartDate(res.data.leaveStartDate)
+                    setLeaveEndDate(res.data.leaveEndDate)
+                    setLeaveType(res.data.leaveType)
+                    setApprovalStatus(res.data.approvalStatus)
+                    setLeaveDays(res.data.leaveDays)
+                    setApprovedOn(res.data.approvedOn)
+                    setRejectedBy(res.data.rejectedBy)
+                    setRejectedOn(res.data.rejectedOn)
+                    setRejectionReason(res.data.rejectionReason)
+                    setEmployee(res.data.employee)
+                    setEmployeeApprover(res.data.employeeApprover)
                 });
     
         }, [])
@@ -21,14 +46,16 @@ const UpdateLeave = () => {
         let updateData = (e) => {
             e.preventDefault()
             let payload = {
-    
+                  leaveStartDate, leaveEndDate, leaveType,
+                  approvalStatus, leaveDays, approvedOn, 
+                  rejectedBy, rejectedOn, rejectionReason
             }
     
-            api.put(`/Update/${}`, payload)
+            api.put(`/updateleave/{leaveId}`, payload)
                 .then(() => {
                     console.log("Data updated successfully")
                     toast("Data updated successfully")
-                    navigate('/Employee')
+                    navigate('/Leave')
                 })
                 .catch(() => {
                     console.log("Failed to update the data")
@@ -37,9 +64,64 @@ const UpdateLeave = () => {
         }
 
   return (
-    <div>
-      
-    </div>
+  <div className="container-fluid">
+         <div className="card shadow border-0">
+            <div className="card-header bg-primary text-white">
+            </div>
+            <div className="card-body">
+               <form>
+                  <div className="row">
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="" className="form-label">Employee code</label>
+                        <input type="" className="form-control" id="" onChange={(e) => { set(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="leaveStartDate" className="form-label">Leave Start Date</label>
+                        <input type="date" className="form-control" id="leaveStartDate" onChange={(e) => { setLeaveStartDate(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="leaveEndDate" className="form-label">Leave End Date</label>
+                        <input type="date" className="form-control" id="leaveEndDate" onChange={(e) => { setLeaveEndDate(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="leaveType" className="form-label">Leave Type</label>
+                        <input type="text" className="form-control" id="leaveType" onChange={(e) => { setLeaveType(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="approvalStatus" className="form-label">Approval Status</label>
+                        <input type="text" className="form-control" id="approvalStatus" onChange={(e) => { setApprovalStatus(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="leaveDays" className="form-label">Leave Days</label>
+                        <input type="number" className="form-control" id="leaveDays" onChange={(e) => { setLeaveDays(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="approvedOn" className="form-label">Approved on</label>
+                        <input type="datetime-local" className="form-control" id="approvedOn" onChange={(e) => { setApprovedOn(e.target.value) }}></input>
+                     </div>
+
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="rejectedBy" className="form-label">Rejected By</label>
+                        <input type="" className="form-control" id="rejectedBy" onChange={(e) => { setRejectedBy(e.target.value) }}></input>
+                     </div>
+
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="rejectedOn" className="form-label">Rejected on</label>
+                        <input type="datetime-local" className="form-control" id="rejectedOn" onChange={(e) => { setRejectedOn(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="rejectionReason" className="form-label">Rejection Reason</label>
+                        <input type="text" className="form-control" id="rejectionReason" onChange={(e) => { setRejectionReason(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                     <button type="button" class="btn btn-primary me-3" onClick={updateData}>Update</button>
+                     <button type="button" class="btn btn-primary me-3" onClick={()=>(navigate)}>Cancel</button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
   )
 }
 

@@ -23,9 +23,10 @@ const AddExamQuestions = () => {
       e.preventDefault()
       console.log();
       let payload = {
-
+         questionType, question, answer, marks,
+         marksObtained, correct, totalMarks, correctAnswer
       }
-      axios.post("/", payload)
+      api.post("/save-questions", payload)
          .then(() => {
             console.log("Data saved");
          })

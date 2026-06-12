@@ -6,7 +6,6 @@ import api from "../../../../axiosInstance.jsx";
 const AddPublicHoliday = () => {
    const navigate = useNavigate();
 
-
    let [publicholidayName, setPublicholidayName] = useState('')
    let [publicholidayDate, setPublicholidayDate] = useState('')
 
@@ -16,7 +15,7 @@ const AddPublicHoliday = () => {
       console.log(); let payload = {
 
       }
-      api.post("/", payload)
+      api.post("/savepublicholiday", payload)
          .then(() => {
             console.log("Data saved");
          })

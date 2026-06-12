@@ -23,6 +23,7 @@ const AddPerformance = () => {
    let fetchData = (e) => {
       e.preventDefault()
       console.log();
+      
       let payload = {
          totalLoginHrs,
          totalWorkingDays,

@@ -14,8 +14,24 @@ const PublicHoliday = () => {
   
       let data = res;
       setPublicHoliday(data);
-    };
   
+      let deleteData = (holidayId) => {
+      console.log(holidayId);
+      if (window.confirm()) {
+        api.delete("/deletepublicholiday/{holidayId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setPublicHoliday(res.data);
+  };
+
     React.useEffect(() => {
       fetchData();
     }, []);
@@ -58,6 +74,10 @@ const PublicHoliday = () => {
                   <tr>{value.publicholidayDate}</tr>
                   <tr>{value.createdAt}</tr>
                   <tr>{value.updatedAt}</tr>
+                  <td>
+                    <button><Link to={'/UpdateHoliday/${value.holidayId}'}>Update</Link></button>
+                    <button onClick={() => { deleteData(value.holidayId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

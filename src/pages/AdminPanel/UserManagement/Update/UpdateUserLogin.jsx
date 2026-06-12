@@ -56,7 +56,7 @@ const UpdateUserLogin = () => {
             .then(() => {
                 console.log("Data updated successfully")
                 toast("Data updated successfully")
-                navigate('/Employee')
+                navigate('/UserLogin')
             })
             .catch(() => {
                 console.log("Failed to update the data")
@@ -98,7 +98,7 @@ const UpdateUserLogin = () => {
                         <label htmlFor="status" className="form-label">Status</label>
                         <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
                      </div>                    
-                     <button type="button" class="btn btn-primary" onClick={fetchData}>Save</button>
+                     <button type="button" class="btn btn-primary" onClick={updateData}>Update</button>
                       <button type="button" class="btn btn-primary" onClick={(()=>navigate('/UserLogin'))}>Cancel</button>
                   </div>
                </form>

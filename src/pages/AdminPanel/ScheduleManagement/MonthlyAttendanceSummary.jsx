@@ -5,21 +5,38 @@ import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
 const MonthlyAttendanceSummary = () => {
-    const navigate = useNavigate();
-    
-    let [monthlyAttendanceSummary, setMonthlyAttendanceSummary] = useState([]);
-  
-    let fetchData = async () => {
-      let res = await api.get("/getallsummaries")
-      console.log(res.data);
-  
-      let data = res;
-      setMonthlyAttendanceSummary(data);
-    };
-  
-    React.useEffect(() => {
-      fetchData();
-    }, []);
+  const navigate = useNavigate();
+
+  let [monthlyAttendanceSummary, setMonthlyAttendanceSummary] = useState([]);
+
+  let fetchData = async () => {
+    let res = await api.get("/getallsummaries")
+    console.log(res.data);
+
+    let data = res;
+    setMonthlyAttendanceSummary(data);
+
+
+    let deleteData = (summaryId) => {
+      console.log(summaryId);
+      if (window.confirm()) {
+        api.delete("/deletesummary/{summaryId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setMonthlyAttendanceSummary(res.data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -43,7 +60,7 @@ const MonthlyAttendanceSummary = () => {
             <th>Total Work Minutes</th>
             <th>Total Overtime Minutes</th>
             <th>Created at</th>
-                <th>
+            <th>
               <div className="dropdown modify-dropdown">
                 <span>Modify</span>
                 <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -83,6 +100,10 @@ const MonthlyAttendanceSummary = () => {
                   <tr>{value.totalOvertimeMinutes}</tr>
                   <tr>{value.createdAt}</tr>
                   <tr>{value.updatedAt}</tr>
+                  <td>
+                    <button><Link to={'/UpdateMonthlyAttendanceSummary/${value.summaryId}'}>Save</Link></button>
+                    <button onClick={() => { deleteData(value.summaryId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

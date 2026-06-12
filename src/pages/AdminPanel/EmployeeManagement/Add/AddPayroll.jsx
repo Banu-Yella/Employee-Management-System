@@ -21,8 +21,6 @@ const AddPayroll = () => {
    let [payrollMonth, setPayrollMonth] = useState('')
    let [status, setStatus] = useState('')
    let [approvedBy, setApprovedBy] = useState('')
-   let [createdAt, setCreatedAt] = useState('')
-   let [updatedAt, setUpdatedAt] = useState('')
 
    let [employeeId, setEmployeeId] = useState("");
    let [taxid, setTaxid] = useState([])
@@ -52,7 +50,23 @@ const AddPayroll = () => {
    let fetchData = (e) => {
       e.preventDefault()
       console.log(); let payload = {
-
+         basicSalary,
+         hra,
+         allowances,
+         bonus,
+         deductions,
+         pf,
+         esi,
+         professionalTax,
+         incomeTax,
+         grossSalary,
+         netSalary,
+         approved,
+         payrollMonth,
+         status,
+         approvedBy,
+         employees: { employeeId: employeeId },
+         taxSlab: {taxid: taxid}
       }
       api.post("/savepayroll", payload)
          .then(() => {

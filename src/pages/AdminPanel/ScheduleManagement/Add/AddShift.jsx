@@ -31,7 +31,7 @@ const AddShift = () => {
 
       }
 
-      api.post("/", payload)
+      api.post("/saveshift", payload)
          .then(() => {
             console.log("Data saved");
          })

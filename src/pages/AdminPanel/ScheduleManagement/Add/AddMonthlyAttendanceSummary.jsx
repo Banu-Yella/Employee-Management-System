@@ -27,9 +27,14 @@ const AddMonthlyAttendanceSummary = () => {
     let fetchData = (e) => {
         e.preventDefault()
         console.log(); let payload = {
+                  year, month, totalCalendarDays, workingDays, 
+                presentDays, halfDays, absentDays, weekOffDays,
+                publicHolidays, optionalHolidays, sickLeaveDays,
+                casualLeaveDays, totalWorkMinutes, totalOvertimeMinutes, 
+                employee
 
         }
-        api.post("/", payload)
+        api.post("/save-generatemonthlysummary/{employeeId}/{year}/{month}", payload)
             .then(() => {
                 console.log("Data saved");
             })

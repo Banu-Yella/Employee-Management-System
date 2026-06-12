@@ -23,7 +23,7 @@ const AddJobApplication = () => {
       let payload = {
 
       }
-      api.post("/", payload)
+      api.post("/save-applications", payload)
          .then(() => {
             console.log("Data saved");
          })
@@ -62,8 +62,8 @@ const AddJobApplication = () => {
                         <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <button type="submit" className="btn btn-primary  me-3" onClick={fetchData}>Submit</button>
-                        <button type="submit" className="btn btn-danger  me-3" onClick={() => navigate('/JobApplication')}>Cancel</button>
+                        <button type="button" className="btn btn-primary  me-3" onClick={fetchData}>Submit</button>
+                        <button type="button" className="btn btn-danger  me-3" onClick={() => navigate('/JobApplication')}>Cancel</button>
                      </div>
                   </div>
                </form>

@@ -15,9 +15,9 @@ const AddEmpWeekOff = () => {
    let fetchData = (e) => {
       e.preventDefault()
       console.log(); let payload = {
-
+         weekOffDate, weekOffPolicy, employee
       }
-      api.post("/", payload)
+      api.post("/saveempweekoff", payload)
          .then(() => {
             console.log("Data saved");
          })

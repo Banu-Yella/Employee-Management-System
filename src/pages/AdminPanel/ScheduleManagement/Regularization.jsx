@@ -7,19 +7,35 @@ import api from "../../../axiosInstance.jsx";
 const Regularization = () => {
   const navigate = useNavigate();
 
-    let [regularization, setRegularization] = useState([]);
-  
-    let fetchData = async () => {
-      let res = await api.get("/getAllRegularization")
-      console.log(res.data);
-  
-      let data = res;
-      setRegularization(data);
-    };
-  
-    React.useEffect(() => {
-      fetchData();
-    }, []);
+  let [regularization, setRegularization] = useState([]);
+
+  let fetchData = async () => {
+    let res = await api.get("/getAllRegularization")
+    console.log(res.data);
+
+    let data = res;
+    setRegularization(data);
+
+    let deleteData = (attendanceId) => {
+      console.log(attendanceId);
+      if (window.confirm()) {
+        api.delete("/deleteattendancebyid/${attendanceId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setRegularization(res.data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
 
   return (
@@ -44,7 +60,7 @@ const Regularization = () => {
             <th>Rejection Reason</th>
             <th>Created on</th>
             <th>Updated on</th>
-              <th>
+            <th>
               <div className="dropdown modify-dropdown">
                 <span>Modify</span>
                 <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,22 +83,26 @@ const Regularization = () => {
             regularization.map((value) => {
               return (
                 <tr key={value.id}>
-                  <tr>{value.attendance?.attendanceDate}</tr>
-                  <tr>{value.employee?.employeeCode}</tr>
-                  <tr>{value.requestedCheckIn}</tr>
-                  <tr>{value.requestedCheckOut}</tr>
-                  <tr>{value.attendancestatus}</tr>
-                  <tr>{value.reason}</tr>
-                  <tr>{value.remarks}</tr>
-                  <tr>{value.requestedstatus}</tr>
-                  <tr>{value.requestedOn}</tr>
-                  <tr>{value.approvedby}</tr>
-                  <tr>{value.approvedOn}</tr>
-                  <tr>{value.rejectedBy}</tr>
-                  <tr>{value.rejectedOn}</tr>
-                  <tr>{value.rejectionReason}</tr>
-                  <tr>{value.createdOn}</tr>
-                  <tr>{value.UpdatedOn}</tr>
+                  <td>{value.attendance?.attendanceDate}</td>
+                  <td>{value.employee?.employeeCode}</td>
+                  <td>{value.requestedCheckIn}</td>
+                  <td>{value.requestedCheckOut}</td>
+                  <td>{value.attendancestatus}</td>
+                  <td>{value.reason}</td>
+                  <td>{value.remarks}</td>
+                  <td>{value.requestedstatus}</td>
+                  <td>{value.requestedOn}</td>
+                  <td>{value.approvedby}</td>
+                  <td>{value.approvedOn}</td>
+                  <td>{value.rejectedBy}</td>
+                  <td>{value.rejectedOn}</td>
+                  <td>{value.rejectionReason}</td>
+                  <td>{value.createdOn}</td>
+                  <td>{value.UpdatedOn}</td>
+                  <td>
+                    <button><Link to={'/UpdateAttendance/${value.attendanceId}'}>Update</Link></button>
+                    <button onClick={() => { deleteData(value.attendanceId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

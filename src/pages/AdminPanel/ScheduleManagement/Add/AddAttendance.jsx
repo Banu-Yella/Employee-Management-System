@@ -27,9 +27,12 @@ const AddAttendance = () => {
       e.preventDefault()
       console.log();
       let payload = {
+         attendanceDate, punchInTime, punchOutTime, lateByMinutes,
+         earlyExitMinutes, totalWorkMinutes, overtimeMinutes, attendanceStatus,
+         regularization, leave, weekOff, publicHoliday, shift, employee
 
       }
-      api.post("/", payload)
+      api.post("/saveattendance", payload)
          .then(() => {
             console.log("Data saved");
          })

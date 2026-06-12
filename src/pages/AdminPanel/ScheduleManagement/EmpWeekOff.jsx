@@ -15,6 +15,22 @@ const EmpWeekOff = () => {
 
     let data = res;
     setEmpWeekoff(data);
+
+   let deleteData = (weekOffId) => {
+      console.log(weekOffId);
+      if (window.confirm()) {
+        api.delete("/deleteempweekoff/{weekOffId}")
+          .then(() => {
+            console.log("Data deleted successfully");
+            window.location.reload("Are you sure you want to delete data?")
+          })
+          .catch(() => {
+            console.log("Failed to delete data");
+
+          })
+      }
+    }
+    setEmpWeekoff(res.data);
   };
 
   React.useEffect(() => {
@@ -61,6 +77,10 @@ const EmpWeekOff = () => {
                   <td>{value.weekOffPolicy}</td>
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>
+                  <td>
+                    <button><Link to={'/UpdateWeekOff/${value.weekOffId}'}>Save</Link></button>
+                    <button onClick={() => { deleteData(value.weekOffId) }}>Delete</button>
+                  </td>
                 </tr>
               )
             })

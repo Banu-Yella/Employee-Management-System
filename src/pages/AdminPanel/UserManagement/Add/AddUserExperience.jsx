@@ -41,7 +41,7 @@ const AddUserExperience = () => {
          toolsUsed
 
       }
-      axios.post("/", payload)
+      axios.post("/saveexperience", payload)
          .then(() => {
             console.log("Data saved");
          })

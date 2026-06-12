@@ -34,7 +34,7 @@ const AddUserAssessment = () => {
          learningMode,
          location
       }
-      api.post("/", payload)
+      api.post("/saveuserassessment", payload)
          .then(() => {
             console.log("Data saved");
          })

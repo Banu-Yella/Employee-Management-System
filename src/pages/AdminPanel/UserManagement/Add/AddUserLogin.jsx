@@ -18,9 +18,17 @@ const AddUserLogin = () => {
       e.preventDefault()
       console.log();
       let payload = {
-
+          username,
+            passwordhash,
+            email,
+            passwordresttoken,
+            passwordresttokenexpiry,
+            role,
+            lastLogin,
+            status,
+            user
       }
-      axios.post("/", payload)
+      axios.post("/getlogindetails/{loginId}", payload)
          .then(() => {
             console.log("Data saved");
          })
@@ -62,7 +70,8 @@ const AddUserLogin = () => {
                         <label htmlFor="status" className="form-label">Status</label>
                         <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
                      </div>                    
-                     <button type="submit" class="btn btn-primary" onClick={fetchData}>Submit</button>
+                     <button type="button" class="btn btn-primary" onClick={fetchData}>Save</button>
+                     <button type="button" class="btn btn-primary" onClick={()=>Navigate('/UserLogin')}>Cancel</button>
                   </div>
                </form>
             </div>

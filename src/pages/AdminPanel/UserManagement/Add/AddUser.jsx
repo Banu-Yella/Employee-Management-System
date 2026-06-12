@@ -6,36 +6,54 @@ import api from "../../../../axiosInstance.jsx";
 const AddUser = () => {
    const navigate = useNavigate();
 
-   let [educationType, setEducationType] = useState('')
-   let [score, setScore] = useState('')
-   let [educationLevel, setEducationLevel] = useState('')
-   let [course, setCourse] = useState('')
-   let [specialization, setSpecialization] = useState('')
-   let [university, setUniversity] = useState('')
-   let [yearOfPassing, setYearOfPassing] = useState('')
-   let [percentage, setPercentage] = useState('')
-   let [grade, setGrade] = useState('')
-   let [learningMode, setLearningMode] = useState('')
-   let [location, setLocation] = useState('')
+   let [name, setName] = useState('')
+   let [image, setImage] = useState('')
+   let [dateOfBirth, setDateOfBirth] = useState('')
+   let [placeofBirth, setPlaceofBirth] = useState('')
+   let [age, setAge] = useState('')
+   let [language, setLanguage] = useState('')
+   let [email, setEmail] = useState('')
+   let [phoneNumber, setPhoneNumber] = useState('')
+   let [gender, setGender] = useState('')
+   let [fatherName, setFatherName] = useState('')
+   let [motherName, setMotherName] = useState('')
+   let [currentaddress, setCurrentaddress] = useState('')
+   let [city, setCity] = useState('')
+   let [state, setState] = useState('')
+   let [country, setCountry] = useState('')
+   let [pincode, setPincode] = useState('')
+   let [permanentAddress, setPermanentAddress] = useState('')
+   let [maritalStatus, setMaritalStatus] = useState('')
+   let [status, setStatus] = useState('')
 
-   let [user, setUser] = useState([])
+   let [employee, setEmployee] = useState('')
+
 
    let fetchData = (e) => {
       e.preventDefault()
-      console.log(); let payload = {
-         educationType,
-         score,
-         educationLevel,
-         course,
-         specialization,
-         university,
-         yearOfPassing,
-         percentage,
-         grade,
-         learningMode,
-         location
+      console.log();
+      let payload = {
+         name,
+         image,
+         dateOfBirth,
+         placeofBirth,
+         age,
+         language,
+         email,
+         phoneNumber,
+         gender,
+         fatherName,
+         motherName,
+         currentaddress,
+         city,
+         state,
+         country,
+         pincode,
+         permanentAddress,
+         maritalStatus,
+         status
       }
-      api.post("/", payload)
+      api.post("/getEducationById/{educationId}", payload)
          .then(() => {
             console.log("Data saved");
          })
@@ -43,6 +61,7 @@ const AddUser = () => {
             console.log("Data is not saved");
          })
    }
+
 
 
    return (
@@ -54,52 +73,87 @@ const AddUser = () => {
                <form>
                   <div className="row">
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="educationType" className="form-label">Education Type</label>
-                        <input type="text" className="form-control" id="educationType" onChange={(e) => { setEducationType(e.target.value) }}></input>
+                        <label htmlFor="name" className="form-label">Name</label>
+                        <input type="text" className="form-control" id="name" onChange={(e) => { setName(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="score" className="form-label">Score</label>
-                        <input type="number" className="form-control" id="score" onChange={(e) => { setScore(e.target.value) }}></input>
+                        <label htmlFor="image" className="form-label">Image</label>
+                        <input type="image" className="form-control" id="image" onChange={(e) => { setImage(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="educationLevel" className="form-label">EducationLevel</label>
-                        <input type="text" className="form-control" id="educationLevel" onChange={(e) => { setEducationLevel(e.target.value) }}></input>
+                        <label htmlFor="dateOfBirth" className="form-label">Date Of Birth</label>
+                        <input type="date" className="form-control" id="dateOfBirth" onChange={(e) => { setDateOfBirth(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="course" className="form-label">Course</label>
-                        <input type="text" className="form-control" id="" onChange={(e) => { setCourse(e.target.value) }}></input>
+                        <label htmlFor="placeofBirth" className="form-label">placeofBirth</label>
+                        <input type="date" className="form-control" id="" onChange={(e) => { setPlaceofBirth(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="specialization" className="form-label">Specialization</label>
-                        <input type="text" className="form-control" id="specialization" onChange={(e) => { setSpecialization(e.target.value) }}></input>
+                        <label htmlFor="age" className="form-label">Age</label>
+                        <input type="number" className="form-control" id="" onChange={(e) => { setAge(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="university" className="form-label">University</label>
-                        <input type="text" className="form-control" id="university" onChange={(e) => { setUniversity(e.target.value) }}></input>
+                        <label htmlFor="language" className="form-label">Language</label>
+                        <input type="text" className="form-control" id="language" onChange={(e) => { setLanguage(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="yearOfPassing" className="form-label">Year Of Passing</label>
-                        <input type="number" className="form-control" id="yearOfPassing" onChange={(e) => { setYearOfPassing(e.target.value) }}></input>
+                        <label htmlFor="email" className="form-label">Email</label>
+                        <input type="email" className="form-control" id="email" onChange={(e) => { setEmail(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="percentage" className="form-label">Percentage</label>
-                        <input type="number" className="form-control" id="percentage" onChange={(e) => { setPercentage(e.target.value) }}></input>
+                        <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
+                        <input type="tel" className="form-control" id="phoneNumber" onChange={(e) => { setPhoneNumber(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="grade" className="form-label">Grade</label>
-                        <input type="text" className="form-control" id="grade" onChange={(e) => { setGrade(e.target.value) }}></input>
+                        <label htmlFor="gender" className="form-check-input">Gender</label>
+                        <label htmlFor="male" className="form-check-input">Male</label>
+                        <label htmlFor="female" className="form-check-input">Fe-male</label>
+                        <input type="radio" name="radioDefault" className="form-check-input" id="male" onChange={(e) => { setGender(e.target.value) }}></input>
+                        <input type="radio" name="radioDefault" className="form-check-input" id="female" onChange={(e) => { setGender(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="learningMode" className="form-label">Learning Mode</label>
-                        <input type="text" className="form-control" id="learningMode" onChange={(e) => { setLearningMode(e.target.value) }}></input>
+                        <label htmlFor="fatherName" className="form-label">Father name</label>
+                        <input type="text" className="form-control" id="fatherName" onChange={(e) => { setFatherName(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <label htmlFor="location" className="form-label">Location</label>
-                        <input type="location" className="form-control" id="" onChange={(e) => { setLocation(e.target.value) }}></input>
+                        <label htmlFor="motherName" className="form-label">Mother name</label>
+                        <input type="text" className="form-control" id="motherName" onChange={(e) => { setMotherName(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                     <button type="button" class="btn btn-primary me-3" onClick={fetchData}>Save</button>
-                     <button type="button" class="btn btn-danger me-3" onClick={() => navigate('/User')}>Cancel</button>
+                        <label htmlFor="currentaddress" className="form-label">Current address</label>
+                        <input type="text" className="form-control" id="currentaddress" onChange={(e) => { setCurrentaddress(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="city" className="form-label">City</label>
+                        <input type="text" className="form-control" id="city" onChange={(e) => { setCity(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="state" className="form-label">State</label>
+                        <input type="text" className="form-control" id="state" onChange={(e) => { setState(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="country" className="form-label">Country</label>
+                        <input type="text" className="form-control" id="country" onChange={(e) => { setCountry(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="pincode" className="form-label">Pincode</label>
+                        <input type="number" className="form-control" id="pincode" onChange={(e) => { setPincode(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="permanentAddress" className="form-label">Permanent Address</label>
+                        <input type="text" className="form-control" id="permanentAddress" onChange={(e) => { setPermanentAddress(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="maritalStatus" className="form-label">Marital Status</label>
+                        <input type="text" className="form-control" id="maritalStatus" onChange={(e) => { setMaritalStatus(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <label htmlFor="status" className="form-label">Status</label>
+                        <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
+                     </div>
+                     <div className="col-md-6 mb-3">
+                        <button type="button" class="btn btn-primary" onClick={fetchData}>Save</button>
+                        <button type="button" class="btn btn-primary" onClick={() => Navigate('/UserEducation')}>Cancel</button>
                      </div>
                   </div>
                </form>

@@ -20,7 +20,7 @@ const AddTaxslab = () => {
       let payload = {
 
       }
-      api.post("/", payload)
+      api.post("/getalltaxslabs", payload)
          .then(() => {
             console.log("Data saved");
          })
