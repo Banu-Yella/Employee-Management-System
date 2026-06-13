@@ -6,7 +6,7 @@ import EmployeeRegister from "../modules/auth/pages/EmployeeRegister";
 
 import AdminRoutes from "./AdminRoutes";
 
-import EmployeeDashboard from "../modules/dashboard/pages/EmployeeDashboard";
+import EmployeeRoutes from "./EmployeeRoutes";
 import CandidateDashboard from "../modules/dashboard/pages/CandidateDashboard";
 
 import ProtectedRoute from "./ProtectedRoute";
@@ -32,10 +32,10 @@ function AppRoutes() {
 
         {/* EMPLOYEE MODULE */}
         <Route
-          path="/employee"
+          path="/employee/*"
           element={
             <ProtectedRoute>
-              <EmployeeDashboard />
+              <EmployeeRoutes />
             </ProtectedRoute>
           }
         />

@@ -41,54 +41,82 @@ function EditEmployee() {
       <h2>Edit Employee</h2>
 
       <form onSubmit={handleSubmit}>
-        <input
-          className="form-control mb-3"
-          name="employeeName"
-          value={employee.employeeName || ""}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Employee Name</label>
+          <input
+            type="text"
+            className="form-control"
+            name="employeeName"
+            value={employee.employeeName || ""}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          className="form-control mb-3"
-          name="role"
-          value={employee.role || ""}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Role</label>
+          <input
+            type="text"
+            className="form-control"
+            name="role"
+            value={employee.role || ""}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          className="form-control mb-3"
-          name="designation"
-          value={employee.designation || ""}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Designation</label>
+          <input
+            type="text"
+            className="form-control"
+            name="designation"
+            value={employee.designation || ""}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          className="form-control mb-3"
-          name="department"
-          value={employee.department || ""}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Department</label>
+          <input
+            type="text"
+            className="form-control"
+            name="department"
+            value={employee.department || ""}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          className="form-control mb-3"
-          name="employmentType"
-          value={employee.employmentType || ""}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Employment Type</label>
+          <input
+            type="text"
+            className="form-control"
+            name="employmentType"
+            value={employee.employmentType || ""}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          className="form-control mb-3"
-          name="employmentStatus"
-          value={employee.employmentStatus || ""}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Employment Status</label>
+          <input
+            type="text"
+            className="form-control"
+            name="employmentStatus"
+            value={employee.employmentStatus || ""}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          className="form-control mb-3"
-          name="workLocation"
-          value={employee.workLocation || ""}
-          onChange={handleChange}
-        />
+        <div className="mb-3">
+          <label className="form-label">Work Location</label>
+          <input
+            type="text"
+            className="form-control"
+            name="workLocation"
+            value={employee.workLocation || ""}
+            onChange={handleChange}
+          />
+        </div>
 
         <button className="btn btn-success">Update Employee</button>
       </form>

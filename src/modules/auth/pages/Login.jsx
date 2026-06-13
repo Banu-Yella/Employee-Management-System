@@ -160,12 +160,12 @@ function Login() {
                 <div className="text-center mt-4">
                   <small className="text-muted">First time using EMS?</small>
 
-                  <button
+                  {/* <button
                     className="btn btn-outline-success w-100 mt-2"
                     onClick={() => navigate("/register")}
                   >
                     Create Employee Account
-                  </button>
+                  </button> */}
 
                   <button
                     className="btn btn-outline-primary w-100 mt-2"
