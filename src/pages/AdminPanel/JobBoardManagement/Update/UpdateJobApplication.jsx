@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import {toast} from 'toastify'
+import { toast } from 'react-toastify';
 
 const UpdateJobApplication = () => {
     
@@ -16,8 +16,8 @@ const UpdateJobApplication = () => {
        let [jobBoard, setJobBoard] = useState([])
     
 
-   let = useParams()
-    console.log();
+   let applicationId = useParams()
+    console.log(applicationId);
 
     useEffect(() => {
         api.get('/job-applications/{applicationId}')
@@ -54,14 +54,21 @@ const UpdateJobApplication = () => {
     }
 
   return (
-     <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+    <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="user" className="form-label">User name</label>
                         <select className="form-control" value={userId} onChange={(e) => setUserId(e.target.value)}>
                            <option value="">Select Job title</option>

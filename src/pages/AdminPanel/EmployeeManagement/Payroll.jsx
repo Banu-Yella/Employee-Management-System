@@ -4,6 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
+
 const Payroll = () => {
   const navigate = useNavigate();
 
@@ -18,11 +20,11 @@ const Payroll = () => {
 
     let deleteData = (payrollId) => {
       console.log(payrollId);
-      if (window.confirm()) {
-        api.delete("/deletepayroll/{payrollId}")
+      if (window.confirm("Are you sure you want to delete this payroll?")) {
+        api.delete(`/deletepayroll/${payrollId}`)
           .then(() => {
             console.log("Data deleted successfully");
-            window.location.reload("Are you sure you want to delete data?")
+            window.location.reload()
           })
           .catch(() => {
             console.log("Failed to delete data");
@@ -41,9 +43,10 @@ const Payroll = () => {
 
 
 
+
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -110,7 +113,7 @@ const Payroll = () => {
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>
                   <td>
-                    <button><Link to={'/UpdatePayroll/${value.payrollId}'}>Update</Link></button>
+                    <button><Link to={`/UpdatePayroll/${value.payrollId}`}>Update</Link></button>
                     <button onClick={() => { deleteData(value.payrollId) }}>Delete</button>
                   </td>
                 </tr>

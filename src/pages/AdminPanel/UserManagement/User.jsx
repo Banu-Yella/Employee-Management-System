@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import api from "../../../axiosInstance.jsx";
 import axios from 'axios'
 
+
 const User = () => {
   const navigate = useNavigate();
 
@@ -23,13 +24,13 @@ const User = () => {
 
 
   return (
-    <div>
-      <table className="table">
+  <div className="table-container">
+    <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
             <th>Full Name</th>            
-            <th>image</th>
+            <th>Image</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Date of birth</th>
@@ -45,6 +46,7 @@ const User = () => {
             <th>Country</th>
             <th>Pin code</th>
             <th>Permanent Address</th>
+            <th>Resume</th>
             <th>Status</th>
             <th>Created at</th>
             <th>Updated at</th>
@@ -75,7 +77,7 @@ const User = () => {
                   <td>{value.firstName}</td>
                   <td>{value.lastName}</td>
                   <td>{value.middleName}</td>
-                  <td>{value.image}</td>
+                  <td>{value.imageurl}</td>
                   <td>{value.email}</td>
                   <td>{value.phoneNumber}</td>
                   <td>{value.dateOfBirth}</td>
@@ -91,6 +93,7 @@ const User = () => {
                   <td>{value.country}</td>
                   <td>{value.pinCode}</td>
                   <td>{value.permanentAddress}</td>
+                  <td>{value.resumeUrl}</td>
                   <td>{value.status}</td>
                   <td>{value.createdAt}</td>
                   <td>{value.updatedAt}</td>

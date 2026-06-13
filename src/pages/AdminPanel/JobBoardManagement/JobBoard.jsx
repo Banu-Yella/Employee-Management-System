@@ -4,10 +4,11 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const JobBoard = () => {
   const navigate = useNavigate();
 
-  let [jobBord, setJobBord] = useState([]);
+  let [jobBoard, setJobBord] = useState([]);
 
   let fetchData = async () => {
     let res = await api.get("/getAll-job-board")
@@ -38,8 +39,8 @@ const JobBoard = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -82,7 +83,7 @@ const JobBoard = () => {
         </thead>
         <tbody>
           {
-            jobBord.map((value) => {
+            jobBoard.map((value) => {
               return (
                 <tr key={value.jobBoardId}>
                   <td>{value.jobBoardId}</td>

@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const EmployeeLogin = () => {
 
   const [emplogin, setEmpLogin] = useState([]);
@@ -27,7 +28,7 @@ const EmployeeLogin = () => {
           })
       }
     }
-    setLogin(res.data);
+    setEmpLogin(res.data);
   };
 
 useEffect(() => {
@@ -35,8 +36,8 @@ useEffect(() => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+   <div className="table-container">
+    <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -50,7 +51,7 @@ useEffect(() => {
             <th>Status</th>
             <th>Created on</th>
             <th>Updated on</th>
-            <th>
+            <th  className="align-middle">
               <div className="dropdown modify-dropdown">
                 <span>Modify</span>
                 <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -70,7 +71,7 @@ useEffect(() => {
         </thead>
         <tbody>
           {
-            login.map((value) => {
+            emplogin.map((value) => {
               return (
                 <tr key={value.emploginid}>
                   <td>{value.emploginid}</td>

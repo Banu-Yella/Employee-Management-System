@@ -2,15 +2,15 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import { toast } from 'toastify'
+import { toast } from 'react-toastify';
 
 
 const UpdateWeekOffPolicy = () => {
     let [policyName, setPolicyName] = useState('')
     let [weeklyOffDays, setWeeklyOffDays] = useState('')
 
-    let = useParams()
-    console.log();
+    let policyId = useParams()
+    console.log(policyId);
 
     useEffect(() => {
         api.get('/getweekoffpolicy/{policyId}')
@@ -42,14 +42,21 @@ const UpdateWeekOffPolicy = () => {
     }
 
     return (
-       <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+   <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="policyName" className="form-label">Policy Name</label>
                         <input type="text" className="form-control" id="policyName" onChange={(e) => { setPolicyName(e.target.value) }}></input>
                      </div>

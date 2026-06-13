@@ -14,7 +14,7 @@ const Payslip = () => {
 
     let data = res;
     setPayslip(data);
- 
+
     let deleteData = (payslipId) => {
       console.log(payslipId);
       if (window.confirm()) {
@@ -39,8 +39,8 @@ const Payslip = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>

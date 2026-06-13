@@ -66,14 +66,21 @@ const AddPerformance = () => {
 
 
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+      <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label className="form-label">Employee Code</label>
                         <select className="form-control" value={employeeid} onChange={(e) => setEmployeeid(e.target.value)}>
                            <option value="">Select Employee</option>
@@ -111,8 +118,8 @@ const AddPerformance = () => {
                         <label htmlFor="optionalholidays" className="form-label">Optional holidays</label>
                         <input type="number" className="form-control" id="optionalholidays" onChange={(e) => { setOptionalholidays(e.target.value) }}></input>
                      </div>
-                     <button type="button" class="btn btn-primary me-3" onClick={fetchData}>Save</button>
-                     <button type="button" class="btn btn-primary me-3" onClick={() => navigate("/Performance")}>cancel</button>
+                     <button type="button" className="btn btn-primary me-3" onClick={fetchData}>Save</button>
+                     <button type="button" className="btn btn-primary me-3" onClick={() => navigate("/Performance")}>cancel</button>
                   </div>
                </form>
             </div>

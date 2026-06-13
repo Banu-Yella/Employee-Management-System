@@ -18,21 +18,25 @@ const AddEmployee = () => {
   let [employmentStatus, setEmploymentStatus] = useState('')
   let [workLocation, setWorkLocation] = useState('')
   let [shiftid, setShiftid] = useState('')
-  let [userid, setUserid] = useState('')
+ 
 
   const [shifts, setShifts] = useState([]);
-  const [users, setUsers] = useState([]);
 
 
   let fetchData = (e) => {
     e.preventDefault()
     console.log(employeeName, manager, role, joiningDate, resignationDate, designation,
-      department, employmentType, employmentStatus, workLocation, shiftid, userid);
+      department, employmentType, employmentStatus, workLocation, shiftid );
+      
 
     let payload = {
+      
       employeeName, manager, role, joiningDate, resignationDate, designation,
-      department, employmentType, employmentStatus, workLocation, shiftid, userid
+      department, employmentType, employmentStatus, workLocation,  shiftId: Number(shiftid)
+      
     }
+    console.log("Payload:", payload);
+    
     api.post("/Saveemp", payload)
       .then(() => {
         console.log("Data saved successfully");
@@ -50,36 +54,20 @@ const AddEmployee = () => {
     }
   };
 
-  const fetchUser = async () => {
-    try {
-      const res = await api.get("/getallusers");
-      setUsers(res.data);
-    } catch (error) {
-      console.error("Unable to load users", error);
-    }
-  };
 
   useEffect(() => {
-    fetchShift();
-    fetchUser();
+    fetchShift();    
   }, []);
 
 
   return (
 
-    <div className="container-fluid">
-      <div className="card shadow border-0">
-        <div className="card-header bg-primary text-white">
-        </div>
-
-        <div className="card-body">
-
-          <form>
-
+    <div className="container-fluid mt-3">
+      <div className="card app-form-card">
+        <div className="card-header app-form-header">Add Employee</div>
+        <div className="card-body app-form-body">
+          <form className="app-form">
             <div className="row">
-
-              {/* Employee Name */}
-
               <div className="col-md-6 mb-3">
                 <label className="form-label">Employee Name</label>
                 <input type="text" name="employeeName" className="form-control" required onChange={(e) => { setEmployeeName(e.target.value) }} />
@@ -158,21 +146,7 @@ const AddEmployee = () => {
                 <label className="form-label">Work Location</label>
                 <input type="text" name="workLocation" className="form-control" required onChange={(e) => { setWorkLocation(e.target.value) }} />
               </div>
-
-              {/* User */}
-
-              <div className="col-md-6 mb-3">
-                <label className="form-label">User</label>
-                <select name="userid" className="form-select" required onChange={(e) => { setUserid(e.target.value) }} >
-                  <option value="">Select User</option>
-                  {
-                    users.map((item) => (
-                      <option key={item.userId || item.id} value={item.userId || item.id}>
-                        {item.username || item.name || item.userId}
-                      </option>
-                    ))}
-                </select>
-              </div>
+             
 
               {/* Shift */}
 
@@ -191,7 +165,7 @@ const AddEmployee = () => {
 
             </div>
             <div className="col-md-6 mb-3">
-              <button type="button" className="btn btn-primary me-3" onClick={fetchData}>Save Employee</button>
+              <button type="button" className="btn btn-primary me-3" onClick={fetchData}>Save</button>
               <button type="button" className="btn btn-danger me-3" onClick={() => navigate("/Employees")}>Cancel</button>
             </div>
           </form>

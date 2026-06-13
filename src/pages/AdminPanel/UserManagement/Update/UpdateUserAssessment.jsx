@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import { toast } from 'toastify'
+import { toast } from 'react-toastify';
 
 const UpdateUserAssessment = () => {
     let [educationType, setEducationType] = useState('')
@@ -18,8 +18,8 @@ const UpdateUserAssessment = () => {
 
     let [user, setUser] = useState('')
 
-    let = useParams()
-    console.log();
+    let userAssessmentId = useParams()
+    console.log(userAssessmentId);
 
     useEffect(() => {
         api.get('/getuserassessment/{userAssessmentId}')

@@ -76,14 +76,21 @@ const AddPayslip = () => {
    
 
 
+
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
+    <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">                   
                      <div className="col-md-6 mb-3">
                         <label htmlFor="year" className="form-label">Year</label>
                         <input type="year" className="form-control" id="year" onChange={(e) => { setYear(e.target.value) }}></input>
@@ -189,8 +196,8 @@ const AddPayslip = () => {
                         <label htmlFor="paidOn" className="form-label">Paid On</label>
                         <input type="datetime-local" className="form-control" id="paidOn" onChange={(e) => { setPaidOn(e.target.value) }}></input>
                      </div>
-                     <button type="button" class="btn btn-primary me-3" onClick={fetchData}>Submit</button>
-                     <button type="button" class="btn btn-primary me-3" onClick={() => navigate("/Payslip")}>Submit</button>
+                     <button type="button" className="btn btn-primary me-3" onClick={fetchData}>Submit</button>
+                     <button type="button" className="btn btn-primary me-3" onClick={() => navigate("/Payslip")}>Submit</button>
                   </div>
                </form>
             </div>

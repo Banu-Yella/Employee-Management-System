@@ -39,14 +39,21 @@ const AddUserLogin = () => {
 
 
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+      <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="username" className="form-label">Username</label>
                         <input type="username" className="form-control" id="username" onChange={(e) => { setUsername(e.target.value) }}></input>
                      </div>
@@ -70,8 +77,8 @@ const AddUserLogin = () => {
                         <label htmlFor="status" className="form-label">Status</label>
                         <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
                      </div>                    
-                     <button type="button" class="btn btn-primary" onClick={fetchData}>Save</button>
-                     <button type="button" class="btn btn-primary" onClick={()=>Navigate('/UserLogin')}>Cancel</button>
+                     <button type="button" className="btn btn-primary" onClick={fetchData}>Save</button>
+                     <button type="button" className="btn btn-danger" onClick={()=>Navigate('/UserLogin')}>Cancel</button>
                   </div>
                </form>
             </div>

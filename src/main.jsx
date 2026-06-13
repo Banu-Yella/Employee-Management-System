@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
+import './styles/app-table.css';
+import './styles/app-form.css';
+import './styles/home.css'
 import App from './App.jsx'
 
 import 'bootstrap/dist/css/bootstrap.min.css'

@@ -1,0 +1,196 @@
+/* ==========================
+   FORM CARD
+========================== */
+
+.app-form-card {
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.card-header.app-form-header {
+    background: #17494D !important;
+    color: #FFFFFF !important;
+
+    padding: 16px 24px;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    border-bottom: none !important;
+}
+
+/* ==========================
+   BODY
+========================== */
+
+.app-form-body {
+    padding: 24px;
+}
+
+/* ==========================
+   LABELS
+========================== */
+
+.app-form .form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+/* ==========================
+   INPUTS
+========================== */
+
+.app-form .form-control,
+.app-form .form-select {
+    height: 46px;
+
+    border: 1px solid #D1D5DB;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    transition: all .2s ease;
+}
+
+/* ==========================
+   INPUT FOCUS
+========================== */
+
+.app-form .form-control:focus,
+.app-form .form-select:focus {
+
+    border-color: #17494D;
+
+    box-shadow: 0 0 0 3px rgba(23, 73, 77, 0.12);
+
+    outline: none;
+}
+
+/* ==========================
+   TEXTAREA
+========================== */
+
+.app-form textarea.form-control {
+    min-height: 120px;
+}
+
+/* ==========================
+   BUTTON SECTION
+========================== */
+
+.app-form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* ==========================
+   SAVE BUTTON
+========================== */
+
+.app-form-card .btn-primary {
+
+    background: #000000 !important;
+
+    border: 1px solid #000000 !important;
+
+    color: #FFFFFF !important;
+
+    min-width: 120px;
+
+    border-radius: 8px;
+
+    font-weight: 500;
+}
+
+.app-form-card .btn-primary:hover {
+
+    background: #222222 !important;
+
+    border-color: #222222 !important;
+
+    color: #FFFFFF !important;
+}
+
+/* ==========================
+   CANCEL BUTTON
+========================== */
+
+.app-form-card .btn-danger {
+
+    background: #6B7280 !important;
+
+    border: 1px solid #6B7280 !important;
+
+    color: #FFFFFF !important;
+
+    min-width: 100px;
+
+    border-radius: 8px;
+}
+
+.app-form-card .btn-danger:hover {
+
+    background: #4B5563 !important;
+
+    border-color: #4B5563 !important;
+
+    color: #FFFFFF !important;
+}
+
+/* ==========================
+   READONLY
+========================== */
+
+.readonly-field {
+    background: #F8F9FA;
+}
+
+/* ==========================
+   SECTION TITLE
+========================== */
+
+.app-form-section-title {
+
+    color: #17494D;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    border-bottom: 1px solid #E5E7EB;
+
+    padding-bottom: 8px;
+
+    margin-bottom: 15px;
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width: 768px) {
+
+    .app-form-body {
+        padding: 16px;
+    }
+
+    .app-form-actions {
+        flex-direction: column;
+    }
+
+    .app-form-card .btn-primary,
+    .app-form-card .btn-danger {
+        width: 100%;
+    }
+}

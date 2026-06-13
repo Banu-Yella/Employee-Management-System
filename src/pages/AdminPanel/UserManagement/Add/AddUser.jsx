@@ -7,7 +7,7 @@ const AddUser = () => {
    const navigate = useNavigate();
 
    let [name, setName] = useState('')
-   let [image, setImage] = useState('')
+   let [imageurl, setImageurl] = useState('')
    let [dateOfBirth, setDateOfBirth] = useState('')
    let [placeofBirth, setPlaceofBirth] = useState('')
    let [age, setAge] = useState('')
@@ -33,27 +33,12 @@ const AddUser = () => {
       e.preventDefault()
       console.log();
       let payload = {
-         name,
-         image,
-         dateOfBirth,
-         placeofBirth,
-         age,
-         language,
-         email,
-         phoneNumber,
-         gender,
-         fatherName,
-         motherName,
-         currentaddress,
-         city,
-         state,
-         country,
-         pincode,
-         permanentAddress,
-         maritalStatus,
-         status
+         name, imageurl, dateOfBirth, placeofBirth, age,
+         language, email, phoneNumber, gender, fatherName,
+         motherName, currentaddress, city, state, country,
+         pincode, permanentAddress, maritalStatus, status
       }
-      api.post("/getEducationById/{educationId}", payload)
+      api.post("/saveuser", payload)
          .then(() => {
             console.log("Data saved");
          })
@@ -65,12 +50,13 @@ const AddUser = () => {
 
 
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
+      <div className="container-fluid mt-3">
+         <div className="card app-form-card">
+            <div className="card-header app-form-header">
+               Add Employee
             </div>
-            <div className="card-body">
-               <form>
+            <div className="card-body app-form-body">
+               <form className="app-form">
                   <div className="row">
                      <div className="col-md-6 mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
@@ -78,7 +64,7 @@ const AddUser = () => {
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="image" className="form-label">Image</label>
-                        <input type="image" className="form-control" id="image" onChange={(e) => { setImage(e.target.value) }}></input>
+                        <input type="image" className="form-control" id="image" onChange={(e) => { setImageurl(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="dateOfBirth" className="form-label">Date Of Birth</label>
@@ -106,10 +92,14 @@ const AddUser = () => {
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="gender" className="form-check-input">Gender</label>
+                        <div className="form-check form-check-inline">
                         <label htmlFor="male" className="form-check-input">Male</label>
+                        <input type="radio" name="Gender" className="form-check-input" id="male" checked={gender === "Male"} onChange={(e) => { setGender(e.target.value) }}></input>
+                        </div>
+                        <div className="form-check form-check-inline">
                         <label htmlFor="female" className="form-check-input">Fe-male</label>
-                        <input type="radio" name="radioDefault" className="form-check-input" id="male" onChange={(e) => { setGender(e.target.value) }}></input>
-                        <input type="radio" name="radioDefault" className="form-check-input" id="female" onChange={(e) => { setGender(e.target.value) }}></input>
+                        <input type="radio" name="Gender" className="form-check-input" id="female" checked={gender === "Fe-male"} onChange={(e) => { setGender(e.target.value) }}></input>
+                        </div>                                    
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="fatherName" className="form-label">Father name</label>
@@ -152,8 +142,8 @@ const AddUser = () => {
                         <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                        <button type="button" class="btn btn-primary" onClick={fetchData}>Save</button>
-                        <button type="button" class="btn btn-primary" onClick={() => Navigate('/UserEducation')}>Cancel</button>
+                        <button type="button" className="btn btn-primary me-3" onClick={fetchData}>Save</button>
+                        <button type="button" className="btn btn-danger me-3" onClick={() => navigate('/User')}>Cancel</button>
                      </div>
                   </div>
                </form>

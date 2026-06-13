@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import { toast } from 'toastify'
+import { toast } from 'react-toastify';
 
 const UpdateUserLogin = () => {
 
@@ -18,11 +18,11 @@ const UpdateUserLogin = () => {
    let [user, setUser ] = useState([])
 
 
-    let userLoginId = useParams()
-    console.log(userLoginId);
+    let loginId = useParams()
+    console.log(loginId);
 
     useEffect(() => {
-        api.get('/getuser/{userId}')
+        api.get('/getlogindetails/{loginId}')
             .then((res) => {
                 console.log(res)
                 setUsername(res.data.username)
@@ -99,7 +99,7 @@ const UpdateUserLogin = () => {
                         <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
                      </div>                    
                      <button type="button" class="btn btn-primary" onClick={updateData}>Update</button>
-                      <button type="button" class="btn btn-primary" onClick={(()=>navigate('/UserLogin'))}>Cancel</button>
+                      <button type="button" class="btn btn-danger" onClick={(()=>navigate('/UserLogin'))}>Cancel</button>
                   </div>
                </form>
             </div>

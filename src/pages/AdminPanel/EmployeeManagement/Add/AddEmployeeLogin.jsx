@@ -43,14 +43,21 @@ const AddEmployeeLogin = () => {
 
 
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="mb-3">
+    <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="empName" className="form-label">Employee Name</label>
                         <input type="text" className="form-control" id="empName" onChange={(e) => { setEmployee(e.target.value) }}></input>
                      </div>
@@ -82,8 +89,10 @@ const AddEmployeeLogin = () => {
                         <label htmlFor="status" className="form-label">Status</label>
                         <input type="text" className="form-control" id="status" onChange={(e) => { setStatus(e.target.value) }}></input>
                      </div>
-                     <button type="button" className="btn btn-primary me-3" onClick={fetchData} >Save Login</button>
+                     <div className="col-md-6 mb-3">
+                     <button type="button" className="btn btn-primary me-3" onClick={fetchData} >Save</button>
                      <button type="button" className="btn btn-danger me-3" onClick={() => navigate("/EmployeeLogin")}>Cancel</button>
+                     </div>
                   </div>
                </form>
             </div>

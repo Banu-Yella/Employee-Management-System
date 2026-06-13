@@ -38,8 +38,8 @@ const Performance = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+   <div className="table-container">
+    <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>

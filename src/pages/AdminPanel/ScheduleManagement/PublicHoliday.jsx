@@ -4,18 +4,19 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const PublicHoliday = () => {
 
-    let [publicHoliday, setPublicHoliday] = useState([]);
-  
-    let fetchData = async () => {
-      let res = await api.get("/getallpublicholidays")
-      console.log(res.data);
-  
-      let data = res;
-      setPublicHoliday(data);
-  
-      let deleteData = (holidayId) => {
+  let [publicHoliday, setPublicHoliday] = useState([]);
+
+  let fetchData = async () => {
+    let res = await api.get("/getallpublicholidays")
+    console.log(res.data);
+
+    let data = res;
+    setPublicHoliday(data);
+
+    let deleteData = (holidayId) => {
       console.log(holidayId);
       if (window.confirm()) {
         api.delete("/deletepublicholiday/{holidayId}")
@@ -32,21 +33,21 @@ const PublicHoliday = () => {
     setPublicHoliday(res.data);
   };
 
-    React.useEffect(() => {
-      fetchData();
-    }, []);
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
             <th>Public Holiday Name</th>
             <th>Public Holiday Date</th>
             <th>Created at</th>
-            <th>Updated at</th> 
-              <th>
+            <th>Updated at</th>
+            <th>
               <div className="dropdown modify-dropdown">
                 <span>Modify</span>
                 <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,7 +62,7 @@ const PublicHoliday = () => {
                   <li><a className="dropdown-item" href="#">Download</a></li>
                 </ul>
               </div>
-            </th>           
+            </th>
           </tr>
         </thead>
         <tbody>

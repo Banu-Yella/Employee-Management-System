@@ -1,6 +1,89 @@
-.navbar navbar-expand-lg bg-body-tertiary{
-   position: fixed;
-    
+.navbar {
+    position: fixed;
+    top: 0;
+    z-index: 1050;
+}
+
+.navbar {
+    background: #03363D !important;
+
+    min-height: 64px;
+
+    padding: 0.5rem 1.25rem;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+}
+
+.navbar .nav-link:hover {
+    color: #FFFFFF !important;
+}
+
+.navbar .nav-link.active {
+    color: #FFFFFF !important;
+    font-weight: 600;
+}
+
+.navbar .nav-link {
+    color: rgba(255,255,255,.85) !important;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: .2s ease;
+}
+
+.navbar-toggler {
+    border: none;
+    box-shadow: none !important;
+}
+
+navbar-toggler-icon {
+    filter: brightness(0) invert(1);
+}
+
+.bi-house-door {
+    font-size: 18px;
+}
+
+.navbar .bi {
+    font-size: 18px;
+}
+
+.nav-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.nav-profile:hover {
+    opacity: .9;
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+
+    background: #17494D;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 600;
 }
 
 .d-flex {
@@ -11,9 +94,11 @@
 }
 
 
-.nav-profile dropdown{
+.nav-right-section {
     display: flex;
-    
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
 }
 
 .bi bi-house-door{
@@ -85,12 +170,19 @@
 .offcanvas-title {
   font-size: 28px;
   font-weight: bold;
-  color: #111827;
+  color: #ffff;
 }
 
 /* BODY TEXT */
 .offcanvas-body {
-  color: #4b5563;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.8;
   font-size: 15px;
-  line-height: 1.7;
+
+}
+
+.offcanvas {
+    background: #17494D;
+    color: white;
+    border-right: 1px solid rgba(255,255,255,0.08);
 }

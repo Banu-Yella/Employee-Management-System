@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import {toast} from 'toastify'
+import { toast } from 'react-toastify';
 
 const UpdateAttendance = () => {
     let [attendanceDate, setAttendanceDate] = useState('')
@@ -22,8 +22,8 @@ const UpdateAttendance = () => {
        let [employee, setEmployee] = useState('')
     
 
-    let = useParams()
-      console.log();
+    let attendanceId = useParams()
+      console.log(attendanceId);
   
       useEffect(() => {
           api.get('/getattendance/{attendanceId}')
@@ -70,14 +70,21 @@ const UpdateAttendance = () => {
   
 
   return (
-    <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+   <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="" className="form-label">Employee code</label>
                         <input type="text" className="form-control" id="empName" onChange={(e) => { setEmployee(e.target.value) }}></input>
                      </div>

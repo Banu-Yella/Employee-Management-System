@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import {toast} from 'toastify'
+import { toast } from 'react-toastify';
 
 const UpdateAssessment = () => {
     let [assessmentName, setAssessmentName] = useState('')
@@ -16,8 +16,8 @@ const UpdateAssessment = () => {
   
      let [job, setJob] = useState([])
 
-  let = useParams()
-    console.log();
+  let assessmentId = useParams()
+    console.log(assessmentId);
 
     useEffect(() => {
         api.get('/GetAssessmentById/{assessmentId}')
@@ -64,14 +64,21 @@ const UpdateAssessment = () => {
   
 
   return (
-   <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+   <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="assessmentName" className="form-label">Assessment Name</label>
                         <input type="" className="form-control" id="assessmentName" onChange={(e) => { setAssessmentName(e.target.value) }}></input>
                      </div>
@@ -104,8 +111,8 @@ const UpdateAssessment = () => {
                         <input type="text" className="form-control" id="assessmentStatus" onChange={(e) => { setAssessmentStatus(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                     <button type="submit" className="btn btn-primary me-3" onClick={updateData}>Submit</button>
-                     <button type="submit" className="btn btn-primary me-3" onClick={()=>navigate("/Assessment")}>Canvel</button>
+                     <button type="button" className="btn btn-primary me-3" onClick={updateData}>Update</button>
+                     <button type="button" className="btn btn-danger me-3" onClick={()=>navigate("/Assessment")}>Cancel</button>
                      </div>
                   </div>
                </form>

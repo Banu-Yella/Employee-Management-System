@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const ExamQuestion = () => {
   const navigate = useNavigate();
 
@@ -15,8 +16,8 @@ const ExamQuestion = () => {
 
     let data = res;
     setExamQuestion(data);
-    
-  let deleteData = (questionId) => {
+
+    let deleteData = (questionId) => {
       console.log(questionId);
       if (window.confirm()) {
         api.delete("/delete-questions/{QuestionId}")
@@ -37,8 +38,8 @@ const ExamQuestion = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>

@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const WeekOffPolicy = () => {
   const navigate = useNavigate();
 
@@ -22,8 +23,8 @@ const WeekOffPolicy = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -31,7 +32,7 @@ const WeekOffPolicy = () => {
             <th>Weekly-Off Days</th>
             <th>Created at</th>
             <th>Updated at</th>
-              <th>
+            <th>
               <div className="dropdown modify-dropdown">
                 <span>Modify</span>
                 <button className="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

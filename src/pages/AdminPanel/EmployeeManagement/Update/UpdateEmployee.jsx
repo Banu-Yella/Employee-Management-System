@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import { toast } from 'toastify'
+import { toast } from 'react-toastify';
 
 
 const UpdateEmployee = () => {

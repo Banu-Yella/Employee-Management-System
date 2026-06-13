@@ -44,14 +44,21 @@ const AddAssessment = () => {
 
 
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+      <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="assessmentName" className="form-label">Assessment Name</label>
                         <input type="" className="form-control" id="assessmentName" onChange={(e) => { setAssessmentName(e.target.value) }}></input>
                      </div>

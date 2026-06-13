@@ -27,14 +27,21 @@ const AddWeekOffPolicy = () => {
 
 
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
-            </div>
-            <div className="card-body">
-               <form>
-                  <div className="row">
-                     <div className="col-md-6 mb-3">
+     <div className="container-fluid mt-3">
+
+    <div className="card app-form-card">
+
+        <div className="card-header app-form-header">
+            Add Employee
+        </div>
+
+        <div className="card-body app-form-body">
+
+            <form className="app-form">
+
+                <div className="row">
+
+                    <div className="col-md-6 mb-3">
                         <label htmlFor="policyName" className="form-label">Policy Name</label>
                         <input type="text" className="form-control" id="policyName" onChange={(e) => { setPolicyName(e.target.value) }}></input>
                      </div>
@@ -43,8 +50,8 @@ const AddWeekOffPolicy = () => {
                         <input type="number" className="form-control" id="weeklyOffDays" onChange={(e) => { setWeeklyOffDays(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
-                     <button type="button" class="btn btn-primary me-3" onClick={fetchData} >Save</button>
-                     <button type="button" class="btn btn-primary me-3" onClick={()=>navigate('/WeekOffpolicy')} >Cancel</button>
+                     <button type="button" className="btn btn-primary me-3" onClick={fetchData} >Save</button>
+                     <button type="button" className="btn btn-danger me-3" onClick={()=>navigate('/WeekOffpolicy')} >Cancel</button>
                   </div>
                   </div>
                </form>

@@ -16,7 +16,7 @@ const EmpWeekOff = () => {
     let data = res;
     setEmpWeekoff(data);
 
-   let deleteData = (weekOffId) => {
+    let deleteData = (weekOffId) => {
       console.log(weekOffId);
       if (window.confirm()) {
         api.delete("/deleteempweekoff/{weekOffId}")
@@ -38,8 +38,8 @@ const EmpWeekOff = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>

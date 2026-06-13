@@ -1,5 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import Home from './pages/LandingPages/Home'
 import Register from './pages/LandingPages/Register'
@@ -52,7 +56,7 @@ import UpdateExamQuestion from './pages/AdminPanel/JobBoardManagement/Update/Upd
 
 import JobApplication from './pages/AdminPanel/JobBoardManagement/JobApplication'
 import AddJobApplication from './pages/AdminPanel/JobBoardManagement/Add/AddJobApplication'
-import UpdateApplication from './pages/AdminPanel/JobBoardManagement/Update/UpdateJobApplication'
+import UpdateJobApplication from './pages/AdminPanel/JobBoardManagement/Update/UpdateJobApplication'
 
 import Attendance from './pages/AdminPanel/ScheduleManagement/Attendance'
 import AddAttendance from './pages/AdminPanel/ScheduleManagement/Add/AddAttendance'
@@ -68,7 +72,6 @@ import UpdateLeave from './pages/AdminPanel/ScheduleManagement/Update/UpdateLeav
 
 import MonthlyAttendanceSummary from './pages/AdminPanel/ScheduleManagement/MonthlyAttendanceSummary'
 import AddMonthlyAttendanceSummary from './pages/AdminPanel/ScheduleManagement/Add/AddMonthlyAttendanceSummary'
-import UpdateMonthlyAttendanceSummary from './pages/AdminPanel/ScheduleManagement/Update/UpdateMonthlyAttendanceSummary'
 
 import PublicHoliday from './pages/AdminPanel/ScheduleManagement/PublicHoliday'
 import AddPublicHoliday from './pages/AdminPanel/ScheduleManagement/Add/AddPublicHoliday'
@@ -179,8 +182,7 @@ const App = () => {
 
           <Route path="/MonthlyAttendanceSummary" element={<MonthlyAttendanceSummary />} />
           <Route path="/AddMonthlyAttendanceSummary" element={<AddMonthlyAttendanceSummary />} />
-          <Route path="/UpdateMonthlyAttendanceSummary/:summaryId" element={<UpdateMonthlyAttendanceSummary />} />
-
+        
           <Route path="/PublicHoliday" element={<PublicHoliday />} />
           <Route path="/AddPublicHoliday" element={<AddPublicHoliday />} />
           <Route path="/UpdatePublicHoliday/:holidayId" element={<UpdatePublicHoliday />} />

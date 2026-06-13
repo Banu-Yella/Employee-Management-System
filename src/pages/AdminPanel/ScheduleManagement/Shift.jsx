@@ -4,26 +4,27 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
-const Shift = () => {
-   const navigate = useNavigate();
 
-    let [shift, setShift] = useState([]);
-  
-    let fetchData = async () => {
-      let res = await api.get("/getallshifts")
-      console.log(res.data);
-  
-      let data = res;
-      setShift(data);
-    };
-  
-    React.useEffect(() => {
-      fetchData();
-    }, []);
+const Shift = () => {
+  const navigate = useNavigate();
+
+  let [shift, setShift] = useState([]);
+
+  let fetchData = async () => {
+    let res = await api.get("/getallshifts")
+    console.log(res.data);
+
+    let data = res;
+    setShift(data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -74,7 +75,7 @@ const Shift = () => {
                   <tr>{value.minWorkHours}</tr>
                   <tr>{value.active}</tr>
                   <tr>{value.createdAt}</tr>
-                  <tr>{value.updatedAt}</tr>                  
+                  <tr>{value.updatedAt}</tr>
                 </tr>
               )
             })

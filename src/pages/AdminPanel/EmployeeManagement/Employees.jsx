@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const Employees = () => {
 
   let [employees, setEmployees] = useState([]);
@@ -33,8 +34,7 @@ const Employees = () => {
 
           })
       }
-    }
-    setLogin(res.data);
+    } 
   };
 
 
@@ -43,8 +43,8 @@ const Employees = () => {
   }, []);
 
   return (
-    <div className="table-responsive">
-      <table className="table table-striped table-hover align-middle">
+    <div className="table-container">
+    <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>

@@ -2,32 +2,55 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../../../axiosInstance.jsx";
+import {calculateGrossSalary, calculateNetSalary} from "./Payroll.js";
+import { toast } from 'react-toastify';
+
 
 const AddPayroll = () => {
    const navigate = useNavigate();
+   
+    let [basicSalary, setBasicSalary] = useState('')
+       let [hra, setHra] = useState('')
+       let [allowances, setAllowances] = useState('')
+       let [bonus, setBonus] = useState('')
+       let [deductions, setDeductions] = useState('')
+       let [pf, setPf] = useState('')
+       let [esi, setEsi] = useState('')
+       let [professionalTax, setProfessionalTax] = useState('')
+       let [incomeTax, setIncomeTax] = useState('')
+       let [grossSalary, setGrossSalary] = useState('')
+       let [netSalary, setNetSalary] = useState('')
+       let [approved, setApproved] = useState('')
+       let [payrollMonth, setPayrollMonth] = useState('')
+       let [status, setStatus] = useState('')
+       let [approvedBy, setApprovedBy] = useState('')
+   
+       let [employeeId, setEmployeeId] = useState("");
+       let [taxid, setTaxid] = useState([])
+   
+       let [taxSlab, setTaxSlab] = useState([])
+       let [employees, setEmployees] = useState([])
 
-   let [basicSalary, setBasicSalary] = useState('')
-   let [hra, setHra] = useState('')
-   let [allowances, setAllowances] = useState('')
-   let [bonus, setBonus] = useState('')
-   let [deductions, setDeductions] = useState('')
-   let [pf, setPf] = useState('')
-   let [esi, setEsi] = useState('')
-   let [professionalTax, setProfessionalTax] = useState('')
-   let [incomeTax, setIncomeTax] = useState('')
-   let [grossSalary, setGrossSalary] = useState('')
-   let [netSalary, setNetSalary] = useState('')
-   let [approved, setApproved] = useState('')
-   let [payrollMonth, setPayrollMonth] = useState('')
-   let [status, setStatus] = useState('')
-   let [approvedBy, setApprovedBy] = useState('')
-
-   let [employeeId, setEmployeeId] = useState("");
-   let [taxid, setTaxid] = useState([])
-
-   let [taxSlab, setTaxSlab] = useState([])
-   let [employees, setEmployees] = useState([])
-
+        const [formData, setFormData] = useState({
+    employeeId: "",
+    basicSalary: "",
+    hra: "",
+    allowances: "",
+    bonus: "",
+    deductions: "",
+    pf: "",
+    esi: "",
+    professionalTax: "",
+    incomeTax: "",
+    grossSalary: 0,
+    netSalary: 0,
+    taxid: "",
+    approved: false,
+    payrollMonth: "",
+    status: "DRAFT",
+    approvedBy: ""
+});
+   
    const fetchMasterData = async () => {
       try {
          const empRes = await api.get("/GetAllEmp");
@@ -41,52 +64,112 @@ const AddPayroll = () => {
       }
    };
 
-   useEffect(() => {
-      fetchMasterData();
-   }, []);
+   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData(prev => ({
+        ...prev,
+        [name]: value
+    }));
+};
+
+  useEffect(() => {
+
+    const grossSalary =
+        calculateGrossSalary(formData);
+
+    const netSalary =
+        calculateNetSalary(formData);
+
+    setFormData(prev => ({
+        ...prev,
+        grossSalary,
+        netSalary
+    }));
+
+}, [
+    formData.basicSalary,
+    formData.hra,
+    formData.allowances,
+    formData.bonus,
+    formData.deductions,
+    formData.pf,
+    formData.esi,
+    formData.professionalTax,
+    formData.incomeTax
+]);
 
 
+  
 
-   let fetchData = (e) => {
-      e.preventDefault()
-      console.log(); let payload = {
-         basicSalary,
-         hra,
-         allowances,
-         bonus,
-         deductions,
-         pf,
-         esi,
-         professionalTax,
-         incomeTax,
-         grossSalary,
-         netSalary,
-         approved,
-         payrollMonth,
-         status,
-         approvedBy,
-         employees: { employeeId: employeeId },
-         taxSlab: {taxid: taxid}
-      }
-      api.post("/savepayroll", payload)
-         .then(() => {
-            console.log("Data saved");
-         })
-         .catch(() => {
-            console.log("Data is not saved");
-         })
-   }
+   const savePayroll = async () => {
 
+    try {
+
+        const payload = {
+
+            employee: {
+                employeeid: Number(formData.employeeId)
+            },
+
+            basicSalary: Number(formData.basicSalary),
+            hra: Number(formData.hra),
+            allowances: Number(formData.allowances),
+            bonus: Number(formData.bonus),
+
+            deductions: Number(formData.deductions),
+            pf: Number(formData.pf),
+            esi: Number(formData.esi),
+            professionalTax: Number(formData.professionalTax),
+            incomeTax: Number(formData.incomeTax),
+
+            grossSalary: Number(formData.grossSalary),
+            netSalary: Number(formData.netSalary),
+
+            taxSlab: {
+                taxid: Number(formData.taxid)
+            },
+
+            approved: formData.approved === true,
+
+            payrollMonth: formData.payrollMonth,
+
+            status: formData.status,
+
+            approvedBy: formData.approvedBy
+                ? {
+                    employeeid: Number(formData.approvedBy)
+                }
+                : null
+        };
+
+        await api.post("/savepayroll", payload);
+        toast("Payroll saved successfully");
+        navigate("/Payroll");
+
+    } catch (error) {
+
+        console.error(error);
+        toast(error.response?.data?.message || "Failed to save payroll");
+    }
+};
 
 
    return (
-      <div className="container-fluid">
-         <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white">
+      <div className="container-fluid mt-3">
+
+         <div className="card app-form-card">
+
+            <div className="card-header app-form-header">
+               Add Employee
             </div>
-            <div className="card-body">
-               <form>
+
+            <div className="card-body app-form-body">
+
+               <form className="app-form">
+
                   <div className="row">
+
                      <div className="col-md-6 mb-3">
                         <label className="form-label">Employee</label>
                         <select className="form-control" value={employeeId} onChange={(e) => setEmployeeId(e.target.value)}>
@@ -95,7 +178,7 @@ const AddPayroll = () => {
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="basicSalary" className="form-label">Basic Salary</label>
-                        <input type="number" className="form-control" id="basicSalary" onChange={(e) => { setBasicSalary(e.target.value) }}></input>
+                        <input type="number" className="form-control" id="basicSalary" value={formData.basicSalary} onChange={handleChange}></input>
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="hra" className="form-label">HRA</label>
@@ -131,15 +214,15 @@ const AddPayroll = () => {
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="grossSalary" className="form-label">Gross Salary</label>
-                        <input type="number" className="form-control" id="grossSalary" onChange={(e) => { setGrossSalary(e.target.value) }}></input>
+                        <input type="number" className="form-control" value={formData.grossSalary} readOnly></input>
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="netSalary" className="form-label">Net Salary</label>
-                        <input type="number" className="form-control" id="netSalary" onChange={(e) => { setNetSalary(e.target.value) }}></input>
+                        <input type="number" className="form-control" value={formData.netSalary} readOnly></input>
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="taxSlab" className="form-label">Tax Slab</label>
-                        <select id="taxSlab" className="form-select" value={taxid} onChange={(e) => setTaxid(e.target.value)}>
+                        <select id="taxSlab" className="form-select" value={formData.taxid} onChange={handleChange}>
                            <option value="">Select Tax Slab</option>{taxSlab.map((slab) =>
                               (<option key={slab.taxid} value={slab.taxid}>{slab.taxName}</option>))}
                         </select>
@@ -153,7 +236,7 @@ const AddPayroll = () => {
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="payrollMonth" className="form-label">Payroll Month</label>
-                        <input type="datetime-local" className="form-control" id="payrollMonth" onChange={(e) => { setPayrollMonth(e.target.value) }}></input>
+                        <input type="date" className="form-control" id="payrollMonth" onChange={(e) => { setPayrollMonth(e.target.value) }}></input>
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="status" className="form-label">Status</label>
@@ -161,13 +244,13 @@ const AddPayroll = () => {
                      </div>
                      <div className="col-md-6 mb-3">
                         <label htmlFor="approvedBy" className="form-label">Approved by</label>
-                        <select className="form-control" value={employeeId} onChange={(e) => setEmployeeId(e.target.value)}>
+                        <select className="form-control" value={formData.employeeId} onChange={handleChange}>
                            <option value="">Select Employee</option>
-                           {employees.map((emp) => (<option key={emp.employeeId} value={emp.employeeId}>{emp.employeename}</option>))}</select>
+                           {employees.map((emp) => (<option key={emp.employeeid} value={emp.employeeid}>{emp.employeeCode}</option>))}</select>
                      </div>
                   </div>
                   <div >
-                     <button type="button" className="btn btn-primary me-3" onClick={fetchData}>Save Payroll</button>
+                     <button type="button" className="btn btn-primary me-3" onClick={savePayroll}>Save</button>
                      <button type="button" className="btn btn-danger me-3" onClick={() => navigate("/Payroll")}>Cancel</button>
                   </div>
                </form>

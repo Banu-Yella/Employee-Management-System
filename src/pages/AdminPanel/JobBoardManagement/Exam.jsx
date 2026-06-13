@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const Exam = () => {
   const navigate = useNavigate();
 
@@ -38,8 +39,8 @@ const Exam = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+  <div className="table-container">
+    <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>

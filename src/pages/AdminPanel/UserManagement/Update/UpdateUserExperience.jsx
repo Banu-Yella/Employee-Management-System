@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
-import { toast } from 'toastify'
+import { toast } from 'react-toastify';
 
 const UpdateUserExperience = () => {    
     let [companyName, setCompanyName] = useState('')
@@ -20,11 +20,11 @@ const UpdateUserExperience = () => {
 
     let [user, setUser] = useState('')
 
-    let = useParams()
-    console.log();
+    let experienceId = useParams()
+    console.log(experienceId);
 
     useEffect(() => {
-        api.get('/getexperience/${experienceId}')
+        api.get('/getexperience/{experienceId}')
             .then((res) => {
                 setCompanyName(res.data.companyName)
                 setJobTitle(res.data.jobTitle)
@@ -61,7 +61,7 @@ const UpdateUserExperience = () => {
 
         }
 
-        api.put(`/updateexperience/${experienceId}`, payload)
+        api.put(`/updateexperience/{experienceId}`, payload)
             .then(() => {
                 console.log("Data updated successfully")
                 toast("Data updated successfully")

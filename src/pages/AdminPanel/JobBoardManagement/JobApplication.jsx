@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios'
 import api from "../../../axiosInstance.jsx";
 
+
 const JobApplication = () => {
   const navigate = useNavigate();
 
@@ -16,7 +17,7 @@ const JobApplication = () => {
     let data = res;
     setJobApplication(data);
 
-  let deleteData = (jobApplicationId) => {
+    let deleteData = (jobApplicationId) => {
       console.log(jobApplicationId);
       if (window.confirm()) {
         api.delete("/delete-job-applications/{applicationId}")
@@ -38,8 +39,8 @@ const JobApplication = () => {
   }, []);
 
   return (
-    <div>
-      <table className="table">
+    <div className="table-container">
+      <table className="table table-striped table-hover app-table">
         <thead>
           <tr>
             <th>Id</th>
