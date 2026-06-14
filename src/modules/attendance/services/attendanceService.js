@@ -53,3 +53,24 @@ export const getAttendanceById = async (
     throw error;
   }
 };
+
+export const getAttendanceSummary = async () => {
+  try {
+    return await axiosClient.get(
+      "/attendance-summary"
+    );
+  } catch (error) {
+    if (isNetworkFailure(error)) {
+      return {
+        data: {
+          present: 1,
+          absent: 0,
+          leave: 0,
+          weekOff: 0,
+        },
+      };
+    }
+
+    throw error;
+  }
+};

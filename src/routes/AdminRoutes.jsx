@@ -10,6 +10,14 @@ import EditEmployee from "../modules/employee/pages/EditEmployee";
 import AttendanceHistory from "../modules/attendance/pages/AttendanceHistory";
 import MonthlySummary from "../modules/dashboard/pages/MonthlySummary";
 import SettingsPage from "../modules/dashboard/pages/SettingsPage";
+import AttendanceList from "../modules/attendance/pages/AttendanceList";
+import AttendanceSummary from "../modules/attendance/pages/AttendanceSummary";
+import Shifts from "../modules/attendance/pages/Shifts";
+import LeaveList from "../modules/leave/pages/LeaveList";
+import LeaveDetails from "../modules/leave/pages/LeaveDetails";
+import LeaveApproval from "../modules/leave/pages/LeaveApproval";
+import WeekOffs from "../modules/attendance/pages/WeekOffs";
+import Holidays from "../modules/attendance/pages/Holidays";
 
 function AdminRoutes() {
   return (
@@ -20,7 +28,6 @@ function AdminRoutes() {
         <Route path="summary" element={<MonthlySummary />} />
 
         {/* Employee Module */}
-        <Route path="employees" element={<EmployeeList />} />
         <Route
           path="kyc"
           element={
@@ -42,121 +49,11 @@ function AdminRoutes() {
         />
 
         {/* Schedule Module */}
-        <Route
-          path="attendance"
-          element={
-            <ModulePlaceholder
-              title="Attendance Module"
-              subtitle="Manage daily attendance, attendance summaries, and shift logs from one place."
-              highlights={[
-                "Track check-in and check-out times",
-                "Review attendance summaries and exceptions",
-                "Support shift, week-off, and holiday planning",
-              ]}
-              quickStats={[
-                { label: "Present Today", value: "42" },
-                { label: "Late Entries", value: "3" },
-                { label: "Absent", value: "5" },
-              ]}
-            />
-          }
-        />
-        <Route
-          path="leave"
-          element={
-            <ModulePlaceholder
-              title="Leave Management"
-              subtitle="Handle leave requests, approvals, and balance summaries for all employees."
-              highlights={[
-                "Approve and reject leave requests",
-                "Monitor leave balances and policy usage",
-                "View team-wide leave trends",
-              ]}
-              quickStats={[
-                { label: "Pending Leaves", value: "8" },
-                { label: "Approved", value: "27" },
-                { label: "Available Balance", value: "146" },
-              ]}
-            />
-          }
-        />
-        <Route
-          path="shifts"
-          element={
-            <ModulePlaceholder
-              title="Shift Management"
-              subtitle="Create shift schedules, monitor coverage, and align staffing plans."
-              highlights={[
-                "Assign shifts to employees",
-                "Balance staffing across teams",
-                "Track shift changes and penalties",
-              ]}
-              quickStats={[
-                { label: "Active Shifts", value: "6" },
-                { label: "Coverage", value: "92%" },
-                { label: "Open Slots", value: "4" },
-              ]}
-            />
-          }
-        />
-        <Route
-          path="weekoffs"
-          element={
-            <ModulePlaceholder
-              title="Week Off Management"
-              subtitle="Plan weekly offs, employee rest days, and team availability."
-              highlights={[
-                "Set recurring week-off rules",
-                "Review employee rest schedules",
-                "Prevent staffing conflicts",
-              ]}
-              quickStats={[
-                { label: "Week Off Requests", value: "11" },
-                { label: "Approved", value: "9" },
-                { label: "Open Conflicts", value: "2" },
-              ]}
-            />
-          }
-        />
-        <Route
-          path="holidays"
-          element={
-            <ModulePlaceholder
-              title="Public Holidays"
-              subtitle="Manage holiday calendars, regional observances, and office closure plans."
-              highlights={[
-                "Publish holiday calendars",
-                "Track regional holiday rules",
-                "Inform teams about office shutdowns",
-              ]}
-              quickStats={[
-                { label: "Upcoming Holidays", value: "5" },
-                { label: "Countries", value: "3" },
-                { label: "Office Closed", value: "2" },
-              ]}
-            />
-          }
-        />
-        <Route
-          path="regularization"
-          element={
-            <ModulePlaceholder
-              title="Regularization"
-              subtitle="Review attendance corrections, late punch adjustments, and approval logs."
-              highlights={[
-                "Approve punch correction requests",
-                "Track exception handling",
-                "Audit historical attendance changes",
-              ]}
-              quickStats={[
-                { label: "Pending Requests", value: "7" },
-                { label: "Approved Today", value: "4" },
-                { label: "Rejected", value: "1" },
-              ]}
-            />
-          }
-        />
+        <Route path="leave" element={<LeaveList />} />
 
+        <Route path="leave/:id" element={<LeaveDetails />} />
+
+        <Route path="leave/approval" element={<LeaveApproval />} />
         {/* Payroll Module */}
         <Route
           path="payroll"
@@ -341,7 +238,41 @@ function AdminRoutes() {
         <Route path="employees/view/:id" element={<EmployeeDetails />} />
         <Route path="employees/edit/:id" element={<EditEmployee />} />
 
-        <Route path="/admin/attendance/:id" element={<AttendanceHistory />} />
+        {/* =========================
+             Attendance Module
+            ========================= */}
+
+        <Route path="attendance" element={<AttendanceList />} />
+
+        <Route path="attendance-summary" element={<AttendanceSummary />} />
+
+        <Route path="attendance/:id" element={<AttendanceHistory />} />
+
+        <Route path="shifts" element={<Shifts />} />
+
+        <Route path="weekoffs" element={<WeekOffs />} />
+
+        <Route path="holidays" element={<Holidays />} />
+
+        <Route
+          path="regularization"
+          element={
+            <ModulePlaceholder
+              title="Regularization"
+              subtitle="Review attendance corrections, late punch adjustments, and approval logs."
+              highlights={[
+                "Approve punch correction requests",
+                "Track exception handling",
+                "Audit historical attendance changes",
+              ]}
+              quickStats={[
+                { label: "Pending Requests", value: "7" },
+                { label: "Approved Today", value: "4" },
+                { label: "Rejected", value: "1" },
+              ]}
+            />
+          }
+        />
       </Route>
     </Routes>
   );
