@@ -47,7 +47,7 @@ public class UserExperienceController {
 		return experienceService.deleteExperience(experienceId);
 	}
 	
-	@DeleteMapping("/deleteall experiences/{userId}")
+	@DeleteMapping("/deleteallExperiences/{userId}")
 	public String deleteAllExperiences() {
 		return experienceService.deleteAllExperiences();
 	}

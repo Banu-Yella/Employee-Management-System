@@ -12,13 +12,20 @@ import com.emp.manag.jobboard.entity.JobApplicationEntity.CandidateStatus;
 @Repository
 public interface JobApplicationRepo extends JpaRepository<JobApplicationEntity, Integer> {
 
-	boolean existsByUserUserIdAndJobJobId(Integer userId, Integer jobId);
+	  boolean existsByUserUserIdAndJobBoardJobBoardId(
+	            Integer userId,
+	            Integer jobBoardId);
 
-	Optional<JobApplicationEntity> findByUserUserIdAndJobJobId(Integer userId, Integer jobId);
+	    Optional<JobApplicationEntity> findByUserUserIdAndJobBoardJobBoardId(
+	            Integer userId,
+	            Integer jobBoardId);
 
-	List<JobApplicationEntity> findByUserUserId(Integer userId);
+	    List<JobApplicationEntity> findByUserUserId(
+	            Integer userId);
 
-	List<JobApplicationEntity> findByJobJobId(Integer jobId);
+	    List<JobApplicationEntity> findByJobBoardJobBoardId(
+	            Integer jobBoardId);
 
-	List<JobApplicationEntity> findByStatus(CandidateStatus status);
-}
+	    List<JobApplicationEntity> findByStatus(
+	            CandidateStatus status);
+	}

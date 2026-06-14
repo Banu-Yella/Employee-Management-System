@@ -1,5 +1,6 @@
 package com.emp.manag.employee.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,16 +23,16 @@ import lombok.Data;
 public class PerformanceEntity {
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "performance_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer performanceid;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="employee_id")
 	private EmpEntity employee;
 	
 	@Column(name = "total_login_hrs")
-	private Float totalLoginHrs;
+	private BigDecimal totalLoginHrs;
 	
 	@Column(name = "total_Working_days")
 	private Integer totalWorkingDays;
@@ -43,7 +44,7 @@ public class PerformanceEntity {
 	private Integer totalNumberofDaysOnLeave;
 	
 	@Column(name = "average_login_time")
-	private Float averageLoginTime;
+	private BigDecimal averageLoginTime;
 	
 	@Column(name = "total_leavebalance")
 	private Integer totalLeavebalance;

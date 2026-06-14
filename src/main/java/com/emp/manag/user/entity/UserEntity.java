@@ -7,7 +7,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.emp.manag.employee.entity.EmpEntity;
+import com.emp.manag.jobboard.entity.JobApplicationEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -33,17 +33,15 @@ public class UserEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", nullable = false, updatable = false)
 	private Integer userId;
-		
-	@JsonIgnore
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private EmpEntity employee; // Association with EmpEntity, can be null for non-employee users
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+				
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<UserEducationEntity> userEducation;
 	
+	@OneToMany(mappedBy = "user")
+	private List<JobApplicationEntity> applications;
+	
 	@JsonIgnore
-	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<UserExperienceEntity> userExperience;
 
 	@JsonIgnore
@@ -54,14 +52,11 @@ public class UserEntity {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private UserLoginEntity userLogin; // One login record for this user
 	
-	@Column(name = "first_name", nullable = false)
-	private String firstName;
-
-	@Column(name = "middle_name")
-	private String middleName;
-
-	@Column(name = "last_name", nullable = false)
-	private String lastName;
+	@Column(name = "Name", nullable = false)
+	private String name;	
+	
+	@Column(name = "image")
+	private String image;
 
 	@Column(name = "date_of_birth")
 	private LocalDate dateOfBirth;

@@ -32,32 +32,33 @@ public class TaxSlabService {
 		return taxSlabRepo.save(taxSlab);
 	}
 
-	public TaxSlabEntity updateTaxSlab(Integer taxSlabId, TaxSlabEntity updatedTaxSlab) {
+	public TaxSlabEntity updateTaxSlab(Integer taxid, TaxSlabEntity updatedTaxSlab) {
 
-		if (taxSlabId == null) {
+		if (taxid == null) {
 			throw new RuntimeException("Tax slab ID is required");
 		}
 
 		validateTaxSlab(updatedTaxSlab);
 
-		TaxSlabEntity existingTaxSlab = getTaxSlabById(taxSlabId);
+		TaxSlabEntity existingTaxSlab = getTaxSlabById(taxid);
 		existingTaxSlab.setSlabName(updatedTaxSlab.getSlabName());
 		existingTaxSlab.setMinAmount(updatedTaxSlab.getMinAmount());
 		existingTaxSlab.setMaxAmount(updatedTaxSlab.getMaxAmount());
 		existingTaxSlab.setPercentage(updatedTaxSlab.getPercentage());
 		existingTaxSlab.setActive(updatedTaxSlab.getActive());
+		existingTaxSlab.setTaxregimeType(updatedTaxSlab.getTaxregimeType());
 
 		return taxSlabRepo.save(existingTaxSlab);
 	}
 
-	public TaxSlabEntity getTaxSlabById(Integer taxSlabId) {
+	public TaxSlabEntity getTaxSlabById(Integer taxid) {
 
-		if (taxSlabId == null) {
+		if (taxid == null) {
 			throw new RuntimeException("Tax slab ID is required");
 		}
 
-		return taxSlabRepo.findById(taxSlabId)
-				.orElseThrow(() -> new RuntimeException("Tax slab not found with ID: " + taxSlabId));
+		return taxSlabRepo.findById(taxid)
+				.orElseThrow(() -> new RuntimeException("Tax slab not found with ID: " + taxid));
 	}
 
 	public List<TaxSlabEntity> getAllTaxSlabs() {
@@ -75,9 +76,9 @@ public class TaxSlabService {
 				.orElse(BigDecimal.ZERO);
 	}
 
-	public String deleteTaxSlab(Integer taxSlabId) {
+	public String deleteTaxSlab(Integer taxid) {
 
-		TaxSlabEntity taxSlab = getTaxSlabById(taxSlabId);
+		TaxSlabEntity taxSlab = getTaxSlabById(taxid);
 		taxSlabRepo.delete(taxSlab);
 
 		return "Tax slab deleted successfully";

@@ -25,6 +25,13 @@ public class KycService {
 	public KycEntity saveKyc(KycEntity kyc) {
 
 		validateKyc(kyc);
+		
+		EmpEntity verifier = empRepo.findById(
+		        kyc.getVerifiedBy().getEmployeeid())
+		        .orElseThrow(() ->
+		            new RuntimeException("Verifier not found"));
+
+		kyc.setVerifiedBy(verifier);
 
 		Integer employeeId = kyc.getEmployee().getEmployeeid();
 
@@ -112,6 +119,11 @@ public class KycService {
 		kycRepo.delete(kyc);
 
 		return "KYC deleted successfully";
+	}
+	
+	public String deleteAllKyc() {
+		kycRepo.deleteAll();
+		return "All KYC records deleted successfully";
 	}
 
 	private void validateKyc(KycEntity kyc) {

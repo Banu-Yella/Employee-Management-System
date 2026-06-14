@@ -24,9 +24,9 @@ import lombok.Data;
 public class EmpLoginEntity {
 
 	@Id
-	@Column(name = "login_id", nullable = false, unique = true)
+	@Column(name = "emp_login_id", nullable = false, unique = true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer loginid;
+	private Integer emploginid;
 	
 	// login relationship
 	@OneToOne(fetch = FetchType.EAGER)
@@ -44,7 +44,7 @@ public class EmpLoginEntity {
 	private String passwordResetToken;
 
 	@Column(name = "password_reset_expiry")
-	private java.time.LocalDateTime passwordResetExpiry;
+	private LocalDateTime passwordResetExpiry;
 
 	// e.g Admin/User, SUPER_ADMIN, DEPT_MANAGER, TEAM_LEAD, EMPLOYEE
 	@Column(name = "role", nullable = false)

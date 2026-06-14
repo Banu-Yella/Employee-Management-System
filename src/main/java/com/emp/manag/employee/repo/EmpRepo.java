@@ -11,9 +11,13 @@ import com.emp.manag.employee.entity.EmpEntity;
 public interface EmpRepo
         extends JpaRepository<EmpEntity, Integer> {
 
+<<<<<<< HEAD
     boolean existsByUserUserId(
             Integer userId);
 
     Optional<EmpEntity> findByUserUserId(
             Integer userId);
 }
+=======
+}
+>>>>>>> f759ccff23d20de1a3e7334cfca05632bc51aea1

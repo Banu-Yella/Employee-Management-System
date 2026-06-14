@@ -160,9 +160,20 @@ public class UserLoginService {
 	    if (request.getPassword() == null
 	            || request.getPassword().trim().isEmpty()) {
 
+<<<<<<< HEAD
 	        throw new RuntimeException(
 	                "Password is required");
 	    }
+=======
+		session.setMaxInactiveInterval(SESSION_TIMEOUT_SECONDS);
+		session.setAttribute("principalType", "USER");
+		session.setAttribute("userLoginId", login.getUserLoginId());
+		session.setAttribute("userId", login.getUser().getUserId());
+		session.setAttribute("username", login.getUsername());
+		session.setAttribute("role", login.getRole());
+		session.setAttribute("loginAt", loginAt);
+		
+>>>>>>> f759ccff23d20de1a3e7334cfca05632bc51aea1
 
 	    UserLoginEntity login =
 	            loginRepo.findByUsername(
@@ -251,7 +262,18 @@ public class UserLoginService {
 
 	public SessionResponse getSession(HttpSession session) {
 		if (session == null || session.getAttribute("userLoginId") == null) {
-			return new SessionResponse(null, "USER", null, null, null, null, null, false, "No active user session");
+			return new SessionResponse(
+				    null,       // 1
+				    "USER",     // 2
+				    null,       // 3
+				    null,       // 4
+				    null,       // 5
+				    
+				    null,       // 7
+				    null,       // 8
+				    false,      // 9
+				    "No active user session"  // 10
+				);
 		}
 		return buildSessionResponse(session, true, "User session is active");
 	}
@@ -297,11 +319,23 @@ public class UserLoginService {
 	}
 
 	private SessionResponse buildSessionResponse(HttpSession session, boolean authenticated, String message) {
-		LocalDateTime loginAt = (LocalDateTime) session.getAttribute("loginAt");
-		LocalDateTime expiresAt = loginAt == null ? null : loginAt.plusSeconds(session.getMaxInactiveInterval());
-		return new SessionResponse(session.getId(), "USER", (Integer) session.getAttribute("userId"),
-				(String) session.getAttribute("username"), (String) session.getAttribute("role"), loginAt, expiresAt,
-				authenticated, message);
+
+	    LocalDateTime loginAt = (LocalDateTime) session.getAttribute("loginAt");
+	    LocalDateTime expiresAt = loginAt == null ? null 
+	                            : loginAt.plusSeconds(session.getMaxInactiveInterval());
+
+	    return new SessionResponse(
+	        session.getId(),                                  // 1 - sessionId
+	        "USER",                                           // 2 - principalType
+	        (Integer) session.getAttribute("userId"),         // 3 - id
+	        (String) session.getAttribute("username"),        // 4 - username
+	        (String) session.getAttribute("role"),            // 5 - role
+	        
+	        loginAt,                                          // 7 - loginAt
+	        expiresAt,                                        // 8 - expiresAt
+	        authenticated,                                    // 9 - authenticated
+	        message                                           // 10 - message
+	    );
 	}
 	
 }

@@ -25,17 +25,17 @@ public class JobApplicationController {
 	@Autowired
 	private JobApplicationService jobApplicationService;
 
-	@PostMapping("/job-applications")
+	@PostMapping("/save-applications")
 	public JobApplicationEntity saveApplication(@RequestBody JobApplicationEntity application) {
 		return jobApplicationService.save(application);
 	}
 
-	@PutMapping("/job-applications/{applicationId}")
+	@PutMapping("/update-applications/{applicationId}")
 	public String updateApplication(@PathVariable Integer applicationId, @RequestBody JobApplicationEntity application) {
 		return jobApplicationService.updateApplication(applicationId, application);
 	}
 
-	@PutMapping("/job-applications/{applicationId}/status")
+	@PutMapping("/update-applications/{applicationId}/status")
 	public String updateApplicationStatus(@PathVariable Integer applicationId,
 			@RequestBody JobApplicationStatusRequest request) {
 		if (request == null) {
@@ -44,42 +44,42 @@ public class JobApplicationController {
 		return jobApplicationService.updateApplicationStatus(applicationId, request.getStatus());
 	}
 
-	@GetMapping("/job-applications/{applicationId}")
+	@GetMapping("/get-applications/{applicationId}")
 	public JobApplicationEntity getApplicationById(@PathVariable Integer applicationId) {
 		return jobApplicationService.getApplicationById(applicationId);
 	}
 
-	@GetMapping("/job-applications")
+	@GetMapping("/getAll-job-applications")
 	public List<JobApplicationEntity> getAllApplications() {
 		return jobApplicationService.getAllApplications();
 	}
 
-	@GetMapping("/job-applications/user/{userId}")
+	@GetMapping("/get-applications/user/{userId}")
 	public List<JobApplicationEntity> getApplicationsByUser(@PathVariable Integer userId) {
 		return jobApplicationService.getApplicationsByUser(userId);
 	}
 
-	@GetMapping("/job-applications/job/{jobId}")
+	@GetMapping("/get-applications/job/{jobId}")
 	public List<JobApplicationEntity> getApplicationsByJob(@PathVariable Integer jobId) {
 		return jobApplicationService.getApplicationsByJob(jobId);
 	}
 
-	@GetMapping("/job-applications/status/{status}")
+	@GetMapping("/get-applications/status/{status}")
 	public List<JobApplicationEntity> getApplicationsByStatus(@PathVariable CandidateStatus status) {
 		return jobApplicationService.getApplicationsByStatus(status);
 	}
 
-	@GetMapping("/job-applications/summary")
+	@GetMapping("/get-applications/summary")
 	public JobApplicationSummary getApplicationSummary() {
 		return jobApplicationService.getApplicationSummary();
 	}
 
-	@DeleteMapping("/job-applications/{applicationId}")
+	@DeleteMapping("/delete-job-applications/{applicationId}")
 	public String deleteApplication(@PathVariable Integer applicationId) {
 		return jobApplicationService.deleteApplication(applicationId);
 	}
 
-	@DeleteMapping("/job-applications")
+	@DeleteMapping("/deleteAll-job-applications")
 	public String deleteAllApplications() {
 		return jobApplicationService.deleteAllApplications();
 	}

@@ -28,23 +28,23 @@ public class JobBoardController {
 		return jobBoardService.save(jobBoard);
 	}
 
-	@PutMapping("/job-board/{jobId}")
+	@PutMapping("/job-board/{jobBoardId}")
 	public String updateJobBoard(@PathVariable Integer jobId, @RequestBody JobBoardEntity updatedJobBoard) {
 		jobBoardService.updateJobBoard(jobId, updatedJobBoard);
 		return "Job board updated successfully";
 	}
 
-	@GetMapping("/job-board")
+	@GetMapping("/getAll-job-board")
 	public List<JobBoardEntity> getAllJobBoards() {
 		return jobBoardService.getAllJobBoards();
 	}
 
-	@GetMapping("/job-board/{jobId}")
+	@GetMapping("/job-board/{jobBoardId}")
 	public JobBoardEntity getJobBoardById(@PathVariable Integer jobId) {
 		return jobBoardService.getJobBoardById(jobId);
 	}
 
-	@DeleteMapping("/job-board/{jobId}")
+	@DeleteMapping("/job-board/{jobBoardId}")
 	public String deleteJobBoard(@PathVariable Integer jobId) {
 		return jobBoardService.deleteJobBoard(jobId);
 	}

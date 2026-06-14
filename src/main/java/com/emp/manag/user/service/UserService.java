@@ -18,8 +18,7 @@ public class UserService {
 
 	public UserEntity saveUser(UserEntity user) {
 
-		validateUser(user);
-		attachUserRelations(user);
+		validateUser(user);	
 
 		user.setStatus(UserEntity.UserStatus.ACTIVE);
 
@@ -37,14 +36,31 @@ public class UserService {
 		UserEntity existingUser = userRepo.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-		existingUser.setFirstName(updatedUser.getFirstName());
-		existingUser.setMiddleName(updatedUser.getMiddleName());
-		existingUser.setLastName(updatedUser.getLastName());
+		existingUser.setName(updatedUser.getName());
+		existingUser.setImage(updatedUser.getImage());
+		existingUser.setGender(updatedUser.getGender());
+
+		existingUser.setFatherName(updatedUser.getFatherName());
+		existingUser.setMotherName(updatedUser.getMotherName());
+
+		existingUser.setState(updatedUser.getState());
+		existingUser.setCity(updatedUser.getCity());
+		existingUser.setCountry(updatedUser.getCountry());
+		existingUser.setCurrentaddress(updatedUser.getCurrentaddress());
+		existingUser.setPermanentAddress(updatedUser.getPermanentAddress());
+
+		existingUser.setMaritalStatus(updatedUser.getMaritalStatus());
+		existingUser.setStatus(updatedUser.getStatus());
+		existingUser.setPincode(updatedUser.getPincode());
+
 		existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
 		existingUser.setPlaceofBirth(updatedUser.getPlaceofBirth());
 		existingUser.setAge(updatedUser.getAge());
 		existingUser.setLanguage(updatedUser.getLanguage());
 		existingUser.setEmail(updatedUser.getEmail());
+		existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+
+		userRepo.save(existingUser);
 
 		return "User updated successfully";
 	}
@@ -85,11 +101,8 @@ public class UserService {
 			throw new RuntimeException("User details are required");
 		}
 
-		if (user.getFirstName() == null || user.getFirstName().trim().isEmpty()) {
-			throw new RuntimeException("First name is required");
-		}
-		if (user.getLastName() == null || user.getLastName().trim().isEmpty()) {
-			throw new RuntimeException("Last name is required");
+		if (user.getName() == null || user.getName().trim().isEmpty()) {
+			throw new RuntimeException("Name is required");
 		}
 		if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
 			throw new RuntimeException("Email is required");
@@ -109,9 +122,4 @@ public class UserService {
 		}
 	}
 
-	private void attachUserRelations(UserEntity user) {
-		if (user.getEmployee() != null) {
-			user.getEmployee().setUser(user);
-		}
-	}
 }

@@ -11,12 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.emp.manag.config.dto.JobApplicationSummary;
+import com.emp.manag.jobboard.entity.AssessmentEntity;
 import com.emp.manag.jobboard.entity.JobApplicationEntity;
 import com.emp.manag.jobboard.entity.JobApplicationEntity.CandidateStatus;
 import com.emp.manag.jobboard.entity.JobBoardEntity;
+import com.emp.manag.jobboard.repo.AssessmentRepo;
 import com.emp.manag.jobboard.repo.JobApplicationRepo;
 import com.emp.manag.jobboard.repo.JobBoardRepo;
+import com.emp.manag.user.entity.UserAssessmentEntity;
+import com.emp.manag.user.entity.UserAssessmentEntity.AssessmentSessionStatus;
 import com.emp.manag.user.entity.UserEntity;
+import com.emp.manag.user.repo.UserAssessmentRepo;
 import com.emp.manag.user.repo.UserRepo;
 
 @Service
@@ -32,32 +37,54 @@ public class JobApplicationService {
 	@Autowired
 	private JobBoardRepo jobBoardRepo;
 
+	@Autowired
+	private AssessmentRepo assessmentRepo;
+
+	@Autowired
+	private UserAssessmentRepo userAssessmentRepo;
+
 	public JobApplicationEntity save(JobApplicationEntity application) {
 
 		validateCreateApplication(application);
 
 		Integer userId = application.getUser().getUserId();
-		Integer jobId = application.getJob().getJobId();
+		Integer jobBoardId = application.getJobBoard().getJobBoardId();
 
-		if (applicationRepo.existsByUserUserIdAndJobJobId(userId, jobId)) {
+		if (applicationRepo.existsByUserUserIdAndJobBoardJobBoardId(userId, jobBoardId)) {
 			throw new RuntimeException("User has already applied for this job");
 		}
 
 		UserEntity user = userRepo.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-		JobBoardEntity job = jobBoardRepo.findById(jobId)
-				.orElseThrow(() -> new RuntimeException("Job not found with id: " + jobId));
+		JobBoardEntity job = jobBoardRepo.findById(jobBoardId)
+				.orElseThrow(() -> new RuntimeException("Job not found with id: " + jobBoardId));
 
 		if (job.getApplicationDeadline() != null && job.getApplicationDeadline().isBefore(LocalDateTime.now())) {
-			throw new RuntimeException("Application deadline is completed for this job");
+			throw new RuntimeException("Application deadline has passed for this job");
 		}
 
 		application.setUser(user);
-		application.setJob(job);
+		application.setJobBoard(job);
 		application.setAppliedDate(LocalDateTime.now());
 		application.setStatus(CandidateStatus.APPLIED);
 
-		return applicationRepo.save(application);
+		JobApplicationEntity savedApplication = applicationRepo.save(application);
+
+		List<AssessmentEntity> assessments = assessmentRepo.findByJobBoardJobBoardId(jobBoardId);
+
+		if (!assessments.isEmpty()) {
+		    AssessmentEntity assessment = assessments.get(0);
+		    UserAssessmentEntity userAssessment = new UserAssessmentEntity();
+
+		    userAssessment.setUser(user);   			
+		    userAssessment.setAssessment(assessment);
+		    userAssessment.setSessionStatus(AssessmentSessionStatus.ASSIGNED);
+		    userAssessmentRepo.save(userAssessment);
+		    savedApplication.setStatus(CandidateStatus.ASSESSMENT_PENDING);
+		    applicationRepo.save(savedApplication);
+		}
+		
+		return savedApplication;
 	}
 
 	public String updateApplication(Integer applicationId, JobApplicationEntity updatedApplication) {
@@ -100,14 +127,14 @@ public class JobApplicationService {
 		return applicationRepo.findByUserUserId(userId);
 	}
 
-	public List<JobApplicationEntity> getApplicationsByJob(Integer jobId) {
-		if (jobId == null) {
+	public List<JobApplicationEntity> getApplicationsByJob(Integer jobBoardId) {
+		if (jobBoardId == null) {
 			throw new RuntimeException("Job ID is required");
 		}
-		if (!jobBoardRepo.existsById(jobId)) {
-			throw new RuntimeException("Job not found with id: " + jobId);
+		if (!jobBoardRepo.existsById(jobBoardId)) {
+			throw new RuntimeException("Job not found with id: " + jobBoardId);
 		}
-		return applicationRepo.findByJobJobId(jobId);
+		return applicationRepo.findByJobBoardJobBoardId(jobBoardId);
 	}
 
 	public List<JobApplicationEntity> getApplicationsByStatus(CandidateStatus status) {
@@ -150,7 +177,7 @@ public class JobApplicationService {
 		if (application.getUser() == null || application.getUser().getUserId() == null) {
 			throw new RuntimeException("Valid user is required for job application");
 		}
-		if (application.getJob() == null || application.getJob().getJobId() == null) {
+		if (application.getJobBoard() == null || application.getJobBoard().getJobBoardId() == null) {
 			throw new RuntimeException("Valid job is required for job application");
 		}
 	}
@@ -174,8 +201,7 @@ public class JobApplicationService {
 	}
 
 	private boolean isFinalStatus(CandidateStatus status) {
-		return status == CandidateStatus.ASSESSMENT_FAILED
-				|| status == CandidateStatus.INTERVIEW_REJECTED
+		return status == CandidateStatus.ASSESSMENT_FAILED || status == CandidateStatus.INTERVIEW_REJECTED
 				|| status == CandidateStatus.ONBOARDED;
 	}
 

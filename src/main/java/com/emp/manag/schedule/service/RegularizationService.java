@@ -3,6 +3,7 @@ package com.emp.manag.schedule.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -266,5 +267,23 @@ public class RegularizationService {
 		}
 
 		return totalOfficeMinutes - regularOfficeMinutesIncludingBreak;
+	}
+
+	public RegularizationEntity getById(Integer regularizationId) {
+
+	    if (regularizationId == null) {
+	        throw new RuntimeException("Regularization ID is required");
+	    }
+
+	    return regularizationRepo.findById(regularizationId)
+	            .orElseThrow(() ->
+	                new RuntimeException(
+	                    "Regularization record not found with ID: " + regularizationId
+	                )
+	            );
+	}
+	
+	public List<RegularizationEntity> getAllRegularization() {
+		return regularizationRepo.findAll();
 	}
 }

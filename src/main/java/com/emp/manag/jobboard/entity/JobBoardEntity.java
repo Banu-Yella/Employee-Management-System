@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,10 +24,10 @@ public class JobBoardEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "job_id", nullable = false)
-	private Integer jobId;
+	@Column(name = "job_Board_id", nullable = false)
+	private Integer jobBoardId;
 	
-	@OneToMany(mappedBy = "job")
+	@OneToMany(mappedBy = "jobBoard")
 	private List<AssessmentEntity> assessments;
 		
 	@Column(name = "job_title")
@@ -49,8 +51,17 @@ public class JobBoardEntity {
 	@Column(name = "salary_range")
 	private String salaryRange;
 
-	@Column(name = "employment_type")
-	private String employmentType;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "employment_type", nullable = false)
+	private EmploymentType employmentType;
+
+	public enum EmploymentType {
+		FULL_TIME,
+		PART_TIME,
+		CONTRACT,
+		INTERN,
+		FREELANCER
+	}
 
 	@Column(name = "posted_date")
 	private LocalDateTime postedDate;

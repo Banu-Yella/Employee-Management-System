@@ -10,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +26,7 @@ public class PayrollEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "payrollId")
 	private Integer payrollId;
 
 	@ManyToOne
@@ -64,8 +66,9 @@ public class PayrollEntity {
 	@Column(name = "net_salary", nullable = false)
 	private BigDecimal netSalary;
 
-	@Column(name = "tax_slab", nullable = false)
-	private String taxSlab;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "tax_id", nullable = false)
+	private TaxSlabEntity taxSlab;
 
 	@Column(name = "approved", nullable = false)
 	private Boolean approved;
@@ -83,7 +86,9 @@ public class PayrollEntity {
 
 		PAID,
 
-		REJECTED
+		REJECTED,
+		
+		On_Hold
 	}
 
 	@Enumerated(EnumType.STRING)
