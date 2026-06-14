@@ -40,10 +40,9 @@ public class EmpController {
 
 	}
 
-	@GetMapping("EmployeeById/{employeeId}")
+	@GetMapping("/EmployeeById/{employeeId}")
 	public EmpEntity getEmployeeById(@PathVariable Integer employeeId) {
-		return service.getEmployeeById(employeeId);
-
+	    return service.getEmployeeById(employeeId);
 	}
 
 	@DeleteMapping("/DeleteEmp/{employeeId}")

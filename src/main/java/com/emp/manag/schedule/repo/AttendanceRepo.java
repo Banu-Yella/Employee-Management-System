@@ -2,6 +2,7 @@ package com.emp.manag.schedule.repo;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +37,13 @@ public interface AttendanceRepo extends JpaRepository<AttendanceEntity, Integer>
 			  and a.attendanceDate between :startDate and :endDate
 			""")
 	Long sumOvertimeMinutes(Integer employeeId, LocalDate startDate, LocalDate endDate);
+	
+	int countByAttendanceDateAndAttendanceStatus(
+	        LocalDate attendanceDate,
+	        AttendanceStatus attendanceStatus);
+	
+	Optional<AttendanceEntity>
+	findByEmployeeEmployeeidAndAttendanceDate(
+	        Integer employeeId,
+	        LocalDate attendanceDate);
 }

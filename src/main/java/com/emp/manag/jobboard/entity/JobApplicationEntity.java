@@ -25,9 +25,9 @@ import lombok.Data;
 public class JobApplicationEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "job_application_id")
-	private Integer jobApplicationId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "job_application_id")
+    private Integer jobApplicationId;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")

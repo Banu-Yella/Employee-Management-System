@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.emp.manag.employee.entity.EmpEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,13 +36,16 @@ public class EmpWeekOffEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "employee_id", nullable = false)
+	@JsonIgnore
 	private EmpEntity employee;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "policy_id")
+	@JsonIgnore
 	private WeekOffPolicyEntity weekOffPolicy;
 
 	@OneToMany(mappedBy = "weekOff")
+	@JsonIgnore
 	private List<AttendanceEntity> attendances;
 
 	@CreationTimestamp

@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.stream.Collectors;
+import com.emp.manag.schedule.dto.AttendanceDTO;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -401,5 +406,137 @@ public class AttendanceService {
 		}
 
 		return YearMonth.of(year, month);
+	}
+	
+	
+	public List<AttendanceDTO> getAllAttendanceDTO() {
+
+	    return attendanceRepo.findAll()
+	            .stream()
+	            .map(this::convertToDTO)
+	            .collect(Collectors.toList());
+	}
+	private AttendanceDTO convertToDTO(
+	        AttendanceEntity attendance) {
+
+	    AttendanceDTO dto = new AttendanceDTO();
+
+	    dto.setAttendanceId(
+	            attendance.getAttendanceId());
+
+	    dto.setAttendanceDate(
+	            attendance.getAttendanceDate());
+
+	    dto.setAttendanceStatus(
+	            attendance.getAttendanceStatus() != null
+	                    ? attendance.getAttendanceStatus().name()
+	                    : null);
+
+	    dto.setPunchInTime(
+	            attendance.getPunchInTime());
+
+	    dto.setPunchOutTime(
+	            attendance.getPunchOutTime());
+
+	    if (attendance.getEmployee() != null) {
+
+	        dto.setEmployeeId(
+	                attendance.getEmployee()
+	                        .getEmployeeid());
+
+	        dto.setEmployeeName(
+	                attendance.getEmployee()
+	                        .getEmployeeName());
+
+	        dto.setDepartment(
+	                attendance.getEmployee()
+	                        .getDepartment());
+	    }
+
+	    return dto;
+	}
+	
+	public Integer getPresentToday() {
+
+	    return attendanceRepo
+	            .countByAttendanceDateAndAttendanceStatus(
+	                    LocalDate.now(),
+	                    AttendanceStatus.PRESENT);
+	}
+
+	public Integer getAbsentToday() {
+
+	    return attendanceRepo
+	            .countByAttendanceDateAndAttendanceStatus(
+	                    LocalDate.now(),
+	                    AttendanceStatus.ABSENT);
+	}
+
+	public Integer getLeaveToday() {
+
+	    return attendanceRepo
+	            .countByAttendanceDateAndAttendanceStatus(
+	                    LocalDate.now(),
+	                    AttendanceStatus.LEAVE);
+	}
+
+	public Integer getWeekOffToday() {
+
+	    return attendanceRepo
+	            .countByAttendanceDateAndAttendanceStatus(
+	                    LocalDate.now(),
+	                    AttendanceStatus.WEEK_OFF);
+	}
+
+	public Map<String, Integer> getAttendanceSummary() {
+
+	    Map<String, Integer> summary =
+	            new HashMap<>();
+
+	    summary.put(
+	            "present",
+	            getPresentToday());
+
+	    summary.put(
+	            "absent",
+	            getAbsentToday());
+
+	    summary.put(
+	            "leave",
+	            getLeaveToday());
+
+	    summary.put(
+	            "weekOff",
+	            getWeekOffToday());
+
+	    return summary;
+	}
+	private void removeLeaveAttendance(
+	        LeaveEntity leave) {
+
+	    LocalDate current =
+	            leave.getLeaveStartDate();
+
+	    while (!current.isAfter(
+	            leave.getLeaveEndDate())) {
+
+	        attendanceRepo
+	                .findByEmployeeEmployeeidAndAttendanceDate(
+	                        leave.getEmployee()
+	                                .getEmployeeid(),
+	                        current)
+	                .ifPresent(attendance -> {
+
+	                    if (attendance.getAttendanceStatus()
+	                            == AttendanceStatus.LEAVE) {
+
+	                        attendanceRepo.delete(
+	                                attendance);
+	                    }
+	                });
+
+	        current =
+	                current.plusDays(1);
+	    }
 	}
 }

@@ -55,4 +55,16 @@ public interface LeaveRepo extends JpaRepository<LeaveEntity, Integer> {
 			""")
 	boolean existsActiveLeaveOverlapExcludingId(Integer leaveId, Integer employeeId, LocalDate startDate,
 			LocalDate endDate, ApprovalStatus excludedStatus);
+	
+	@Query("""
+		       SELECT l
+		       FROM LeaveEntity l
+		       WHERE l.employee.employeeid = :employeeId
+		       AND l.approvalStatus = 'APPROVED'
+		       AND :today BETWEEN l.leaveStartDate
+		                      AND l.leaveEndDate
+		       """)
+		List<LeaveEntity> findActiveApprovedLeave(
+		        Integer employeeId,
+		        LocalDate today);
 }

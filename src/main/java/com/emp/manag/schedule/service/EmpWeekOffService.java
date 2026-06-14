@@ -31,27 +31,52 @@ public class EmpWeekOffService {
 
     public EmpWeekOffEntity saveEmpWeekOff(EmpWeekOffEntity empWeekOff) {
 
+        System.out.println("=================================");
+        System.out.println("Received WeekOff Request");
+        System.out.println("WeekOff = " + empWeekOff);
+
+        if (empWeekOff != null) {
+            System.out.println("Employee Object = " + empWeekOff.getEmployee());
+
+            if (empWeekOff.getEmployee() != null) {
+                System.out.println("Employee ID = "
+                        + empWeekOff.getEmployee().getEmployeeid());
+            }
+        }
+        System.out.println("=================================");
+
         validateEmpWeekOff(empWeekOff);
 
         Integer employeeId = empWeekOff.getEmployee().getEmployeeid();
 
         EmpEntity employee = empRepo.findById(employeeId)
-                .orElseThrow(() -> new RuntimeException("Employee not found with ID: " + employeeId));
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Employee not found with ID: "
+                                        + employeeId));
 
         if (empWeekOffRepo.existsByEmployeeEmployeeidAndWeekOffDate(
-                employeeId, empWeekOff.getWeekOffDate())) {
-            throw new RuntimeException("Week off already exists for this employee on this date");
+                employeeId,
+                empWeekOff.getWeekOffDate())) {
+
+            throw new RuntimeException(
+                    "Week off already exists for this employee on this date");
         }
 
         empWeekOff.setEmployee(employee);
 
-        if (empWeekOff.getWeekOffPolicy() != null &&
-                empWeekOff.getWeekOffPolicy().getPolicyId() != null) {
+        if (empWeekOff.getWeekOffPolicy() != null
+                && empWeekOff.getWeekOffPolicy().getPolicyId() != null) {
 
-            Integer policyId = empWeekOff.getWeekOffPolicy().getPolicyId();
+            Integer policyId =
+                    empWeekOff.getWeekOffPolicy().getPolicyId();
 
-            WeekOffPolicyEntity policy = weekOffPolicyRepo.findById(policyId)
-                    .orElseThrow(() -> new RuntimeException("Week off policy not found with ID: " + policyId));
+            WeekOffPolicyEntity policy =
+                    weekOffPolicyRepo.findById(policyId)
+                            .orElseThrow(() ->
+                                    new RuntimeException(
+                                            "Week off policy not found with ID: "
+                                                    + policyId));
 
             empWeekOff.setWeekOffPolicy(policy);
         }

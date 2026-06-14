@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.emp.manag.employee.entity.EmpLoginEntity;
 import com.emp.manag.employee.service.EmpLoginService;
+import com.emp.manag.config.dto.ChangePasswordRequest;
 import com.emp.manag.config.dto.LoginRequest;
 import com.emp.manag.config.dto.SessionResponse;
 
@@ -74,5 +75,15 @@ public class EmpLoginController {
 	@PostMapping("/employee/logout")
 	public SessionResponse employeeLogout(HttpSession session) {
 		return empLoginService.logout(session);
+	}
+	
+	@PutMapping("/change-password")
+	public String changePassword(
+	        @RequestBody ChangePasswordRequest request) {
+
+	    return empLoginService.changePassword(
+	            request.getUsername(),
+	            request.getCurrentPassword(),
+	            request.getNewPassword());
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.emp.manag.schedule.dto.LeaveDTO;
 import com.emp.manag.schedule.entity.LeaveEntity;
 import com.emp.manag.schedule.entity.LeaveEntity.ApprovalStatus;
 import com.emp.manag.schedule.service.LeaveService;
@@ -70,14 +71,22 @@ public class LeaveController {
 		return leaveService.rejectLeave(leaveId, rejectedById, rejectionReason);
 	}
 
+	@PutMapping("/cancelleave/{leaveId}")
+	public LeaveEntity cancelLeave(
+	        @PathVariable Integer leaveId) {
+
+	    return leaveService.cancelLeave(
+	            leaveId);
+	}
+	
 	@GetMapping("/getleave/{leaveId}")
 	public LeaveEntity getLeaveById(@PathVariable Integer leaveId) {
 		return leaveService.getLeaveById(leaveId);
 	}
 
 	@GetMapping("/getallleaves")
-	public List<LeaveEntity> getAllLeaves() {
-		return leaveService.getAllLeaves();
+	public List<LeaveDTO> getAllLeaves() {
+	    return leaveService.getAllLeaveDTO();
 	}
 
 	@GetMapping("/getemployeeleaves/{employeeId}")

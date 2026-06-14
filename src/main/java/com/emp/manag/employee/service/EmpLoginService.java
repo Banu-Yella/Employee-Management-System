@@ -30,28 +30,42 @@ public class EmpLoginService {
 
 	public EmpLoginEntity saveLogin(EmpLoginEntity login) {
 
-		validateLogin(login);
+	    if (login == null) {
+	        throw new RuntimeException("Login details are required");
+	    }
 
-		Integer employeeId = login.getEmployee().getEmployeeid();
+	    // Default Role
+	    if (login.getRole() == null || login.getRole().trim().isEmpty()) {
+	        login.setRole("EMPLOYEE");
+	    }
 
-		if (loginRepo.existsByEmployeeEmployeeid(employeeId)) {
-			throw new RuntimeException("Login already exists for employee ID: " + employeeId);
-		}
+	    // Default Status
+	    if (login.getStatus() == null || login.getStatus().trim().isEmpty()) {
+	        login.setStatus("ACTIVE");
+	    }
 
-		if (loginRepo.existsByUsername(login.getUsername())) {
-			throw new RuntimeException("Username already exists: " + login.getUsername());
-		}
+	    validateLogin(login);
 
-		EmpEntity employee = empRepo.findById(employeeId)
-				.orElseThrow(() -> new RuntimeException("Employee not found with ID: " + employeeId));
+	    Integer employeeId = login.getEmployee().getEmployeeid();
 
-		login.setEmployee(employee);
+	    if (loginRepo.existsByEmployeeEmployeeid(employeeId)) {
+	        throw new RuntimeException(
+	                "Login already exists for employee ID: " + employeeId);
+	    }
 
-		if (login.getStatus() == null || login.getStatus().trim().isEmpty()) {
-			login.setStatus("ACTIVE");
-		}
+	    if (loginRepo.existsByUsername(login.getUsername())) {
+	        throw new RuntimeException(
+	                "Username already exists: " + login.getUsername());
+	    }
 
-		return loginRepo.save(login);
+	    EmpEntity employee = empRepo.findById(employeeId)
+	            .orElseThrow(() ->
+	                    new RuntimeException(
+	                            "Employee not found with ID: " + employeeId));
+
+	    login.setEmployee(employee);
+
+	    return loginRepo.save(login);
 	}
 
 	public String updateLogin(Integer loginId, EmpLoginEntity updatedLogin) {
@@ -171,6 +185,26 @@ public class EmpLoginService {
 		response.setAuthenticated(false);
 		response.setMessage("Employee logged out successfully");
 		return response;
+	}
+	
+	public String changePassword(
+	        String username,
+	        String currentPassword,
+	        String newPassword) {
+
+	    EmpLoginEntity login = loginRepo.findByUsername(username)
+	            .orElseThrow(() ->
+	                    new RuntimeException("User not found"));
+
+	    if (!login.getPasswordHash().equals(currentPassword)) {
+	        throw new RuntimeException("Current password is incorrect");
+	    }
+
+	    login.setPasswordHash(newPassword);
+
+	    loginRepo.save(login);
+
+	    return "Password changed successfully";
 	}
 
 	private void validateLogin(EmpLoginEntity login) {

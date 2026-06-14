@@ -7,6 +7,8 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +35,8 @@ public class PublicHolidayEntity {
 	private LocalDate publicholidayDate;
 
 	@OneToMany(mappedBy = "publicHoliday")
-    private List<AttendanceEntity> attendances;
+	@JsonIgnore
+	private List<AttendanceEntity> attendances;
 	
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)

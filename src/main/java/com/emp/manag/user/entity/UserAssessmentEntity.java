@@ -70,8 +70,8 @@ public class UserAssessmentEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "job_id")
-    private JobApplicationEntity job;
+    @JoinColumn(name = "job_application_id")
+    private JobApplicationEntity jobApplication;
     
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

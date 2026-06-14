@@ -40,12 +40,12 @@ public class EmpEntity {
 	@JoinColumn(name = "user_id")
 	private UserEntity user; // Association with UserEntity, can be null for non-employee users
 
-	// Employee → Manager
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "manager_id")
 	private EmpEntity manager;
 
-	// Manager → Subordinates
+	@JsonIgnore
 	@OneToMany(mappedBy = "manager")
 	private List<EmpEntity> subordinates;
 

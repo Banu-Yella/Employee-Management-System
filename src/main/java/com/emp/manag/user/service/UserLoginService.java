@@ -2,6 +2,11 @@ package com.emp.manag.user.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.time.LocalDate;
+
+import com.emp.manag.employee.repo.EmpRepo;
+import com.emp.manag.schedule.repo.LeaveRepo;
+import com.emp.manag.schedule.entity.LeaveEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +32,12 @@ public class UserLoginService {
 
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private EmpRepo empRepo;
+
+	@Autowired
+	private LeaveRepo leaveRepo;
 
 	public UserLoginEntity saveLogin(UserLoginEntity login) {
 
@@ -134,37 +145,108 @@ public class UserLoginService {
 		return "All login records deleted successfully";
 	}
 
-	public SessionResponse login(LoginRequest request, HttpSession session) {
-		if (request == null || request.getUsername() == null || request.getUsername().trim().isEmpty()) {
-			throw new RuntimeException("Username is required");
-		}
-		if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
-			throw new RuntimeException("Password is required");
-		}
+	public SessionResponse login(
+	        LoginRequest request,
+	        HttpSession session) {
 
-		UserLoginEntity login = loginRepo.findByUsername(request.getUsername().trim())
-				.orElseThrow(() -> new RuntimeException("Invalid username or password"));
+	    if (request == null
+	            || request.getUsername() == null
+	            || request.getUsername().trim().isEmpty()) {
 
-		if (!"ACTIVE".equalsIgnoreCase(login.getStatus())) {
-			throw new RuntimeException("User login is not active");
-		}
-		if (!matchesPassword(request.getPassword(), login.getPasswordhash())) {
-			throw new RuntimeException("Invalid username or password");
-		}
+	        throw new RuntimeException(
+	                "Username is required");
+	    }
 
-		LocalDateTime loginAt = LocalDateTime.now();
-		login.setLastLogin(loginAt);
-		loginRepo.save(login);
+	    if (request.getPassword() == null
+	            || request.getPassword().trim().isEmpty()) {
 
-		session.setMaxInactiveInterval(SESSION_TIMEOUT_SECONDS);
-		session.setAttribute("principalType", "USER");
-		session.setAttribute("userLoginId", login.getUserLoginId());
-		session.setAttribute("userId", login.getUser().getUserId());
-		session.setAttribute("username", login.getUsername());
-		session.setAttribute("role", login.getRole());
-		session.setAttribute("loginAt", loginAt);
+	        throw new RuntimeException(
+	                "Password is required");
+	    }
 
-		return buildSessionResponse(session, true, "User login successful");
+	    UserLoginEntity login =
+	            loginRepo.findByUsername(
+	                    request.getUsername().trim())
+	                    .orElseThrow(() ->
+	                            new RuntimeException(
+	                                    "Invalid username or password"));
+
+	    LocalDate today = LocalDate.now();
+
+	    Integer userId =
+	            login.getUser().getUserId();
+
+	    var employee =
+	            empRepo.findByUserUserId(userId);
+
+	    if (employee.isPresent()) {
+
+	        List<LeaveEntity> approvedLeaves =
+	                leaveRepo.findActiveApprovedLeave(
+	                        employee.get()
+	                                .getEmployeeid(),
+	                        today);
+
+	        if (!approvedLeaves.isEmpty()) {
+
+	            throw new RuntimeException(
+	                    "Employee is currently on approved leave.");
+	        }
+	    }
+
+	    if (!"ACTIVE".equalsIgnoreCase(
+	            login.getStatus())) {
+
+	        throw new RuntimeException(
+	                "User login is not active");
+	    }
+
+	    if (!matchesPassword(
+	            request.getPassword(),
+	            login.getPasswordhash())) {
+
+	        throw new RuntimeException(
+	                "Invalid username or password");
+	    }
+
+	    LocalDateTime loginAt =
+	            LocalDateTime.now();
+
+	    login.setLastLogin(loginAt);
+
+	    loginRepo.save(login);
+
+	    session.setMaxInactiveInterval(
+	            SESSION_TIMEOUT_SECONDS);
+
+	    session.setAttribute(
+	            "principalType",
+	            "USER");
+
+	    session.setAttribute(
+	            "userLoginId",
+	            login.getUserLoginId());
+
+	    session.setAttribute(
+	            "userId",
+	            login.getUser().getUserId());
+
+	    session.setAttribute(
+	            "username",
+	            login.getUsername());
+
+	    session.setAttribute(
+	            "role",
+	            login.getRole());
+
+	    session.setAttribute(
+	            "loginAt",
+	            loginAt);
+
+	    return buildSessionResponse(
+	            session,
+	            true,
+	            "User login successful");
 	}
 
 	public SessionResponse getSession(HttpSession session) {

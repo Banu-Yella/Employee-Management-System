@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.emp.manag.employee.entity.EmpEntity;
+import com.emp.manag.employee.entity.EmpLoginEntity;
+import com.emp.manag.employee.repo.EmpLoginRepo;
 import com.emp.manag.employee.repo.EmpRepo;
 import com.emp.manag.schedule.entity.ShiftEntity;
 import com.emp.manag.schedule.repo.ShiftRepo;
@@ -27,16 +29,50 @@ public class EmpService {
 	@Autowired
 	private ShiftRepo shiftRepo;
 
+	@Autowired
+	private EmpLoginRepo loginRepo;
+	
 	public EmpEntity saveEmployee(EmpEntity employee) {
 
-		validateEmployee(employee);
-		attachEmployeeRelations(employee);
+	    validateEmployee(employee);
+	    attachEmployeeRelations(employee);
 
-		if (employee.getEmploymentStatus() == null || employee.getEmploymentStatus().trim().isEmpty()) {
-			employee.setEmploymentStatus("ACTIVE");
-		}
+	    if (employee.getEmploymentStatus() == null
+	            || employee.getEmploymentStatus().trim().isEmpty()) {
+	        employee.setEmploymentStatus("ACTIVE");
+	    }
 
-		return empRepo.save(employee);
+	    EmpEntity savedEmployee = empRepo.save(employee);
+
+	    if (!loginRepo.existsByEmployeeEmployeeid(savedEmployee.getEmployeeid())) {
+
+	        EmpLoginEntity login = new EmpLoginEntity();
+
+	        login.setEmployee(savedEmployee);
+
+	        String employeeName = savedEmployee.getEmployeeName().trim();
+
+	        String firstName = employeeName.split(" ")[0];
+
+	        String username = firstName + savedEmployee.getEmployeeid();
+
+	        String tempPassword = firstName + "@123";
+
+	        login.setUsername(username);
+	        login.setPasswordHash(tempPassword);
+	        login.setRole("EMPLOYEE");
+	        login.setStatus("ACTIVE");
+
+	        loginRepo.save(login);
+
+	        System.out.println("==================================");
+	        System.out.println("Employee Login Created");
+	        System.out.println("Username : " + username);
+	        System.out.println("Password : " + tempPassword);
+	        System.out.println("==================================");
+	    }
+
+	    return savedEmployee;
 	}
 
 	public String updateEmployee(Integer employeeId, EmpEntity updatedEmployee) {
@@ -85,10 +121,22 @@ public class EmpService {
 
 	public String deleteEmployee(Integer employeeId) {
 
-		EmpEntity employee = getEmployeeById(employeeId);
-		empRepo.delete(employee);
+	    EmpEntity employee = getEmployeeById(employeeId);
 
-		return "Employee record deleted successfully";
+	    List<EmpLoginEntity> logins = loginRepo.findAll();
+
+	    for (EmpLoginEntity login : logins) {
+	        if (login.getEmployee() != null &&
+	            login.getEmployee().getEmployeeid().equals(employeeId)) {
+
+	            loginRepo.delete(login);
+	            break;
+	        }
+	    }
+
+	    empRepo.delete(employee);
+
+	    return "Employee record deleted successfully";
 	}
 
 	public String deleteAllEmployees() {

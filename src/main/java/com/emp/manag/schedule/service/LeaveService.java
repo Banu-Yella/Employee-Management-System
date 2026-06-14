@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
+import java.util.stream.Collectors;
+import com.emp.manag.schedule.dto.LeaveDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,9 @@ import com.emp.manag.employee.repo.EmpRepo;
 import com.emp.manag.schedule.entity.LeaveEntity;
 import com.emp.manag.schedule.entity.LeaveEntity.ApprovalStatus;
 import com.emp.manag.schedule.entity.LeaveEntity.LeaveType;
+import com.emp.manag.schedule.repo.AttendanceRepo;
+import com.emp.manag.schedule.entity.AttendanceEntity;
+import com.emp.manag.schedule.entity.AttendanceEntity.AttendanceStatus;
 import com.emp.manag.schedule.repo.EmpWeekOffRepo;
 import com.emp.manag.schedule.repo.LeaveRepo;
 import com.emp.manag.schedule.repo.PublicHolidayRepo;
@@ -32,6 +38,10 @@ public class LeaveService {
 	@Autowired
 	private EmpWeekOffRepo empWeekOffRepo;
 
+	
+	@Autowired
+	private AttendanceRepo attendanceRepo;
+	
 	@Autowired
 	private PublicHolidayRepo publicHolidayRepo;
 
@@ -141,7 +151,11 @@ public class LeaveService {
 		leave.setRejectedOn(null);
 		leave.setRejectionReason(null);
 
-		return leaveRepo.save(leave);
+		leaveRepo.save(leave);
+
+		createLeaveAttendance(leave);
+
+		return leave;
 	}
 
 	public LeaveEntity rejectLeave(Integer leaveId, Integer rejectedById, String rejectionReason) {
@@ -415,5 +429,110 @@ public class LeaveService {
 		boolean isPublicHoliday = publicHolidayRepo.existsByPublicholidayDate(date);
 
 		return !isWeekOff && !isPublicHoliday;
+	}
+	
+	public List<LeaveDTO> getAllLeaveDTO() {
+
+	    return leaveRepo.findAll()
+	            .stream()
+	            .map(this::convertToDTO)
+	            .collect(Collectors.toList());
+	}
+
+	private LeaveDTO convertToDTO(
+	        LeaveEntity leave) {
+
+	    LeaveDTO dto = new LeaveDTO();
+
+	    dto.setLeaveId(
+	            leave.getLeaveId());
+
+	    if (leave.getEmployee() != null) {
+
+	        dto.setEmployeeId(
+	                leave.getEmployee()
+	                        .getEmployeeid());
+
+	        dto.setEmployeeName(
+	                leave.getEmployee()
+	                        .getEmployeeName());
+
+	        dto.setDepartment(
+	                leave.getEmployee()
+	                        .getDepartment());
+	    }
+
+	    dto.setLeaveType(
+	            leave.getLeaveType()
+	                    .name());
+
+	    dto.setLeaveStartDate(
+	            leave.getLeaveStartDate());
+
+	    dto.setLeaveEndDate(
+	            leave.getLeaveEndDate());
+
+	    dto.setLeaveDays(
+	            leave.getLeaveDays());
+
+	    dto.setApprovalStatus(
+	            leave.getApprovalStatus()
+	                    .name());
+
+	    return dto;
+	}
+	
+	private void createLeaveAttendance(
+	        LeaveEntity leave) {
+
+	    LocalDate currentDate =
+	            leave.getLeaveStartDate();
+
+	    while (!currentDate.isAfter(
+	            leave.getLeaveEndDate())) {
+
+	        boolean exists =
+	                attendanceRepo
+	                .existsByEmployeeEmployeeidAndAttendanceDate(
+	                        leave.getEmployee()
+	                                .getEmployeeid(),
+	                        currentDate);
+
+	        if (!exists) {
+
+	            AttendanceEntity attendance =
+	                    new AttendanceEntity();
+
+	            attendance.setEmployee(
+	                    leave.getEmployee());
+
+	            attendance.setAttendanceDate(
+	                    currentDate);
+
+	            attendance.setAttendanceStatus(
+	                    AttendanceStatus.LEAVE);
+
+	            attendanceRepo.save(
+	                    attendance);
+	        }
+
+	        currentDate =
+	                currentDate.plusDays(1);
+	    }
+	}
+	public LeaveEntity cancelLeave(
+	        Integer leaveId) {
+
+	    LeaveEntity leave =
+	            leaveRepo.findById(leaveId)
+	            .orElseThrow(() ->
+	                    new RuntimeException(
+	                            "Leave not found"));
+
+	    leave.setApprovalStatus(
+	            ApprovalStatus.CANCELLED);
+
+	    return leaveRepo.save(
+	            leave);
 	}
 }

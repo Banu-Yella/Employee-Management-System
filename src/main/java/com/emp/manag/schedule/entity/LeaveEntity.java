@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.emp.manag.employee.entity.EmpEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,7 +70,8 @@ public class LeaveEntity {
 	    PENDING_HR,
 	    HR_REVIEWED,
 	    APPROVED,
-	    REJECTED
+	    REJECTED,
+	    CANCELLED
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -89,8 +91,9 @@ public class LeaveEntity {
 	@Column(name = "rejection_reason")
 	private String rejectionReason;
 
-    @OneToMany(mappedBy = "leave")
-    private List<AttendanceEntity> attendances;
+	@OneToMany(mappedBy = "leave")
+	@JsonIgnore
+	private List<AttendanceEntity> attendances;
 	
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)

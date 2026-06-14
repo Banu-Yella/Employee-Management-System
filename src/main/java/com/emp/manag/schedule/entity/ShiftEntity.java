@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.emp.manag.employee.entity.EmpEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,9 +38,11 @@ public class ShiftEntity {
 	private Integer shiftid;
 
 	@OneToMany(mappedBy = "shift")
+	@JsonIgnore
 	private List<EmpEntity> employees;
 	
 	@OneToMany(mappedBy = "shift")
+	@JsonIgnore
 	private List<AttendanceEntity> attendances;
 
 	@Enumerated(EnumType.STRING)
@@ -59,9 +62,11 @@ public class ShiftEntity {
 	// Shift Hierarchy (Parent)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_shift_id")
+	@JsonIgnore
 	private ShiftEntity parentShift;
 
 	@OneToMany(mappedBy = "parentShift")
+	@JsonIgnore
 	private List<ShiftEntity> childShifts;
 
 	@Column(name = "start_time", nullable = false)
