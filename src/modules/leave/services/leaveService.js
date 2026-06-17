@@ -1,87 +1,109 @@
 import axiosClient from "../../../api/axiosClient";
 
-export const getAllLeaves = () =>
-  axiosClient.get("/getallleaves");
+export const getAllLeaves = async () => {
+  return await axiosClient.get("/getallleaves");
+};
 
-export const getLeaveById = (id) =>
-  axiosClient.get(`/getleave/${id}`);
-
-export const approveLeave = (id) =>
-  axiosClient.put(`/approveleave/${id}`);
-
-export const rejectLeave = (
-  leaveId,
-  rejectedById,
-  rejectionReason
-) =>
-  axiosClient.put(
-    `/rejectleave/${leaveId}/${rejectedById}`,
-    rejectionReason
+export const getEmployeeLeaves = async (employeeId) => {
+  return await axiosClient.get(
+    `/getemployeeleaves/${employeeId}`
   );
+};
 
-export const teamLeadApproveLeave = (
-  leaveId,
-  approverId
-) =>
-  axiosClient.put(
-    `/teamleadreviewleave/${leaveId}/${approverId}`
+export const applyLeave = async (data) => {
+  return await axiosClient.post(
+    "/saveleave",
+    data
   );
+};
 
-export const sendToManager = (
-  leaveId
-) =>
-  axiosClient.put(
-    `/sendleavetomanager/${leaveId}`
-  );
-
-export const managerApproveLeave = (
-  leaveId,
-  approverId
-) =>
-  axiosClient.put(
-    `/managerreviewleave/${leaveId}/${approverId}`
-  );
-
-export const sendToHr = (
-  leaveId
-) =>
-  axiosClient.put(
-    `/sendleavetohr/${leaveId}`
-  );
-
-export const hrApproveLeave = (
-  leaveId,
-  approverId
-) =>
-  axiosClient.put(
-    `/hrreviewleave/${leaveId}/${approverId}`
-  );
-
-export const finalApproveLeave = (
-  leaveId
-) =>
-  axiosClient.put(
-    `/approveleave/${leaveId}`
-  );
-
-export const cancelLeave = (
-  leaveId
-) =>
-  axiosClient.put(
+export const cancelLeave = async (leaveId) => {
+  return await axiosClient.put(
     `/cancelleave/${leaveId}`
   );
+};
 
-  export const rejectLeave = (
+export const finalApproveLeave = async (leaveId) => {
+  return await axiosClient.put(
+    `/approveleave/${leaveId}`
+  );
+};
+
+export const rejectLeave = async (
   leaveId,
   rejectedById,
   reason
-) =>
-  axiosClient.put(
+) => {
+  return await axiosClient.put(
     `/rejectleave/${leaveId}/${rejectedById}`,
-    reason,
-    {
-      headers: {
-        "Content-Type": "text/plain"
-      }
-    }
+    reason
   );
+};
+
+export const sendToManager = async (leaveId) => {
+  return await axiosClient.put(
+    `/sendleavetomanager/${leaveId}`
+  );
+};
+
+export const sendToHr = async (leaveId) => {
+  return await axiosClient.put(
+    `/sendleavetohr/${leaveId}`
+  );
+};
+
+export const approveByTeamLead = async (
+  leaveId,
+  approverId
+) => {
+  return await axiosClient.put(
+    `/teamleadreviewleave/${leaveId}/${approverId}`
+  );
+};
+
+export const approveByManager = async (
+  leaveId,
+  approverId
+) => {
+  return await axiosClient.put(
+    `/managerreviewleave/${leaveId}/${approverId}`
+  );
+};
+
+export const approveByHr = async (
+  leaveId,
+  approverId
+) => {
+  return await axiosClient.put(
+    `/hrreviewleave/${leaveId}/${approverId}`
+  );
+};
+
+export const hrApproveLeave = async (
+  leaveId,
+  approverId
+) => {
+  return await axiosClient.put(
+    `/hrreviewleave/${leaveId}/${approverId}`
+  );
+};
+
+export const teamLeadApproveLeave = async (
+  leaveId,
+  approverId
+) => {
+  return await axiosClient.put(
+    `/teamleadreviewleave/${leaveId}/${approverId}`
+  );
+};
+
+export const managerApproveLeave = async (
+  leaveId,
+  approverId
+) => {
+  return await axiosClient.put(
+    `/managerreviewleave/${leaveId}/${approverId}`
+  );
+};
+
+

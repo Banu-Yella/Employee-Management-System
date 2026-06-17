@@ -58,7 +58,15 @@ function EmployeeDetails() {
           </p>
 
           <p>
-            <strong>Employee Name :</strong> {employee.employeeName}
+            <strong>Employee Code :</strong> {employee.employeeCode || "N/A"}
+          </p>
+
+          <p>
+            <strong>Employee Name :</strong> {employee.employeename || "N/A"}
+          </p>
+
+          <p>
+            <strong>Role :</strong> {employee.role || "N/A"}
           </p>
 
           <p>
@@ -70,7 +78,8 @@ function EmployeeDetails() {
           </p>
 
           <p>
-            <strong>Role :</strong> {employee.role || "N/A"}
+            <strong>Manager :</strong>{" "}
+            {employee.manager?.employeename || "Not Assigned"}
           </p>
         </div>
       </div>
@@ -85,7 +94,17 @@ function EmployeeDetails() {
         <div className="card-body">
           <p>
             <strong>Employment Status :</strong>{" "}
-            {employee.employmentStatus || "N/A"}
+            <span
+              className={`badge ${
+                employee.employmentStatus === "ACTIVE"
+                  ? "bg-success"
+                  : employee.employmentStatus === "NOTICE_PERIOD"
+                    ? "bg-warning text-dark"
+                    : "bg-danger"
+              }`}
+            >
+              {employee.employmentStatus || "N/A"}
+            </span>
           </p>
 
           <p>
@@ -108,6 +127,24 @@ function EmployeeDetails() {
         </div>
       </div>
 
+      {/* Contact Information */}
+
+      <div className="card shadow-sm mb-4">
+        <div className="card-header">
+          <h5 className="mb-0">Contact Information</h5>
+        </div>
+
+        <div className="card-body">
+          <p>
+            <strong>Phone Number :</strong> {employee.phonenumber || "N/A"}
+          </p>
+
+          <p>
+            <strong>Company Email :</strong> {employee.companyemail || "N/A"}
+          </p>
+        </div>
+      </div>
+
       {/* Shift Information */}
 
       <div className="card shadow-sm mb-4">
@@ -118,32 +155,28 @@ function EmployeeDetails() {
         <div className="card-body">
           <p>
             <strong>Assigned Shift :</strong>{" "}
-            {employee.shift ? employee.shift.shiftName : "Not Assigned"}
-          </p>
-        </div>
-      </div>
-
-      {/* System Information */}
-
-      <div className="card shadow-sm mb-4">
-        <div className="card-header">
-          <h5 className="mb-0">System Information</h5>
-        </div>
-
-        <div className="card-body">
-          <p>
-            <strong>Created At :</strong> {employee.createdAt || "N/A"}
+            {employee.shift?.shiftName ||
+              employee.shift?.shiftType ||
+              "Not Assigned"}
           </p>
 
           <p>
-            <strong>Last Updated :</strong> {employee.updatedAt || "N/A"}
+            <strong>Shift Type :</strong> {employee.shift?.shiftType || "N/A"}
+          </p>
+
+          <p>
+            <strong>Start Time :</strong> {employee.shift?.startTime || "N/A"}
+          </p>
+
+          <p>
+            <strong>End Time :</strong> {employee.shift?.endTime || "N/A"}
           </p>
         </div>
       </div>
 
       {/* Actions */}
 
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 flex-wrap">
         <button
           className="btn btn-primary"
           onClick={() => navigate(`/admin/employees/edit/${id}`)}
@@ -163,6 +196,13 @@ function EmployeeDetails() {
           onClick={() => navigate(`/admin/kyc`)}
         >
           View KYC
+        </button>
+
+        <button
+          className="btn btn-success"
+          onClick={() => navigate("/admin/employees")}
+        >
+          Employee List
         </button>
       </div>
     </div>

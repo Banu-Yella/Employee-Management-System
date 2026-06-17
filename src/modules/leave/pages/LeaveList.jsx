@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   getAllLeaves,
@@ -11,17 +12,24 @@ import {
   cancelLeave,
   rejectLeave,
 } from "../services/leaveService";
-function LeaveList() {
-  const [leaves, setLeaves] = useState([]);
 
+function LeaveList() {
+  const navigate = useNavigate();
+  const [leaves, setLeaves] = useState([]);
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
+
   const [selectedLeave, setSelectedLeave] = useState(null);
+
   const [showRejectModal, setShowRejectModal] = useState(false);
 
   const [rejectReason, setRejectReason] = useState("");
 
   const [selectedLeaveId, setSelectedLeaveId] = useState(null);
-  const [statusFilter, setStatusFilter] = useState("ALL");
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const adminId = user?.id;
 
   useEffect(() => {
     loadLeaves();
@@ -36,7 +44,6 @@ function LeaveList() {
       console.error("Error loading leaves", error);
     }
   };
-  const adminId = Number(sessionStorage.getItem("employeeId"));
 
   const handleTeamLeadApprove = async (leaveId) => {
     try {
@@ -47,6 +54,7 @@ function LeaveList() {
       await loadLeaves();
     } catch (error) {
       console.error(error);
+
       alert(error?.response?.data?.message || "Failed to approve leave");
     }
   };
@@ -60,6 +68,7 @@ function LeaveList() {
       await loadLeaves();
     } catch (error) {
       console.error(error);
+
       alert(error?.response?.data?.message || "Failed to approve leave");
     }
   };
@@ -71,6 +80,7 @@ function LeaveList() {
       await loadLeaves();
     } catch (error) {
       console.error(error);
+
       alert(error?.response?.data?.message || "Failed to approve leave");
     }
   };
@@ -82,6 +92,7 @@ function LeaveList() {
       await loadLeaves();
     } catch (error) {
       console.error(error);
+
       alert(error?.response?.data?.message || "Failed to approve leave");
     }
   };
@@ -89,23 +100,19 @@ function LeaveList() {
   const handleCancelLeave = async (leaveId) => {
     const confirmCancel = window.confirm("Cancel this leave?");
 
-    if (!confirmCancel) {
-      return;
-    }
+    if (!confirmCancel) return;
 
     try {
       await cancelLeave(leaveId);
 
       await loadLeaves();
     } catch (error) {
-      console.error("Cancel Error:", error);
+      console.error(error);
 
-      console.log("Response Data:", error.response?.data);
-      console.log("Status:", error.response?.status);
-
-      alert(JSON.stringify(error.response?.data) || "Failed to cancel leave");
+      alert(error?.response?.data?.message || "Failed to cancel leave");
     }
   };
+
   const handleRejectLeave = async () => {
     try {
       await rejectLeave(selectedLeaveId, adminId, rejectReason);
@@ -121,6 +128,7 @@ function LeaveList() {
       alert(error?.response?.data?.message || "Failed to reject leave");
     }
   };
+
   const filteredLeaves = leaves.filter((leave) => {
     const employeeMatch =
       !search ||
@@ -146,9 +154,11 @@ function LeaveList() {
   const rejectedCount = leaves.filter(
     (leave) => leave.approvalStatus === "REJECTED",
   ).length;
+
   const cancelledCount = leaves.filter(
     (leave) => leave.approvalStatus === "CANCELLED",
   ).length;
+
   return (
     <div className="container-fluid">
       <h2 className="mb-4">Leave Management</h2>
@@ -196,7 +206,7 @@ function LeaveList() {
       {/* Filters */}
 
       <div className="row mb-4">
-        <div className="col-md-6">
+        <div className="col-md-4">
           <input
             type="text"
             className="form-control"
@@ -205,15 +215,8 @@ function LeaveList() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="col-md-3">
-          <div className="card shadow-sm">
-            <div className="card-body text-center">
-              <h6>Cancelled</h6>
-              <h2>{cancelledCount}</h2>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6">
+
+        <div className="col-md-4">
           <select
             className="form-select"
             value={statusFilter}
@@ -227,6 +230,8 @@ function LeaveList() {
 
             <option value="PENDING_HR">Pending HR</option>
 
+            <option value="HR_REVIEWED">HR Reviewed</option>
+
             <option value="APPROVED">Approved</option>
 
             <option value="REJECTED">Rejected</option>
@@ -234,30 +239,31 @@ function LeaveList() {
             <option value="CANCELLED">Cancelled</option>
           </select>
         </div>
+
+        <div className="col-md-4">
+          <div className="card shadow-sm">
+            <div className="card-body text-center">
+              <h6>Cancelled</h6>
+              <h2>{cancelledCount}</h2>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Leave Table */}
+      {/* Table */}
 
       <div className="table-responsive">
         <table className="table table-bordered table-hover">
           <thead className="table-dark">
             <tr>
               <th>ID</th>
-
               <th>Employee</th>
-
               <th>Department</th>
-
               <th>Leave Type</th>
-
               <th>Start Date</th>
-
               <th>End Date</th>
-
               <th>Days</th>
-
               <th>Status</th>
-
               <th>Actions</th>
             </tr>
           </thead>
@@ -298,16 +304,62 @@ function LeaveList() {
 
                   <td>
                     <button
-                      className="btn btn-sm btn-info me-2"
-                      onClick={() => setSelectedLeave(leave)}
+                      className="btn btn-info btn-sm me-2"
+                      onClick={() => navigate("/admin/leave-approval")}
                     >
                       View
                     </button>
+
+                    {leave.approvalStatus === "PENDING_TEAM_LEAD" && (
+                      <button
+                        className="btn btn-success btn-sm me-2"
+                        onClick={() => handleTeamLeadApprove(leave.leaveId)}
+                      >
+                        Team Lead Approve
+                      </button>
+                    )}
+
+                    {leave.approvalStatus === "PENDING_MANAGER" && (
+                      <button
+                        className="btn btn-success btn-sm me-2"
+                        onClick={() => handleManagerApprove(leave.leaveId)}
+                      >
+                        Manager Approve
+                      </button>
+                    )}
+
+                    {leave.approvalStatus === "PENDING_HR" && (
+                      <button
+                        className="btn btn-success btn-sm me-2"
+                        onClick={() => handleHrApprove(leave.leaveId)}
+                      >
+                        HR Approve
+                      </button>
+                    )}
+
+                    {leave.approvalStatus === "HR_REVIEWED" && (
+                      <button
+                        className="btn btn-primary btn-sm me-2"
+                        onClick={() => handleFinalApprove(leave.leaveId)}
+                      >
+                        Final Approve
+                      </button>
+                    )}
+
+                    {leave.approvalStatus === "APPROVED" && (
+                      <button
+                        className="btn btn-warning btn-sm me-2"
+                        onClick={() => handleCancelLeave(leave.leaveId)}
+                      >
+                        Cancel
+                      </button>
+                    )}
+
                     {leave.approvalStatus !== "APPROVED" &&
                       leave.approvalStatus !== "REJECTED" &&
                       leave.approvalStatus !== "CANCELLED" && (
                         <button
-                          className="btn btn-sm btn-danger me-2"
+                          className="btn btn-danger btn-sm"
                           onClick={() => {
                             setSelectedLeaveId(leave.leaveId);
 
@@ -317,51 +369,6 @@ function LeaveList() {
                           Reject
                         </button>
                       )}
-
-                    {leave.approvalStatus === "PENDING_TEAM_LEAD" && (
-                      <button
-                        className="btn btn-sm btn-success me-2"
-                        onClick={() => handleTeamLeadApprove(leave.leaveId)}
-                      >
-                        Team Lead Approve
-                      </button>
-                    )}
-
-                    {leave.approvalStatus === "PENDING_MANAGER" && (
-                      <button
-                        className="btn btn-sm btn-success me-2"
-                        onClick={() => handleManagerApprove(leave.leaveId)}
-                      >
-                        Manager Approve
-                      </button>
-                    )}
-
-                    {leave.approvalStatus === "PENDING_HR" && (
-                      <button
-                        className="btn btn-sm btn-success me-2"
-                        onClick={() => handleHrApprove(leave.leaveId)}
-                      >
-                        HR Approve
-                      </button>
-                    )}
-
-                    {leave.approvalStatus === "HR_REVIEWED" && (
-                      <button
-                        className="btn btn-sm btn-success me-2"
-                        onClick={() => handleFinalApprove(leave.leaveId)}
-                      >
-                        Final Approve
-                      </button>
-                    )}
-
-                    {leave.approvalStatus === "APPROVED" && (
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={() => handleCancelLeave(leave.leaveId)}
-                      >
-                        Cancel
-                      </button>
-                    )}
                   </td>
                 </tr>
               ))
@@ -374,77 +381,46 @@ function LeaveList() {
         </table>
       </div>
 
-      {/* Leave Details Modal */}
+      {/* Reject Modal */}
 
-      {selectedLeave && (
+      {showRejectModal && (
         <div
           className="modal fade show d-block"
-          tabIndex="-1"
           style={{
-            backgroundColor: "rgba(0,0,0,0.5)",
+            background: "rgba(0,0,0,0.5)",
           }}
         >
-          <div className="modal-dialog modal-lg">
+          <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Leave Details</h5>
+                <h5>Reject Leave</h5>
 
                 <button
                   className="btn-close"
-                  onClick={() => setSelectedLeave(null)}
-                ></button>
+                  onClick={() => setShowRejectModal(false)}
+                />
               </div>
 
               <div className="modal-body">
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <strong>Employee Name</strong>
-                    <p>{selectedLeave.employeeName}</p>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <strong>Employee ID</strong>
-                    <p>{selectedLeave.employeeId}</p>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <strong>Department</strong>
-                    <p>{selectedLeave.department}</p>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <strong>Leave Type</strong>
-                    <p>{selectedLeave.leaveType}</p>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <strong>Start Date</strong>
-                    <p>{selectedLeave.leaveStartDate}</p>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <strong>End Date</strong>
-                    <p>{selectedLeave.leaveEndDate}</p>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <strong>Leave Days</strong>
-                    <p>{selectedLeave.leaveDays}</p>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <strong>Status</strong>
-                    <p>{selectedLeave.approvalStatus}</p>
-                  </div>
-                </div>
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  placeholder="Enter rejection reason"
+                  value={rejectReason}
+                  onChange={(e) => setRejectReason(e.target.value)}
+                />
               </div>
 
               <div className="modal-footer">
                 <button
                   className="btn btn-secondary"
-                  onClick={() => setSelectedLeave(null)}
+                  onClick={() => setShowRejectModal(false)}
                 >
                   Close
+                </button>
+
+                <button className="btn btn-danger" onClick={handleRejectLeave}>
+                  Reject Leave
                 </button>
               </div>
             </div>

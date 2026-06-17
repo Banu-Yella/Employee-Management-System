@@ -15,11 +15,11 @@ function EmployeeTable({ employees, onView, onEdit, onDelete }) {
       </thead>
 
       <tbody>
-        {employees.length > 0 ? (
+        {employees && employees.length > 0 ? (
           employees.map((emp) => (
             <tr key={emp.employeeid}>
               <td>{emp.employeeid}</td>
-              <td>{emp.employeeName}</td>
+              <td>{emp.employeename}</td>
               <td>{emp.department}</td>
               <td>{emp.designation}</td>
               <td>{emp.role}</td>

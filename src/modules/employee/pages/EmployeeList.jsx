@@ -32,13 +32,8 @@ function EmployeeList() {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Delete Employee?");
-
-    if (!confirmDelete) return;
-
     try {
       await deleteEmployee(id);
-
       fetchEmployees();
     } catch (error) {
       console.error(error);
@@ -46,7 +41,7 @@ function EmployeeList() {
   };
 
   const filteredEmployees = employees.filter((emp) =>
-    emp.employeeName?.toLowerCase().includes(search.toLowerCase()),
+    (emp.employeename || "").toLowerCase().includes(search.toLowerCase()),
   );
 
   return (

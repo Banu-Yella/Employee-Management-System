@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../styles/AdminNavbar.css";
 
 function AdminNavbar() {
+  const navigate = useNavigate();
+
   const [openMenu, setOpenMenu] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const navbarRef = useRef(null);
 
   useEffect(() => {
@@ -30,6 +33,13 @@ function AdminNavbar() {
     setMobileMenuOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+
+    navigate("/login");
+  };
+
   return (
     <nav className="admin-navbar" ref={navbarRef}>
       <div className="navbar-left">
@@ -46,12 +56,12 @@ function AdminNavbar() {
         type="button"
         className="mobile-menu-toggle"
         onClick={() => setMobileMenuOpen((prev) => !prev)}
-        aria-label="Toggle navigation menu"
       >
         ☰
       </button>
 
       <ul className={`navbar-menu ${mobileMenuOpen ? "open" : ""}`}>
+        {/* Dashboard */}
         <li>
           <NavLink to="/admin" onClick={closeMenu}>
             Dashboard
@@ -101,8 +111,8 @@ function AdminNavbar() {
                 Attendance
               </NavLink>
 
-              <NavLink to="/admin/summary" onClick={closeMenu}>
-                Monthly Summary
+              <NavLink to="/admin/attendance-summary" onClick={closeMenu}>
+                Attendance Summary
               </NavLink>
 
               <NavLink to="/admin/shifts" onClick={closeMenu}>
@@ -120,10 +130,27 @@ function AdminNavbar() {
           )}
         </li>
 
-        <li>
-          <NavLink to="/admin/leave" onClick={closeMenu}>
-            Leave
-          </NavLink>
+        {/* Leave */}
+        <li className="admin-dropdown">
+          <button
+            type="button"
+            className="menu-btn"
+            onClick={() => toggleMenu("leave")}
+          >
+            Leave ▾
+          </button>
+
+          {openMenu === "leave" && (
+            <div className="admin-dropdown-menu">
+              <NavLink to="/admin/leave" onClick={closeMenu}>
+                Leave Requests
+              </NavLink>
+
+              <NavLink to="/admin/leave-approval" onClick={closeMenu}>
+                Leave Approval
+              </NavLink>
+            </div>
+          )}
         </li>
 
         {/* Payroll */}
@@ -138,6 +165,10 @@ function AdminNavbar() {
 
           {openMenu === "payroll" && (
             <div className="admin-dropdown-menu">
+              <NavLink to="/admin/salary-structure" onClick={closeMenu}>
+                Salary Structure
+              </NavLink>
+
               <NavLink to="/admin/payroll" onClick={closeMenu}>
                 Payroll
               </NavLink>
@@ -194,6 +225,12 @@ function AdminNavbar() {
           <NavLink to="/admin/settings" onClick={closeMenu}>
             Settings
           </NavLink>
+        </li>
+
+        <li>
+          <button className="logout-btn-navbar" onClick={handleLogout}>
+            Logout
+          </button>
         </li>
       </ul>
     </nav>

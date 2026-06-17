@@ -81,3 +81,11 @@ export const deleteEmployee = async (id) => {
     throw error;
   }
 };
+
+export const getAttendanceSummary = async (
+  employeeId
+) => {
+  return await axiosClient.get(
+    `/attendance-summary/${employeeId}`
+  );
+};

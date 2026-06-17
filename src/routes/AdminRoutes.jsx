@@ -17,7 +17,11 @@ import LeaveList from "../modules/leave/pages/LeaveList";
 import LeaveDetails from "../modules/leave/pages/LeaveDetails";
 import LeaveApproval from "../modules/leave/pages/LeaveApproval";
 import WeekOffs from "../modules/attendance/pages/WeekOffs";
-import Holidays from "../modules/attendance/pages/Holidays";
+import Holidays from "../modules/holiday/pages/Holidays";
+import PayslipList from "../modules/payroll/pages/PayslipList";
+import Payroll from "../modules/payroll/pages/Payroll";
+import TaxSlabList from "../modules/tax/pages/TaxSlabList";
+import SalaryStructureList from "../modules/salary/pages/SalaryStructureList";
 
 function AdminRoutes() {
   return (
@@ -26,7 +30,7 @@ function AdminRoutes() {
         {/* Dashboard */}
         <Route index element={<AdminDashboard />} />
         <Route path="summary" element={<MonthlySummary />} />
-
+        <Route path="salary-structure" element={<SalaryStructureList />} />
         {/* Employee Module */}
         <Route
           path="kyc"
@@ -50,69 +54,11 @@ function AdminRoutes() {
 
         {/* Schedule Module */}
         <Route path="leave" element={<LeaveList />} />
-
-        <Route path="leave/:id" element={<LeaveDetails />} />
-
-        <Route path="leave/approval" element={<LeaveApproval />} />
+        <Route path="leave/details/:leaveId" element={<LeaveDetails />} />
+        <Route path="leave-approval" element={<LeaveApproval />} />
         {/* Payroll Module */}
-        <Route
-          path="payroll"
-          element={
-            <ModulePlaceholder
-              title="Payroll Module"
-              subtitle="Manage salary processing, payroll summaries, and monthly compensation workflows."
-              highlights={[
-                "Review payroll runs and processing status",
-                "Monitor deductions, reimbursements, and payouts",
-                "Generate payroll summaries for finance teams",
-              ]}
-              quickStats={[
-                { label: "Payroll Runs", value: "12" },
-                { label: "Processed", value: "98%" },
-                { label: "Pending", value: "2" },
-              ]}
-            />
-          }
-        />
-        <Route
-          path="payslips"
-          element={
-            <ModulePlaceholder
-              title="Payslips"
-              subtitle="Share payslips, review salary breakdowns, and manage monthly statements."
-              highlights={[
-                "Send payslips to employees",
-                "Show salary and deduction breakdowns",
-                "Track issuance and download history",
-              ]}
-              quickStats={[
-                { label: "Payslips Issued", value: "124" },
-                { label: "Download Rate", value: "91%" },
-                { label: "Pending", value: "6" },
-              ]}
-            />
-          }
-        />
-        <Route
-          path="tax"
-          element={
-            <ModulePlaceholder
-              title="Tax Slabs"
-              subtitle="Configure tax rules, exemption bands, and salary deduction parameters."
-              highlights={[
-                "Maintain tax tables and deduction rules",
-                "Apply compliance updates quickly",
-                "Review impact on payroll calculations",
-              ]}
-              quickStats={[
-                { label: "Tax Rules", value: "18" },
-                { label: "Updated This Month", value: "2" },
-                { label: "Compliance", value: "100%" },
-              ]}
-            />
-          }
-        />
-
+        <Route path="payroll" element={<Payroll />} />
+        <Route path="tax" element={<TaxSlabList />} />
         {/* Performance */}
         <Route
           path="performance"
@@ -237,7 +183,7 @@ function AdminRoutes() {
         <Route path="employees" element={<EmployeeList />} />
         <Route path="employees/view/:id" element={<EmployeeDetails />} />
         <Route path="employees/edit/:id" element={<EditEmployee />} />
-
+        <Route path="payslips" element={<PayslipList />} />
         {/* =========================
              Attendance Module
             ========================= */}

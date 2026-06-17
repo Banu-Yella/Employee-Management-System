@@ -54,23 +54,35 @@ export const getAttendanceById = async (
   }
 };
 
-export const getAttendanceSummary = async () => {
+export const getAttendanceSummary = async (
+  employeeId
+) => {
   try {
     return await axiosClient.get(
-      "/attendance-summary"
+      `/attendance-summary/${employeeId}`
     );
   } catch (error) {
     if (isNetworkFailure(error)) {
       return {
         data: {
-          present: 1,
-          absent: 0,
-          leave: 0,
-          weekOff: 0,
+          workingDays: 22,
+          presentDays: 20,
+          leaveDays: 1,
+          absentDays: 1,
+          publicHolidays: 2,
+          attendancePercentage: 95.45,
         },
       };
     }
 
     throw error;
   }
+};
+
+export const getEmployeeAttendanceSummary = async (
+  employeeId
+) => {
+  return axiosClient.get(
+    `/attendance-summary/${employeeId}`
+  );
 };

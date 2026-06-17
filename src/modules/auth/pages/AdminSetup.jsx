@@ -49,11 +49,13 @@ function AdminSetup({ onClose }) {
       // STEP 1 - Create Employee
 
       const employeeResponse = await saveEmployee({
-        employeeName: formData.employeeName,
+        employeename: formData.employeeName,
         role: "ADMIN",
-        designation: "SYSTEM_ADMIN",
-        department: "ADMINISTRATION",
+        designation: "MANAGER",
+        department: "ADMIN",
+        employmentType: "FULL_TIME",
         employmentStatus: "ACTIVE",
+        workLocation: "Head Office",
       });
 
       const employeeId = employeeResponse.data.employeeid;
@@ -64,7 +66,7 @@ function AdminSetup({ onClose }) {
 
       // STEP 2 - Create Login
 
-      const loginPayload = {
+      await saveLogin({
         employee: {
           employeeid: employeeId,
         },
@@ -72,9 +74,7 @@ function AdminSetup({ onClose }) {
         passwordHash: formData.password,
         role: "ADMIN",
         status: "ACTIVE",
-      };
-
-      await saveLogin(loginPayload);
+      });
 
       // STEP 3 - Auto Login
 
@@ -87,8 +87,6 @@ function AdminSetup({ onClose }) {
 
       setSuccess("Admin account created successfully");
 
-      // STEP 4 - Close Modal & Open Dashboard
-
       setTimeout(() => {
         if (onClose) {
           onClose();
@@ -99,8 +97,13 @@ function AdminSetup({ onClose }) {
     } catch (err) {
       console.error(err);
 
-      if (err.code === "ECONNREFUSED" || err.message?.includes("ECONNREFUSED")) {
-        setError("Backend server is not running on http://127.0.0.1:8080. Start the backend first.");
+      if (
+        err.code === "ECONNREFUSED" ||
+        err.message?.includes("ECONNREFUSED")
+      ) {
+        setError(
+          "Backend server is not running on http://127.0.0.1:8080. Start the backend first.",
+        );
       } else if (err.response) {
         setError(
           err.response.data.message ||
@@ -167,12 +170,14 @@ function AdminSetup({ onClose }) {
         <button
           className="btn btn-outline-secondary w-100 mt-2"
           onClick={() => {
-            console.log("Cancel clicked");
-            onClose();
+            if (onClose) {
+              onClose();
+            }
           }}
         >
           Cancel
         </button>
+
         {error && <div className="alert alert-danger mt-3">{error}</div>}
 
         {success && <div className="alert alert-success mt-3">{success}</div>}
